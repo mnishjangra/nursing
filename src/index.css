@@ -1,0 +1,54 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-200: #99f6e4;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+  --color-brand-800: #115e59;
+  --color-brand-900: #134e4a;
+  --color-sky-550: #0284c7;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-svh bg-slate-50 font-sans text-slate-800 antialiased transition-colors duration-300;
+  }
+
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  .font-display {
+    font-family: 'Fraunces', Georgia, ui-serif, serif;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-600 via-sky-600 to-brand-500 bg-clip-text text-transparent;
+  }
+
+  .dark .text-gradient {
+    @apply from-brand-300 via-sky-300 to-brand-200;
+  }
+
+  .glass {
+    @apply border border-white/40 bg-white/70 shadow-lg shadow-brand-900/5 backdrop-blur-md;
+  }
+
+  .dark .glass {
+    @apply border-white/10 bg-slate-900/70 shadow-black/30;
+  }
+}
