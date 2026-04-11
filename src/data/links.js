@@ -88,6 +88,13 @@ export const quickNav = [
 
 export const quickAccess = [
   {
+    id: 'qa-uhsr',
+    title: 'Pandit Bhagwat Dayal Sharma University of Health Sciences Rohtak (UHSR)',
+    subtitle: 'Official university website — admissions, counselling, and programme notices',
+    url: 'https://uhsr.ac.in/',
+    tags: ['UHSR', 'University'],
+  },
+  {
     id: 'qa-2',
     title: 'Department of Health, Haryana',
     subtitle: 'Programmes, circulars, and health schemes',
@@ -183,26 +190,72 @@ export const reevalForms = [
 export const resultLinks = [
   {
     id: 'rs-1',
-    title: 'Board / university result portal (configure)',
-    url: 'https://pgimsrohtak.ac.in/',
+    title: 'UHS Rohtak — results & academic notices',
+    subtitle: 'Check official UHSR pages for university exam and programme results.',
+    url: 'https://uhsr.ac.in/',
+    tags: ['UHSR', 'Results'],
   },
   {
     id: 'rs-2',
-    title: 'State nursing council — registration status',
-    url: 'https://health.haryana.gov.in/',
+    title: 'Haryana Nurses & Nurse-Midwives Council',
+    subtitle: 'Registration and council-related status where published online.',
+    url: 'https://www.haryananursescouncil.in/',
+    tags: ['Council'],
   },
 ]
 
 export const admissionLinks = [
   {
-    id: 'ad-1',
-    title: 'State admission information (placeholder)',
-    url: 'http://dmer.haryana.gov.in',
+    id: 'adm-uhsr',
+    title: 'Pt. B.D. Sharma UHS Rohtak — official website & main admission hub',
+    subtitle:
+      'BSc Nursing, paramedical courses (BMLT, OTT, radiography, optometry, and related programmes), counselling registration, merit lists, and seat allotment.',
+    url: 'https://uhsr.ac.in/',
+    tags: ['UHSR', 'Counselling'],
   },
   {
-    id: 'ad-2',
-    title: 'Counselling schedule PDF (placeholder)',
+    id: 'adm-uhsr-cet',
+    title: 'UHSR CET / paramedical admission & counselling portal',
+    subtitle: 'Dedicated CET and counselling flow — most active during admission season.',
+    url: 'https://uhsrcetadmissions.in/',
+    tags: ['CET', 'Paramedical'],
+  },
+  {
+    id: 'adm-hnmc-anm-gnm',
+    title: 'ANM / GNM nursing admission — Haryana Nurses & Nurse-Midwives Council',
+    subtitle: 'Official council portal for ANM and GNM admission-related notices and information.',
+    url: 'https://www.haryananursescouncil.in/',
+    tags: ['ANM', 'GNM'],
+  },
+  {
+    id: 'adm-neet',
+    title: 'NEET UG (National Testing Agency)',
+    subtitle:
+      'Some nursing and paramedical admissions may follow NEET UG merit in certain years — always read the current prospectus and government notice.',
+    url: 'https://neet.nta.nic.in/',
+    tags: ['NEET', 'Entrance'],
+  },
+  {
+    id: 'adm-hstes-pharmacy',
+    title: 'HSTES — D.Pharm / B.Pharm (Haryana State Technical Education Society)',
+    subtitle:
+      'Official pharmacy admissions: D.Pharm, B.Pharm, and sometimes B.Pharm (LEET) — registration, choice filling, and seat allotment.',
+    url: 'https://hstes.org.in/',
+    tags: ['Pharmacy', 'HSTES'],
+  },
+  {
+    id: 'adm-dmer',
+    title: 'Directorate of Medical Education and Research, Haryana',
+    subtitle: 'State-level notices for medical and allied health education.',
+    url: 'http://dmer.haryana.gov.in',
+    tags: ['DMER', 'Official'],
+  },
+  {
+    id: 'adm-dshm',
+    title: 'Department of Health — related circulars (reference)',
+    subtitle: 'Health department notices that may overlap with training and workforce programmes.',
     url: 'https://dshm.haryana.gov.in/',
+    tags: ['Health', 'Notices'],
   },
 ]
 
