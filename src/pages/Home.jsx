@@ -34,7 +34,7 @@ const jobToneClass = {
 }
 
 const cardSurface =
-  'rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:border-zinc-700/80 dark:bg-zinc-900/90 dark:hover:border-brand-500/45'
+  'premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:hover:border-cyan-400/45'
 
 function AcademicsRow({ row }) {
   const body = (
@@ -71,12 +71,13 @@ export default function Home() {
   return (
     <main>
       <section
-        className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-brand-50 via-white to-slate-50 dark:border-zinc-800 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900"
+        className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-brand-50 via-white to-slate-50 dark:border-sky-300/12 dark:from-slate-900/55 dark:via-slate-900/35 dark:to-slate-900/20"
       >
-        <div className="pointer-events-none absolute -left-24 top-8 h-56 w-56 rounded-full bg-brand-200/40 blur-3xl dark:bg-brand-600/20" />
-        <div className="pointer-events-none absolute right-0 top-24 h-64 w-64 rounded-full bg-brand-100/50 blur-3xl dark:bg-brand-500/15" />
+        <div className="pointer-events-none absolute -left-24 top-8 h-56 w-56 rounded-full bg-brand-200/40 blur-3xl dark:bg-blue-400/15" />
+        <div className="pointer-events-none absolute right-0 top-24 h-64 w-64 rounded-full bg-brand-100/50 blur-3xl dark:bg-cyan-400/12" />
+        <div className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05),transparent_28%,transparent_72%,rgba(255,255,255,0.04))]" />
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8 dark:rounded-3xl dark:border dark:border-sky-300/15 dark:bg-slate-900/35 dark:shadow-[0_16px_60px_-28px_rgba(14,165,233,0.35)]">
           <div className="max-w-2xl flex-1 space-y-4">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -119,14 +120,14 @@ export default function Home() {
             >
               <Link
                 to="/resources"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-900/25 transition hover:brightness-110"
+                className="accent-glow inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
               >
                 Browse resources
                 <FiArrowUpRight />
               </Link>
               <Link
                 to="/social"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-brand-400 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:border-brand-400/70"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-brand-400 dark:border-sky-300/20 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-lg dark:hover:border-cyan-300/60 dark:hover:shadow-[0_0_18px_-8px_rgba(34,211,238,0.65)]"
               >
                 Join the community
               </Link>
@@ -137,7 +138,7 @@ export default function Home() {
 
       <section
         id="official"
-        className="border-b border-slate-200/80 bg-white py-8 sm:py-10 dark:border-zinc-800 dark:bg-zinc-950"
+        className="border-b border-slate-200/80 bg-white py-8 sm:py-10 dark:border-sky-300/12 dark:bg-slate-900/32"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -151,7 +152,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-8 border-t border-slate-100 pt-8 dark:border-zinc-800/80">
+          <div className="mt-8 border-t border-slate-100 pt-8 dark:border-sky-300/12">
             <SectionHeading
               eyebrow="YouTube"
               title="Most watched on Nursing Culture"
@@ -171,7 +172,7 @@ export default function Home() {
                   >
                     <ExternalLink
                       href={href}
-                      className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300/80 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-rose-500/45"
+                      className="premium-card premium-glow-hover group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300/80 hover:shadow-md dark:hover:border-purple-400/50"
                     >
                       <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
                         <img
@@ -200,7 +201,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 border-t border-slate-100 pt-8 dark:border-zinc-800/80">
+          <div className="mt-8 border-t border-slate-100 pt-8 dark:border-sky-300/12">
             <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
               Our channels
             </h3>
@@ -234,7 +235,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-b border-slate-200/80 bg-slate-50/90 py-8 sm:py-10 dark:border-zinc-800 dark:bg-zinc-900/50">
+      <section className="border-b border-slate-200/80 bg-slate-50/90 py-8 sm:py-10 dark:border-sky-300/12 dark:bg-slate-900/28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="News & updates"
@@ -244,7 +245,7 @@ export default function Home() {
           <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Link
               to="/updates"
-              className="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-900/25 transition hover:brightness-110"
+              className="accent-glow inline-flex w-fit items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
             >
               Open news & updates
               <FiArrowUpRight />
@@ -269,7 +270,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-10%' }}
             transition={{ duration: 0.32 }}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900"
+            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           >
             <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
               Admissions
@@ -291,7 +292,7 @@ export default function Home() {
                       <li key={c.name}>
                         <ExternalLink
                           href={c.url}
-                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-zinc-700/60 dark:bg-zinc-950/50 dark:text-zinc-100 dark:hover:border-brand-500/40"
+                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45"
                         >
                           <span>{c.name}</span>
                           <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
@@ -309,7 +310,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-10%' }}
             transition={{ duration: 0.32, delay: 0.05 }}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900"
+            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           >
             <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
               Academics
@@ -325,7 +326,7 @@ export default function Home() {
                 <AcademicsRow key={row.id} row={row} />
               ))}
             </div>
-            <div className="mt-5 space-y-2 border-t border-slate-100 pt-4 dark:border-zinc-800">
+            <div className="mt-5 space-y-2 border-t border-slate-100 pt-4 dark:border-sky-300/12">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-500">
                 Other courses — results
               </p>
@@ -340,7 +341,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-10%' }}
             transition={{ duration: 0.32, delay: 0.1 }}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900"
+            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           >
             <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">Jobs</h2>
             <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">

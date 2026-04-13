@@ -3,7 +3,7 @@ import { site } from '../data/links'
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white/85 py-8 dark:border-zinc-800 dark:bg-zinc-950/90">
+    <footer className="border-t border-slate-200 bg-white/85 py-8 dark:border-zinc-700/70 dark:bg-zinc-900/65 dark:backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <div>
           <p className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
@@ -18,7 +18,7 @@ export function Footer() {
             .
           </p>
         </div>
-        <div className="flex flex-wrap gap-3 text-sm text-slate-600 dark:text-zinc-300">
+        <div className="flex flex-wrap gap-3 text-sm text-slate-600 dark:text-zinc-200">
           <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/resources">
             Resources
           </Link>

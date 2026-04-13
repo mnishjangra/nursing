@@ -53,7 +53,7 @@ function SearchModalPanel({ onClose }) {
       <button
         type="button"
         aria-label="Close search"
-        className="absolute inset-0 bg-zinc-950/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-zinc-950/75 backdrop-blur-md"
         onClick={onClose}
       />
       <motion.div
@@ -61,7 +61,7 @@ function SearchModalPanel({ onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 8, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-        className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-zinc-700 dark:bg-zinc-900"
+        className="premium-card relative w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-zinc-600/60 dark:bg-zinc-800/70"
         role="dialog"
         aria-modal="true"
         aria-label="Search navigation and links"
@@ -95,7 +95,7 @@ function SearchModalPanel({ onClose }) {
                 <button
                   type="button"
                   onClick={() => handlePick(item)}
-                  className="flex w-full flex-col gap-1 px-4 py-2.5 text-left text-sm transition hover:bg-brand-50 dark:hover:bg-zinc-800/90"
+                  className="flex w-full flex-col gap-1 px-4 py-2.5 text-left text-sm transition hover:bg-brand-50 dark:hover:bg-zinc-700/60"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-semibold text-slate-900 dark:text-zinc-100">{item.title}</span>

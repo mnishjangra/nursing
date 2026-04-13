@@ -31,10 +31,10 @@ export default function Social() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-10%' }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
-              className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900"
+              className="premium-card premium-glow-hover relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
             >
               <div
-                className={`pointer-events-none absolute inset-0 opacity-30 bg-gradient-to-br ${channel.accent}`}
+                className={`pointer-events-none absolute inset-0 opacity-30 blur-[1px] bg-gradient-to-br ${channel.accent}`}
               />
               <div className="relative flex flex-col gap-3">
                 <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/90 text-2xl text-slate-900 shadow-md dark:bg-zinc-950/90 dark:text-white">
@@ -50,7 +50,7 @@ export default function Social() {
                 </div>
                 <ExternalLink
                   href={channel.url}
-                  className={`inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:brightness-110 ${channel.accent}`}
+                  className={`inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-md transition duration-300 hover:brightness-110 hover:shadow-[0_0_22px_rgba(59,130,246,0.35)] ${channel.accent}`}
                 >
                   Visit channel
                   <FiExternalLink aria-hidden />

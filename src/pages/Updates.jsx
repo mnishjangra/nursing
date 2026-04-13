@@ -28,7 +28,7 @@ export default function Updates() {
             Admissions & counselling
           </h2>
           <p className="mb-5 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-            <strong className="font-semibold text-slate-800 dark:text-slate-200">
+            <strong className="font-semibold text-slate-800 dark:text-zinc-100">
               Pandit Bhagwat Dayal Sharma University of Health Sciences Rohtak (UHSR)
             </strong>{' '}
             is the main university portal for many health-sciences programmes. Use the UHSR site

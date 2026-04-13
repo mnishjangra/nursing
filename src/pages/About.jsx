@@ -19,7 +19,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.35 }}
-          className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900"
+          className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
         >
           <h3 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
             Why static?
@@ -36,9 +36,9 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="rounded-2xl border border-slate-200 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-500 p-px shadow-lg shadow-brand-900/25"
+          className="premium-glow-hover rounded-2xl border border-slate-200 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-500 p-px shadow-lg shadow-brand-900/25"
         >
-          <div className="h-full rounded-[15px] bg-white p-6 dark:bg-zinc-950">
+          <div className="h-full rounded-[15px] bg-white p-6 dark:bg-zinc-800/65 dark:backdrop-blur-xl">
             <h3 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
               What students get
             </h3>
@@ -50,7 +50,7 @@ export default function About() {
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
                 to="/resources"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
+                className="accent-glow inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
               >
                 Explore resources
                 <FiArrowUpRight />

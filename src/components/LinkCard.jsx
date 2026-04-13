@@ -28,7 +28,7 @@ export function LinkCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.35, delay }}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:border-zinc-700/80 dark:bg-zinc-900/85 dark:hover:border-brand-500/40"
+      className="premium-card premium-glow-hover group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:hover:border-cyan-300/65"
     >
       <div className="flex flex-1 flex-col gap-2">
         <h3 className="text-left font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
@@ -55,7 +55,7 @@ export function LinkCard({
       <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3 dark:border-zinc-800">
         <ExternalLink
           href={url}
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-900/25 transition hover:brightness-110 min-[420px]:flex-none"
+          className="accent-glow inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 min-[420px]:flex-none"
         >
           Open
           <FiExternalLink className="text-base" aria-hidden />
@@ -63,7 +63,7 @@ export function LinkCard({
         <button
           type="button"
           onClick={copyLink}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-brand-400 hover:bg-brand-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-brand-500/45 dark:hover:bg-zinc-700"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-brand-400 hover:bg-brand-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-purple-300/65 dark:hover:bg-zinc-700 dark:hover:shadow-[0_0_20px_-8px_rgba(168,85,247,0.75)]"
         >
           {copied ? 'Copied' : 'Copy'}
           <FiCopy className="text-base" aria-hidden />

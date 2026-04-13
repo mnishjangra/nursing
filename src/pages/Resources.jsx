@@ -26,7 +26,7 @@ export default function Resources() {
         description="Swap every URL in `links.js` with your board PDFs, Drive folders, or notice pages. External links always open in a new tab."
       />
 
-      <div className="mb-6 flex flex-wrap gap-2 rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900">
+      <div className="premium-card mb-6 flex flex-wrap gap-2 rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-zinc-600/55 dark:bg-zinc-800/55">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -41,7 +41,7 @@ export default function Resources() {
             {tab === t.id ? (
               <motion.span
                 layoutId="resourceTab"
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 shadow-md"
+                className="accent-glow absolute inset-0 rounded-full shadow-md"
                 transition={{ type: 'spring', stiffness: 350, damping: 28 }}
               />
             ) : null}
