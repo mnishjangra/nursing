@@ -2,7 +2,7 @@ import { SectionHeading } from '../components/SectionHeading'
 import { LinkCard } from '../components/LinkCard'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { ExternalLink } from '../components/ExternalLink'
-import { admissionLinks, jobLinks, resultLinks, resultsCourses } from '../data/links'
+import { admissionLinks, jobLinks, recentUpdates, resultLinks, resultsCourses } from '../data/links'
 
 export default function Updates() {
   return (
@@ -14,6 +14,23 @@ export default function Updates() {
       />
 
       <div className="space-y-10">
+        <section>
+          <h2 className="mb-3 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
+            News & updates
+          </h2>
+          {recentUpdates.length ? (
+            <div className="grid gap-4 md:grid-cols-2">
+              {recentUpdates.map((item, i) => (
+                <LinkCard key={item.id} {...item} delay={i * 0.04} />
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-300">
+              No updates available right now. Please check back later.
+            </p>
+          )}
+        </section>
+
         <section>
           <h2 className="mb-4 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
             Results

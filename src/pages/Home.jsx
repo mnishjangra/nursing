@@ -3,15 +3,14 @@ import { motion } from 'framer-motion'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { FaInstagram, FaTelegram, FaWhatsapp, FaYoutube } from 'react-icons/fa'
 import { SectionHeading } from '../components/SectionHeading'
+import { LinkCard } from '../components/LinkCard'
 import { ExternalLink } from '../components/ExternalLink'
-import channelLogo from '../assets/logo.png'
 import {
   admissionHomeGroups,
   academicsHome,
   featuredYoutubeVideos,
   jobsHome,
   officialPrimarySites,
-  resultsCourses,
   site,
   socialChannels,
 } from '../data/links'
@@ -36,8 +35,6 @@ const jobToneClass = {
 
 const cardSurface =
   'premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:hover:border-cyan-400/45'
-
-const officialFallbackLogo = 'https://www.google.com/s2/favicons?sz=128&domain_url='
 
 function AcademicsRow({ row }) {
   const body = (
@@ -146,7 +143,7 @@ export default function Home() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {officialPrimarySites.map((item, i) => {
-              const logoSrc = item.logoUrl || `${officialFallbackLogo}${item.url}`
+              const logoSrc = item.logoUrl
               return (
                 <motion.article
                   key={item.id}
@@ -158,12 +155,14 @@ export default function Home() {
                 >
                   <ExternalLink href={item.url} className="block">
                     <div className="mb-3 flex justify-center">
-                      <img
-                        src={logoSrc}
-                        alt={`${item.title} logo`}
-                        className="h-16 w-16 rounded-xl border border-slate-200 bg-white p-2 object-contain"
-                        loading="lazy"
-                      />
+                      <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl bg-white">
+                        <img
+                          src={logoSrc}
+                          alt={`${item.title} logo`}
+                          className="h-16 w-16 object-contain"
+                          loading="lazy"
+                        />
+                      </div>
                     </div>
                     <h3 className="text-center font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
                       {item.title}
@@ -182,45 +181,55 @@ export default function Home() {
           <div className="mt-8 border-t border-slate-100 pt-8 dark:border-sky-300/12">
             <SectionHeading
               eyebrow="YouTube"
-              title="Free Nursing Classes"
-              description="Join the live class stream on the official YouTube channel."
+              title="Most watched on Nursing Culture"
+              description="Two of the most-viewed videos on the Nursing Culture channel — tap a thumbnail to watch on YouTube."
             />
-            {featuredYoutubeVideos.filter((v) => v.isLive).map((v) => (
-              <motion.div
-                key={v.id}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-8%' }}
-                transition={{ duration: 0.32 }}
-                className="mt-4"
-              >
-                <ExternalLink
-                  href={v.url}
-                  className="premium-card premium-glow-hover group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300/80 hover:shadow-md dark:hover:border-purple-400/50"
-                >
-                  <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
-                    <img
-                      src={channelLogo}
-                      alt="Nursing Culture channel logo"
-                      className="h-full w-full object-contain bg-white p-6 transition duration-300 group-hover:scale-[1.02]"
-                      loading="lazy"
-                    />
-                    <span className="absolute left-2 top-2 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
-                      LIVE
-                    </span>
-                  </div>
-                  <div className="p-3">
-                    <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
-                      {v.title}
-                    </p>
-                    <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-rose-600 dark:text-rose-400">
-                      Watch live
-                      <FiArrowUpRight className="text-sm" aria-hidden />
-                    </span>
-                  </div>
-                </ExternalLink>
-              </motion.div>
-            ))}
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {featuredYoutubeVideos.map((v, index) => {
+                const href = v.url || `https://www.youtube.com/watch?v=${v.videoId}`
+                const thumb = v.thumbnailUrl || `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`
+                return (
+                  <motion.div
+                    key={v.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-8%' }}
+                    transition={{ delay: index * 0.06, duration: 0.32 }}
+                  >
+                    <ExternalLink
+                      href={href}
+                      className="premium-card premium-glow-hover group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300/80 hover:shadow-md dark:hover:border-purple-400/50"
+                    >
+                      <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
+                        <img
+                          src={thumb}
+                          alt=""
+                          className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                          loading="lazy"
+                        />
+                        <span className="absolute bottom-2 right-2 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                          YouTube
+                        </span>
+                        {v.isLive ? (
+                          <span className="absolute left-2 top-2 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                            LIVE
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="p-3">
+                        <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
+                          {v.title}
+                        </p>
+                        <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-rose-600 dark:text-rose-400">
+                          Watch
+                          <FiArrowUpRight className="text-sm" aria-hidden />
+                        </span>
+                      </div>
+                    </ExternalLink>
+                  </motion.div>
+                )
+              })}
+            </div>
           </div>
 
           <div className="mt-8 border-t border-slate-100 pt-8 dark:border-sky-300/12">
@@ -257,13 +266,36 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="border-b border-slate-200/80 bg-slate-50/90 py-8 sm:py-10 dark:border-sky-300/12 dark:bg-slate-900/28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="News & updates"
+            title="Results, admissions, and hiring in one place"
+            description="The Updates page groups official result portals, admission hubs, and job boards so you can jump straight to the source."
+          />
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <Link
+              to="/updates"
+              className="accent-glow inline-flex w-fit items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+            >
+              Open news & updates
+              <FiArrowUpRight />
+            </Link>
+            <p className="max-w-xl text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+              Always confirm dates, fees, and eligibility on the live government or university
+              website before you apply or pay.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
         <SectionHeading
           eyebrow="Plan your path"
-          title="Admissions, academics, results, and jobs"
-          description="Admissions and results follow a course-first layout, while academics keeps only ANM/GNM papers and jobs links to official recruitment sources."
+          title="Admissions, academics, and jobs"
+          description="Admissions list opens each authority’s portal. Academics focuses on papers for ANM/GNM and results everywhere else. Jobs mirrors the main government entry points."
         />
-        <div className="mt-6 grid gap-5 lg:grid-cols-2">
+        <div className="mt-6 grid gap-5 lg:grid-cols-3">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -302,34 +334,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 0.32, delay: 0.08 }}
-            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-          >
-            <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
-              Results
-            </h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              Tap a course to open the official result page.
-            </p>
-            <ul className="mt-4 space-y-1">
-              {resultsCourses.map((course) => (
-                <li key={course.id}>
-                  <ExternalLink
-                    href={course.url}
-                    className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45"
-                  >
-                    <span>{course.name}</span>
-                    <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
-                  </ExternalLink>
-                </li>
-              ))}
-            </ul>
           </motion.div>
 
           <motion.div

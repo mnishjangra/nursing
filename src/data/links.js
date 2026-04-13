@@ -41,6 +41,7 @@ export const officialPrimarySites = [
     title: 'Pandit Bhagwat Dayal Sharma University of Health Sciences (UHSR)',
     subtitle: 'Official university website — admissions, programmes, and notices',
     url: 'https://uhsr.ac.in/',
+    logoUrl: 'https://logo.clearbit.com/uhsr.ac.in',
     tags: ['UHSR', 'University'],
   },
   {
@@ -48,7 +49,7 @@ export const officialPrimarySites = [
     title: 'Health Department Haryana',
     subtitle: 'State health department — circulars, schemes, and public information',
     url: 'https://haryanahealth.gov.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=haryanahealth.gov.in&sz=128',
+    logoUrl: 'https://logo.clearbit.com/haryanahealth.gov.in',
     tags: ['Health', 'Haryana'],
   },
   {
@@ -56,7 +57,7 @@ export const officialPrimarySites = [
     title: 'National Health Mission, Haryana',
     subtitle: 'State NHM portal — programmes, recruitment notices, and updates',
     url: 'https://nhmharyana.gov.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=nhmharyana.gov.in&sz=128',
+    logoUrl: 'https://logo.clearbit.com/nhmharyana.gov.in',
     tags: ['NHM', 'Haryana'],
   },
   {
@@ -64,7 +65,7 @@ export const officialPrimarySites = [
     title: 'DMER Haryana',
     subtitle: 'Directorate of Medical Education and Research official website.',
     url: 'https://dmer.haryana.gov.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=dmer.haryana.gov.in&sz=128',
+    logoUrl: 'https://logo.clearbit.com/dmer.haryana.gov.in',
     tags: ['DMER', 'Haryana'],
   },
   {
@@ -72,19 +73,30 @@ export const officialPrimarySites = [
     title: 'Haryana Nursing Council',
     subtitle: 'Official council portal for nursing registration and notices.',
     url: 'https://www.haryananursescouncil.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=haryananursescouncil.in&sz=128',
+    logoUrl: 'https://logo.clearbit.com/haryananursescouncil.in',
     tags: ['Council', 'Nursing'],
   },
 ]
 
-/** YouTube live section */
+/** Top two videos by view count on @nursingculture (refresh periodically). */
 export const featuredYoutubeVideos = [
   {
+    id: 'feat-yt-1',
+    videoId: 'lXJ8QhdHCQQ',
+    title:
+      'Haryana Health Department Vacancy 2025 | District Wise Data | Nurse MPHW Pharmacist',
+  },
+  {
+    id: 'feat-yt-2',
+    videoId: 'RgK11wGm58E',
+    title: 'Maharaja Agrasen Medical College (MAMC), Agroha NATS Apprenticeship Scheme 2026 staff Nurse',
+  },
+  {
     id: 'feat-yt-live',
-    title: 'Free Nursing Classes',
+    title: 'Nursing Culture Live Stream',
     isLive: true,
     url: 'https://www.youtube.com/@nursingculture/live',
-    thumbnailUrl: '/src/assets/logo.png',
+    thumbnailUrl: 'https://i.ytimg.com/vi/live_stream/hqdefault.jpg',
   },
 ]
 
@@ -164,16 +176,16 @@ export const academicsHome = {
     {
       id: 'ac-papers-anm',
       title: 'ANM previous year question papers',
-      subtitle: 'Open on Telegram.',
-      url: 'https://t.me/anmgnmphw',
-      internal: false,
+      subtitle: 'Open the curated ANM paper collection on the Resources hub.',
+      path: '/resources#question-papers',
+      internal: true,
     },
     {
       id: 'ac-papers-gnm',
       title: 'GNM previous year question papers',
-      subtitle: 'Open on Telegram.',
-      url: 'https://t.me/anmgnmphw',
-      internal: false,
+      subtitle: 'Open the curated GNM paper collection on the Resources hub.',
+      path: '/resources#question-papers',
+      internal: true,
     },
   ],
   otherResults: [],
@@ -547,8 +559,8 @@ export function getSearchableItems() {
     items.push({
       id: v.id,
       title: v.title,
-      subtitle: 'YouTube live',
-      url: v.url || `https://www.youtube.com/watch?v=${v.videoId}`,
+      subtitle: 'Featured on YouTube',
+      url: `https://www.youtube.com/watch?v=${v.videoId}`,
       section: 'YouTube',
       type: 'external',
     }),
