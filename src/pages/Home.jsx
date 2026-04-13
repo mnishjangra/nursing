@@ -162,6 +162,9 @@ export default function Home() {
                           alt={`${item.title} logo`}
                           className="h-16 w-16 object-contain"
                           loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.src = channelLogo
+                          }}
                         />
                       </div>
                     </div>

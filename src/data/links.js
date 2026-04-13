@@ -41,7 +41,7 @@ export const officialPrimarySites = [
     title: 'Pandit Bhagwat Dayal Sharma University of Health Sciences (UHSR)',
     subtitle: 'Official university website — admissions, programmes, and notices',
     url: 'https://uhsr.ac.in/',
-    logoUrl: 'https://logo.clearbit.com/uhsr.ac.in',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=uhsr.ac.in&sz=128',
     tags: ['UHSR', 'University'],
   },
   {
@@ -49,7 +49,7 @@ export const officialPrimarySites = [
     title: 'Health Department Haryana',
     subtitle: 'State health department — circulars, schemes, and public information',
     url: 'https://haryanahealth.gov.in/',
-    logoUrl: 'https://logo.clearbit.com/haryanahealth.gov.in',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=haryanahealth.gov.in&sz=128',
     tags: ['Health', 'Haryana'],
   },
   {
@@ -57,7 +57,7 @@ export const officialPrimarySites = [
     title: 'National Health Mission, Haryana',
     subtitle: 'State NHM portal — programmes, recruitment notices, and updates',
     url: 'https://nhmharyana.gov.in/',
-    logoUrl: 'https://logo.clearbit.com/nhmharyana.gov.in',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=nhmharyana.gov.in&sz=128',
     tags: ['NHM', 'Haryana'],
   },
   {
@@ -65,7 +65,7 @@ export const officialPrimarySites = [
     title: 'DMER Haryana',
     subtitle: 'Directorate of Medical Education and Research official website.',
     url: 'https://dmer.haryana.gov.in/',
-    logoUrl: 'https://logo.clearbit.com/dmer.haryana.gov.in',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=dmer.haryana.gov.in&sz=128',
     tags: ['DMER', 'Haryana'],
   },
   {
@@ -73,7 +73,7 @@ export const officialPrimarySites = [
     title: 'Haryana Nursing Council',
     subtitle: 'Official council portal for nursing registration and notices.',
     url: 'https://www.haryananursescouncil.in/',
-    logoUrl: 'https://logo.clearbit.com/haryananursescouncil.in',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=haryananursescouncil.in&sz=128',
     tags: ['Council', 'Nursing'],
   },
 ]
