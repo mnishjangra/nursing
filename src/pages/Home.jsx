@@ -77,7 +77,7 @@ export default function Home() {
         <div className="pointer-events-none absolute right-0 top-24 h-64 w-64 rounded-full bg-brand-100/50 blur-3xl dark:bg-cyan-400/12" />
         <div className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05),transparent_28%,transparent_72%,rgba(255,255,255,0.04))]" />
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8 dark:rounded-3xl dark:border dark:border-sky-300/15 dark:bg-slate-900/35 dark:shadow-[0_16px_60px_-28px_rgba(14,165,233,0.35)]">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
           <div className="max-w-2xl flex-1 space-y-4">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -85,16 +85,11 @@ export default function Home() {
               transition={{ duration: 0.35 }}
               className="flex items-center gap-3"
             >
-              <img
-                src="/nursing-culture-logo.svg"
-                width={56}
-                height={56}
-                alt="Nursing Culture"
-                className="h-14 w-14 shrink-0 rounded-2xl shadow-md shadow-brand-600/15 ring-1 ring-white/70 dark:shadow-none dark:ring-zinc-700"
-              />
-              <p className="font-display text-base font-semibold leading-snug text-slate-900 dark:text-zinc-100">
-                {site.name}
-              </p>
+              <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-2 shadow-sm dark:border-sky-300/20 dark:bg-slate-800/55 dark:backdrop-blur-lg">
+                <p className="font-display text-base font-semibold leading-snug text-slate-900 dark:text-zinc-100">
+                  {site.name}
+                </p>
+              </div>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 12 }}

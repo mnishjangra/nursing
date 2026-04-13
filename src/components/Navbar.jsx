@@ -4,7 +4,8 @@ import { FiMenu, FiMoon, FiSearch, FiSun, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/useTheme'
 import { SearchModal } from './SearchModal'
-import { site } from '../data/links'
+import logo from '../assets/logo.png'
+import logoDark from '../assets/logod.png'
 
 const nav = [
   { to: '/', label: 'Home' },
@@ -35,20 +36,14 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md dark:border-zinc-700/60 dark:bg-zinc-900/65 dark:shadow-lg dark:shadow-black/25 dark:backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center">
             <img
-              src="/nursing-culture-logo.svg"
-              width={40}
-              height={40}
-              alt=""
-              className="h-10 w-10 rounded-2xl shadow-md shadow-brand-600/20 ring-1 ring-slate-200/80 dark:ring-zinc-600"
+              src={dark ? logoDark : logo}
+              width={170}
+              height={52}
+              alt="Nursing Culture"
+              className="h-11 w-auto max-w-[170px] object-contain"
             />
-            <div className="text-left leading-tight">
-              <p className="font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
-                {site.name}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-zinc-400">{site.tagline}</p>
-            </div>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
