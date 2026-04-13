@@ -77,25 +77,14 @@ export const officialPrimarySites = [
   },
 ]
 
-/** Top two videos by view count on @nursingculture (refresh periodically). */
+/** YouTube live section */
 export const featuredYoutubeVideos = [
   {
-    id: 'feat-yt-1',
-    videoId: 'lXJ8QhdHCQQ',
-    title:
-      'Haryana Health Department Vacancy 2025 | District Wise Data | Nurse MPHW Pharmacist',
-  },
-  {
-    id: 'feat-yt-2',
-    videoId: 'RgK11wGm58E',
-    title: 'Maharaja Agrasen Medical College (MAMC), Agroha NATS Apprenticeship Scheme 2026 staff Nurse',
-  },
-  {
     id: 'feat-yt-live',
-    title: 'Nursing Culture Live Stream',
+    title: 'Free Nursing Classes',
     isLive: true,
     url: 'https://www.youtube.com/@nursingculture/live',
-    thumbnailUrl: 'https://i.ytimg.com/vi/live_stream/hqdefault.jpg',
+    thumbnailUrl: '/src/assets/logo.png',
   },
 ]
 
@@ -175,16 +164,16 @@ export const academicsHome = {
     {
       id: 'ac-papers-anm',
       title: 'ANM previous year question papers',
-      subtitle: 'Open the curated ANM paper collection on the Resources hub.',
-      path: '/resources#question-papers',
-      internal: true,
+      subtitle: 'Open on Telegram.',
+      url: 'https://t.me/anmgnmphw',
+      internal: false,
     },
     {
       id: 'ac-papers-gnm',
       title: 'GNM previous year question papers',
-      subtitle: 'Open the curated GNM paper collection on the Resources hub.',
-      path: '/resources#question-papers',
-      internal: true,
+      subtitle: 'Open on Telegram.',
+      url: 'https://t.me/anmgnmphw',
+      internal: false,
     },
   ],
   otherResults: [],
@@ -558,8 +547,8 @@ export function getSearchableItems() {
     items.push({
       id: v.id,
       title: v.title,
-      subtitle: 'Featured on YouTube',
-      url: `https://www.youtube.com/watch?v=${v.videoId}`,
+      subtitle: 'YouTube live',
+      url: v.url || `https://www.youtube.com/watch?v=${v.videoId}`,
       section: 'YouTube',
       type: 'external',
     }),
