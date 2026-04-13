@@ -348,6 +348,9 @@ export const resultsCourses = [
   { id: 'res-bsc', name: 'B.Sc Nursing', url: RESULTS_LINK },
   { id: 'res-post-basic', name: 'Post Basic Nursing', url: RESULTS_LINK },
   { id: 'res-msc', name: 'M.Sc Nursing', url: RESULTS_LINK },
+  { id: 'res-dmlt', name: 'DMLT', url: 'https://www.hsbte.org.in/index' },
+  { id: 'res-dpharm', name: 'D.Pharmacy', url: 'http://103.234.185.158/show_my_result' },
+  { id: 'res-bpharm', name: 'B.Pharmacy', url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102' },
   { id: 'res-paramed', name: 'Paramedical Courses', url: RESULTS_LINK },
 ]
 
