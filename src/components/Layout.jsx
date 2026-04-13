@@ -7,7 +7,7 @@ export function Layout() {
   const location = useLocation()
 
   return (
-    <div className="flex min-h-svh flex-col">
+    <div className="flex flex-col">
       <Navbar />
       <AnimatePresence mode="wait">
         <motion.div
@@ -16,7 +16,6 @@ export function Layout() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="flex-1"
         >
           <Outlet />
         </motion.div>

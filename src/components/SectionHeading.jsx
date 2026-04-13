@@ -9,18 +9,20 @@ export function SectionHeading({ eyebrow, title, description, align = 'left' }) 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-20%' }}
       transition={{ duration: 0.35 }}
-      className={`mb-10 max-w-3xl space-y-3 ${alignClass}`}
+      className={`mb-6 max-w-3xl space-y-2 ${alignClass}`}
     >
       {eyebrow ? (
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600 dark:text-brand-300">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-300">
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="font-display text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
+      <h2 className="font-display text-2xl font-semibold tracking-tight text-slate-900 dark:text-zinc-50 sm:text-3xl">
         {title}
       </h2>
       {description ? (
-        <p className="text-base text-slate-600 dark:text-slate-300">{description}</p>
+        <p className="text-sm leading-relaxed text-slate-600 dark:text-zinc-400 sm:text-[15px]">
+          {description}
+        </p>
       ) : null}
     </motion.div>
   )

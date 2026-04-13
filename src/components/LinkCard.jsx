@@ -28,21 +28,23 @@ export function LinkCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.35, delay }}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:border-slate-800 dark:bg-slate-900/80 dark:hover:border-brand-500/40"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:border-zinc-700/80 dark:bg-zinc-900/85 dark:hover:border-brand-500/40"
     >
       <div className="flex flex-1 flex-col gap-2">
-        <h3 className="text-left font-display text-lg font-semibold text-slate-900 dark:text-white">
+        <h3 className="text-left font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
           {title}
         </h3>
         {subtitle ? (
-          <p className="text-left text-sm text-slate-600 dark:text-slate-400">{subtitle}</p>
+          <p className="text-left text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+            {subtitle}
+          </p>
         ) : null}
         {tags?.length ? (
           <div className="flex flex-wrap gap-2 pt-1">
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-800 dark:bg-brand-900/50 dark:text-brand-100"
+                className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-800 dark:bg-brand-950/55 dark:text-brand-200"
               >
                 {tag}
               </span>
@@ -50,10 +52,10 @@ export function LinkCard({
           </div>
         ) : null}
       </div>
-      <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
+      <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3 dark:border-zinc-800">
         <ExternalLink
           href={url}
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-sky-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-600/25 transition hover:brightness-110 min-[420px]:flex-none"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-900/25 transition hover:brightness-110 min-[420px]:flex-none"
         >
           Open
           <FiExternalLink className="text-base" aria-hidden />
@@ -61,7 +63,7 @@ export function LinkCard({
         <button
           type="button"
           onClick={copyLink}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-brand-400 hover:bg-brand-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-brand-500 dark:hover:bg-slate-700"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-brand-400 hover:bg-brand-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-brand-500/45 dark:hover:bg-zinc-700"
         >
           {copied ? 'Copied' : 'Copy'}
           <FiCopy className="text-base" aria-hidden />

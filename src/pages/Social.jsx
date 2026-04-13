@@ -14,7 +14,7 @@ const socialIcons = {
 
 export default function Social() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <SectionHeading
         eyebrow="Community"
         title="Social channels — all outbound"
@@ -22,7 +22,7 @@ export default function Social() {
         align="center"
       />
 
-      <div className="mt-4 grid gap-5 md:grid-cols-2">
+      <div className="mt-2 grid gap-4 md:grid-cols-2">
         {socialChannels.map((channel, index) => {
           const Icon = socialIcons[channel.icon] ?? FaTelegram
           return (
@@ -32,24 +32,26 @@ export default function Social() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-10%' }}
               transition={{ duration: 0.35, delay: index * 0.06 }}
-              className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+              className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-700/80 dark:bg-zinc-900"
             >
               <div
                 className={`pointer-events-none absolute inset-0 opacity-30 bg-gradient-to-br ${channel.accent}`}
               />
-              <div className="relative flex flex-col gap-4">
-                <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/90 text-2xl text-slate-900 shadow-md dark:bg-slate-950/80 dark:text-white">
+              <div className="relative flex flex-col gap-3">
+                <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/90 text-2xl text-slate-900 shadow-md dark:bg-zinc-950/90 dark:text-white">
                   <Icon aria-hidden />
                 </div>
                 <div>
-                  <h3 className="font-display text-2xl font-semibold text-slate-900 dark:text-white">
+                  <h3 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
                     {channel.label}
                   </h3>
-                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">{channel.description}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-700 dark:text-zinc-300">
+                    {channel.description}
+                  </p>
                 </div>
                 <ExternalLink
                   href={channel.url}
-                  className={`inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:brightness-110 ${channel.accent}`}
+                  className={`inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:brightness-110 ${channel.accent}`}
                 >
                   Visit channel
                   <FiExternalLink aria-hidden />

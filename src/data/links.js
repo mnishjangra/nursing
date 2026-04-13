@@ -7,7 +7,7 @@ export const site = {
   name: 'Nursing Culture',
   tagline: 'Student Support for Haryana Nursing',
   description:
-    'One calm place for ANM, GNM, and MPHW learners in Haryana — papers, syllabus, results, admissions, jobs, and trusted official links.',
+    'A dedicated platform for nursing and paramedical course learners and diploma/degree holders, primarily in Haryana — providing previous year papers, syllabus, results, admissions, job updates, and trusted official links.',
 }
 
 export const highlights = [
@@ -34,28 +34,188 @@ export const highlights = [
   },
 ]
 
-/** Hero + search — INC, Haryana Nursing Council, DMER Haryana */
+/** Homepage “Official” — university, state health, NHM */
 export const officialPrimarySites = [
   {
-    id: 'official-inc',
-    title: 'Indian Nursing Council (INC)',
-    subtitle: 'Official website — national nursing regulator',
-    url: 'http://www.indiannursingcouncil.org/',
-    tags: ['INC', 'National'],
+    id: 'official-uhsr',
+    title: 'Pandit Bhagwat Dayal Sharma University of Health Sciences (UHSR)',
+    subtitle: 'Official university website — admissions, programmes, and notices',
+    url: 'https://uhsr.ac.in/',
+    tags: ['UHSR', 'University'],
   },
   {
-    id: 'official-hnc',
-    title: 'Haryana Nurses and Nurse-Midwives Council',
-    subtitle: 'Official website — state registration & council',
-    url: 'https://www.haryananursescouncil.in/',
-    tags: ['Haryana', 'Council'],
+    id: 'official-doh-hr',
+    title: 'Department of Health and Family Welfare, Haryana',
+    subtitle: 'State health department — circulars, schemes, and public information',
+    url: 'https://haryanahealth.nic.in/',
+    tags: ['Health', 'Haryana'],
   },
   {
-    id: 'official-dmer',
-    title: 'Directorate of Medical Education and Research, Haryana',
-    subtitle: 'Official website — DMER Haryana',
-    url: 'http://dmer.haryana.gov.in',
-    tags: ['DMER', 'Haryana'],
+    id: 'official-nhm-hr',
+    title: 'National Health Mission, Haryana',
+    subtitle: 'State NHM portal — programmes, recruitment notices, and updates',
+    url: 'https://nhmharyana.gov.in/',
+    tags: ['NHM', 'Haryana'],
+  },
+]
+
+/** Top two videos by view count on @nursingculture (refresh periodically). */
+export const featuredYoutubeVideos = [
+  {
+    id: 'feat-yt-1',
+    videoId: 'lXJ8QhdHCQQ',
+    title:
+      'Haryana Health Department Vacancy 2025 | District Wise Data | Nurse MPHW Pharmacist',
+  },
+  {
+    id: 'feat-yt-2',
+    videoId: 'RgK11wGm58E',
+    title: 'Maharaja Agrasen Medical College (MAMC), Agroha NATS Apprenticeship Scheme 2026 staff Nurse',
+  },
+]
+
+const HNMC = 'https://www.haryananursescouncil.in/'
+const UHSR = 'https://uhsr.ac.in/'
+const HSTES = 'https://hstes.org.in/'
+
+/** Homepage admissions — each course opens its admission authority portal */
+export const admissionHomeGroups = [
+  {
+    id: 'adm-nursing-diploma',
+    title: 'Nursing courses (Haryana)',
+    authority: 'Haryana Nurses and Nurse-Midwives Council',
+    courses: [
+      { name: 'ANM', url: HNMC },
+      { name: 'GNM', url: HNMC },
+      { name: 'MPHW', url: HNMC },
+    ],
+  },
+  {
+    id: 'adm-nursing-degree',
+    title: 'Nursing degree courses',
+    authority: 'Pandit Bhagwat Dayal Sharma University of Health Sciences',
+    courses: [
+      { name: 'B.Sc Nursing', url: UHSR },
+      { name: 'Post Basic B.Sc Nursing', url: UHSR },
+      { name: 'M.Sc Nursing', url: UHSR },
+    ],
+  },
+  {
+    id: 'adm-paramed-diploma',
+    title: 'Paramedical courses',
+    authority: 'Haryana State Technical Education Society / UHSR (verify current prospectus)',
+    courses: [
+      { name: 'DMLT', url: HSTES },
+      { name: 'Radiology Technician', url: UHSR },
+      { name: 'X-Ray Technician', url: UHSR },
+      { name: 'CT Scan Technician', url: UHSR },
+      { name: 'MRI Technician', url: UHSR },
+      { name: 'OT Technician', url: UHSR },
+      { name: 'Dialysis Technician', url: UHSR },
+      { name: 'ECG Technician', url: UHSR },
+      { name: 'Cardiac Care Technician', url: UHSR },
+      { name: 'Optometry Technician', url: UHSR },
+      { name: 'Ophthalmic Assistant', url: UHSR },
+      { name: 'Dental Technician', url: UHSR },
+      { name: 'Dental Hygienist', url: UHSR },
+    ],
+  },
+  {
+    id: 'adm-paramed-degree',
+    title: 'Paramedical degree courses',
+    authority: 'Pandit Bhagwat Dayal Sharma University of Health Sciences / affiliated colleges',
+    courses: [
+      { name: 'BMLT', url: UHSR },
+      { name: 'B.Sc Radiology', url: UHSR },
+      { name: 'B.Sc Optometry', url: UHSR },
+      { name: 'B.Sc OT Technology', url: UHSR },
+      { name: 'B.Sc Dialysis Technology', url: UHSR },
+      { name: 'B.Sc Cardiac Care', url: UHSR },
+      { name: 'BPT', url: UHSR },
+    ],
+  },
+  {
+    id: 'adm-pharmacy',
+    title: 'Pharmacy courses',
+    authority: 'Haryana State Technical Education Society',
+    courses: [
+      { name: 'D.Pharmacy', url: HSTES },
+      { name: 'B.Pharmacy', url: HSTES },
+    ],
+  },
+]
+
+export const academicsHome = {
+  anmGnm: [
+    {
+      id: 'ac-papers',
+      title: 'ANM & GNM previous year question papers',
+      subtitle: 'Curated paper links on the Resources hub (swap URLs in data when you host PDFs).',
+      path: '/resources#question-papers',
+      internal: true,
+    },
+    {
+      id: 'ac-results-anm-gnm',
+      title: 'ANM & GNM results',
+      subtitle: 'Official DMER Haryana portal — examination and result notices when published.',
+      url: 'http://dmer.haryana.gov.in/',
+      internal: false,
+    },
+  ],
+  otherResults: [
+    {
+      id: 'ac-res-uhsr',
+      title: 'UHSR — programme & university exam results',
+      subtitle: 'B.Sc / Post Basic / M.Sc Nursing and UHSR-affiliated paramedical degrees.',
+      url: UHSR,
+    },
+    {
+      id: 'ac-res-hstes',
+      title: 'HSTES — pharmacy & technical course results',
+      subtitle: 'DMLT, D.Pharm, B.Pharm, and related state technical admissions and outcomes.',
+      url: HSTES,
+    },
+    {
+      id: 'ac-res-dmer',
+      title: 'DMER Haryana — state examination notices',
+      subtitle: 'Additional official notices that may include nursing and allied examinations.',
+      url: 'http://dmer.haryana.gov.in/',
+    },
+  ],
+}
+
+export const jobsHome = [
+  {
+    id: 'job-doh',
+    tone: 'green',
+    title: 'Main official website',
+    name: 'Department of Health and Family Welfare, Haryana',
+    url: 'https://haryanahealth.nic.in/',
+    hint: 'Use the Vacancies / Careers section for the latest jobs.',
+  },
+  {
+    id: 'job-nhm',
+    tone: 'blue',
+    title: 'Recruitment portal (important)',
+    name: 'National Health Mission, Haryana',
+    url: 'https://nhmharyana.gov.in/',
+    hint: 'Contract-based roles: ANM, GNM, MPHW, lab technician, and similar posts.',
+  },
+  {
+    id: 'job-hssc',
+    tone: 'amber',
+    title: 'Government jobs portal',
+    name: 'Haryana Staff Selection Commission',
+    url: 'https://hssc.gov.in/',
+    hint: 'Regular government recruitment — permanent posts.',
+  },
+  {
+    id: 'job-dmer',
+    tone: 'rose',
+    title: 'Medical education (optional)',
+    name: 'Directorate of Medical Education and Research, Haryana',
+    url: 'http://dmer.haryana.gov.in/',
+    hint: 'Medical colleges and technical / faculty-related notices.',
   },
 ]
 
@@ -75,7 +235,7 @@ export const quickNav = [
   {
     title: 'Official shortcuts',
     description: 'Boards, portals, and government sites.',
-    to: '/#quick-access',
+    to: '/#official',
     icon: 'link',
   },
   {
@@ -279,7 +439,7 @@ export const socialChannels = [
     label: 'Telegram',
     description: 'Quick updates and shared resources.',
     url: 'https://t.me/anmgnmphw',
-    accent: 'from-sky-500 to-blue-600',
+    accent: 'from-brand-500 to-brand-700',
     icon: 'telegram',
   },
   {
@@ -362,6 +522,49 @@ export function getSearchableItems() {
       subtitle: q.description,
       url: q.url,
       section: 'Social',
+      type: 'external',
+    }),
+  )
+
+  featuredYoutubeVideos.forEach((v) =>
+    items.push({
+      id: v.id,
+      title: v.title,
+      subtitle: 'Featured on YouTube',
+      url: `https://www.youtube.com/watch?v=${v.videoId}`,
+      section: 'YouTube',
+      type: 'external',
+    }),
+  )
+
+  academicsHome.anmGnm.forEach((row) => {
+    if (row.internal && row.path) {
+      items.push({
+        id: row.id,
+        title: row.title,
+        subtitle: row.subtitle,
+        path: row.path,
+        section: 'Academics',
+        type: 'route',
+      })
+    } else if (row.url) {
+      items.push({
+        id: row.id,
+        title: row.title,
+        subtitle: row.subtitle,
+        url: row.url,
+        section: 'Academics',
+        type: 'external',
+      })
+    }
+  })
+  academicsHome.otherResults.forEach((row) =>
+    items.push({
+      id: row.id,
+      title: row.title,
+      subtitle: row.subtitle,
+      url: row.url,
+      section: 'Academics',
       type: 'external',
     }),
   )

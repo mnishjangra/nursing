@@ -4,16 +4,16 @@ import { admissionLinks, jobLinks, resultLinks } from '../data/links'
 
 export default function Updates() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <SectionHeading
         eyebrow="Stay current"
         title="Results, admissions, and hiring"
         description="Each card opens the official source in a new tab. Always confirm dates, fees, and eligibility on the live government or university website."
       />
 
-      <div className="space-y-14">
+      <div className="space-y-10">
         <section>
-          <h2 className="mb-5 font-display text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
             Results
           </h2>
           <div className="grid gap-5 md:grid-cols-2">
@@ -24,10 +24,10 @@ export default function Updates() {
         </section>
 
         <section>
-          <h2 className="mb-3 font-display text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-3 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
             Admissions & counselling
           </h2>
-          <p className="mb-6 max-w-3xl text-sm text-slate-600 dark:text-slate-400">
+          <p className="mb-5 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
             <strong className="font-semibold text-slate-800 dark:text-slate-200">
               Pandit Bhagwat Dayal Sharma University of Health Sciences Rohtak (UHSR)
             </strong>{' '}
@@ -44,7 +44,7 @@ export default function Updates() {
         </section>
 
         <section>
-          <h2 className="mb-5 font-display text-2xl font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
             Jobs & deployments
           </h2>
           <div className="grid gap-5 md:grid-cols-2">

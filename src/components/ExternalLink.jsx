@@ -7,7 +7,7 @@ export function ExternalLink({ href, className = '', children, ...rest }) {
       className={className}
       {...rest}
     >
-      {children}  
+      {children}
       <span className="sr-only"> Opens in a new tab</span>
     </a>
   )

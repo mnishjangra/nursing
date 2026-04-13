@@ -4,30 +4,36 @@
 
 @theme {
   --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  --color-brand-50: #f0fdfa;
-  --color-brand-100: #ccfbf1;
-  --color-brand-200: #99f6e4;
-  --color-brand-300: #5eead4;
-  --color-brand-400: #2dd4bf;
-  --color-brand-500: #14b8a6;
-  --color-brand-600: #0d9488;
-  --color-brand-700: #0f766e;
-  --color-brand-800: #115e59;
-  --color-brand-900: #134e4a;
-  --color-sky-550: #0284c7;
+  /* Primary theme — core #0e2652 */
+  --color-brand-50: #f0f3fb;
+  --color-brand-100: #dce4f4;
+  --color-brand-200: #b8c8e8;
+  --color-brand-300: #8aa3d6;
+  --color-brand-400: #5a7cbd;
+  --color-brand-500: #3d62a3;
+  --color-brand-600: #0e2652;
+  --color-brand-700: #0b1e42;
+  --color-brand-800: #091932;
+  --color-brand-900: #071428;
+  --color-brand-950: #040c18;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
-    @apply min-h-svh bg-slate-50 font-sans text-slate-800 antialiased transition-colors duration-300;
+    @apply bg-brand-50 font-sans text-slate-800 antialiased transition-colors duration-300;
   }
 
   .dark body {
-    @apply bg-slate-950 text-slate-100;
+    @apply bg-brand-950 text-zinc-200;
   }
 
   .font-display {
@@ -37,11 +43,11 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-brand-600 via-sky-600 to-brand-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-brand-800 via-brand-600 to-brand-400 bg-clip-text text-transparent;
   }
 
   .dark .text-gradient {
-    @apply from-brand-300 via-sky-300 to-brand-200;
+    @apply from-brand-200 via-brand-300 to-brand-100;
   }
 
   .glass {
@@ -49,6 +55,6 @@
   }
 
   .dark .glass {
-    @apply border-white/10 bg-slate-900/70 shadow-black/30;
+    @apply border-zinc-700/40 bg-zinc-900/80 shadow-black/40;
   }
 }
