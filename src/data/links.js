@@ -7,7 +7,7 @@ export const site = {
   name: 'Nursing Culture',
   tagline: 'Student Support for Haryana Nursing',
   description:
-    'A dedicated platform for nursing and paramedical course learners and diploma/degree holders, primarily in Haryana — providing previous year papers, syllabus, results, admissions, job updates, and trusted official links.',
+    'A complete learning and support platform for nursing and paramedical students, where the Nursing Culture team actively helps learners through study resources, results, admissions, job updates, and real-time guidance via our student groups and community.',
 }
 
 export const highlights = [
@@ -92,6 +92,7 @@ export const featuredYoutubeVideos = [
 const HNMC = 'https://www.haryananursescouncil.in/'
 const UHSR = 'https://uhsr.ac.in/'
 const HSTES = 'https://hstes.org.in/'
+const RESULTS_LINK = 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102'
 
 /** Homepage admissions — each course opens its admission authority portal */
 export const admissionHomeGroups = [
@@ -217,12 +218,6 @@ export const jobsHome = [
 
 export const quickNav = [
   {
-    title: 'Academic hub',
-    description: 'Papers, syllabus, exam & re-eval forms.',
-    to: '/resources',
-    icon: 'books',
-  },
-  {
     title: 'Latest updates',
     description: 'Results, admissions, and job alerts.',
     to: '/updates',
@@ -342,43 +337,20 @@ export const resultLinks = [
     id: 'rs-uhsr-main',
     title: 'UHSR official results',
     subtitle: 'Primary UHSR result notice page for nursing and allied courses.',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
+    url: RESULTS_LINK,
     tags: ['UHSR', 'Results'],
   },
 ]
 
-export const resultsCourses = [
-  {
-    id: 'res-course-anm',
-    name: 'ANM',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
-  },
-  {
-    id: 'res-course-gnm',
-    name: 'GNM',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
-  },
-  {
-    id: 'res-course-bsc',
-    name: 'B.Sc Nursing',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
-  },
-  {
-    id: 'res-course-post-basic',
-    name: 'Post Basic Nursing',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
-  },
-  {
-    id: 'res-course-msc',
-    name: 'M.Sc Nursing',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
-  },
-  {
-    id: 'res-course-paramed',
-    name: 'Paramedical Courses',
-    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
-  },
-]
+export const resultsHomeGroups = admissionHomeGroups.map((group) => ({
+  id: `res-${group.id}`,
+  title: group.title,
+  authority: group.authority,
+  courses: group.courses.map((course) => ({
+    name: course.name,
+    url: RESULTS_LINK,
+  })),
+}))
 
 export const recentUpdates = []
 
@@ -593,14 +565,6 @@ export function getSearchableItems() {
       title: 'Home',
       subtitle: 'Landing & overview',
       path: '/',
-      section: 'Pages',
-      type: 'route',
-    },
-    {
-      id: 'page-resources',
-      title: 'Resources',
-      subtitle: 'Papers, syllabus, forms',
-      path: '/resources',
       section: 'Pages',
       type: 'route',
     },

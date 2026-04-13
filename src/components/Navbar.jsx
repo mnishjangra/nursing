@@ -9,7 +9,6 @@ import logoDark from '../assets/logod.png'
 
 const nav = [
   { to: '/', label: 'Home' },
-  { to: '/resources', label: 'Resources' },
   { to: '/updates', label: 'Updates' },
   { to: '/social', label: 'Social' },
   { to: '/about', label: 'About' },

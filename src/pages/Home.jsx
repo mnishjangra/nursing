@@ -12,7 +12,7 @@ import {
   featuredYoutubeVideos,
   jobsHome,
   officialPrimarySites,
-  resultsCourses,
+  resultsHomeGroups,
   site,
   socialChannels,
 } from '../data/links'
@@ -115,13 +115,6 @@ export default function Home() {
               transition={{ duration: 0.45, delay: 0.15 }}
               className="flex flex-wrap gap-2.5"
             >
-              <Link
-                to="/resources"
-                className="accent-glow inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
-              >
-                Browse resources
-                <FiArrowUpRight />
-              </Link>
               <Link
                 to="/social"
                 className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-brand-400 dark:border-sky-300/20 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-lg dark:hover:border-cyan-300/60 dark:hover:shadow-[0_0_18px_-8px_rgba(34,211,238,0.65)]"
@@ -323,19 +316,31 @@ export default function Home() {
             <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
               Tap a course to open the official result page.
             </p>
-            <ul className="mt-4 space-y-1">
-              {resultsCourses.map((course) => (
-                <li key={course.id}>
-                  <ExternalLink
-                    href={course.url}
-                    className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45"
-                  >
-                    <span>{course.name}</span>
-                    <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
-                  </ExternalLink>
-                </li>
+            <div className="mt-4 max-h-[min(62vh,400px)] space-y-5 overflow-y-auto pr-0.5">
+              {resultsHomeGroups.map((group) => (
+                <div key={group.id}>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">
+                    {group.title}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-zinc-500">
+                    {group.authority}
+                  </p>
+                  <ul className="mt-2 space-y-1">
+                    {group.courses.map((course) => (
+                      <li key={`${group.id}-${course.name}`}>
+                        <ExternalLink
+                          href={course.url}
+                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45"
+                        >
+                          <span>{course.name}</span>
+                          <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
+                        </ExternalLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </motion.div>
 
           <motion.div
