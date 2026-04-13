@@ -290,7 +290,7 @@ export default function Home() {
                       <li key={c.name}>
                         <ExternalLink
                           href={c.url}
-                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45"
+                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-slate-100 dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45 dark:hover:bg-slate-700/70"
                         >
                           <span>{c.name}</span>
                           <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
@@ -330,7 +330,7 @@ export default function Home() {
                       <li key={`${group.id}-${course.name}`}>
                         <ExternalLink
                           href={course.url}
-                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-white dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45"
+                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-slate-100 dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45 dark:hover:bg-slate-700/70"
                         >
                           <span>{course.name}</span>
                           <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
