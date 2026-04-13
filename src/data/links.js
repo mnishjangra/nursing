@@ -45,9 +45,10 @@ export const officialPrimarySites = [
   },
   {
     id: 'official-doh-hr',
-    title: 'Department of Health and Family Welfare, Haryana',
+    title: 'Health Department Haryana',
     subtitle: 'State health department — circulars, schemes, and public information',
-    url: 'https://haryanahealth.nic.in/',
+    url: 'https://haryanahealth.gov.in/',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=haryanahealth.gov.in&sz=128',
     tags: ['Health', 'Haryana'],
   },
   {
@@ -55,7 +56,24 @@ export const officialPrimarySites = [
     title: 'National Health Mission, Haryana',
     subtitle: 'State NHM portal — programmes, recruitment notices, and updates',
     url: 'https://nhmharyana.gov.in/',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=nhmharyana.gov.in&sz=128',
     tags: ['NHM', 'Haryana'],
+  },
+  {
+    id: 'official-dmer',
+    title: 'DMER Haryana',
+    subtitle: 'Directorate of Medical Education and Research official website.',
+    url: 'https://dmer.haryana.gov.in/',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=dmer.haryana.gov.in&sz=128',
+    tags: ['DMER', 'Haryana'],
+  },
+  {
+    id: 'official-hnc',
+    title: 'Haryana Nursing Council',
+    subtitle: 'Official council portal for nursing registration and notices.',
+    url: 'https://www.haryananursescouncil.in/',
+    logoUrl: 'https://www.google.com/s2/favicons?domain=haryananursescouncil.in&sz=128',
+    tags: ['Council', 'Nursing'],
   },
 ]
 
@@ -71,6 +89,13 @@ export const featuredYoutubeVideos = [
     id: 'feat-yt-2',
     videoId: 'RgK11wGm58E',
     title: 'Maharaja Agrasen Medical College (MAMC), Agroha NATS Apprenticeship Scheme 2026 staff Nurse',
+  },
+  {
+    id: 'feat-yt-live',
+    title: 'Nursing Culture Live Stream',
+    isLive: true,
+    url: 'https://www.youtube.com/@nursingculture/live',
+    thumbnailUrl: 'https://i.ytimg.com/vi/live_stream/hqdefault.jpg',
   },
 ]
 
@@ -148,50 +173,31 @@ export const admissionHomeGroups = [
 export const academicsHome = {
   anmGnm: [
     {
-      id: 'ac-papers',
-      title: 'ANM & GNM previous year question papers',
-      subtitle: 'Curated paper links on the Resources hub (swap URLs in data when you host PDFs).',
+      id: 'ac-papers-anm',
+      title: 'ANM previous year question papers',
+      subtitle: 'Open the curated ANM paper collection on the Resources hub.',
       path: '/resources#question-papers',
       internal: true,
     },
     {
-      id: 'ac-results-anm-gnm',
-      title: 'ANM & GNM results',
-      subtitle: 'Official DMER Haryana portal — examination and result notices when published.',
-      url: 'http://dmer.haryana.gov.in/',
-      internal: false,
+      id: 'ac-papers-gnm',
+      title: 'GNM previous year question papers',
+      subtitle: 'Open the curated GNM paper collection on the Resources hub.',
+      path: '/resources#question-papers',
+      internal: true,
     },
   ],
-  otherResults: [
-    {
-      id: 'ac-res-uhsr',
-      title: 'UHSR — programme & university exam results',
-      subtitle: 'B.Sc / Post Basic / M.Sc Nursing and UHSR-affiliated paramedical degrees.',
-      url: UHSR,
-    },
-    {
-      id: 'ac-res-hstes',
-      title: 'HSTES — pharmacy & technical course results',
-      subtitle: 'DMLT, D.Pharm, B.Pharm, and related state technical admissions and outcomes.',
-      url: HSTES,
-    },
-    {
-      id: 'ac-res-dmer',
-      title: 'DMER Haryana — state examination notices',
-      subtitle: 'Additional official notices that may include nursing and allied examinations.',
-      url: 'http://dmer.haryana.gov.in/',
-    },
-  ],
+  otherResults: [],
 }
 
 export const jobsHome = [
   {
     id: 'job-doh',
     tone: 'green',
-    title: 'Main official website',
-    name: 'Department of Health and Family Welfare, Haryana',
-    url: 'https://haryanahealth.nic.in/',
-    hint: 'Use the Vacancies / Careers section for the latest jobs.',
+    title: 'Recruitment portal',
+    name: 'Health Department Haryana',
+    url: 'https://haryanahealth.gov.in/notice-category/recruitments/',
+    hint: 'Official recruitment notices for health department positions.',
   },
   {
     id: 'job-nhm',
@@ -297,12 +303,6 @@ export const questionPapers = [
     course: 'GNM',
     url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
   },
-  {
-    id: 'qp-mphw-1',
-    title: 'MPHW — Community health (sample PDF)',
-    course: 'MPHW',
-    url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-  },
 ]
 
 export const syllabusLinks = [
@@ -349,20 +349,48 @@ export const reevalForms = [
 
 export const resultLinks = [
   {
-    id: 'rs-1',
-    title: 'UHS Rohtak — results & academic notices',
-    subtitle: 'Check official UHSR pages for university exam and programme results.',
-    url: 'https://uhsr.ac.in/',
+    id: 'rs-uhsr-main',
+    title: 'UHSR official results',
+    subtitle: 'Primary UHSR result notice page for nursing and allied courses.',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
     tags: ['UHSR', 'Results'],
   },
+]
+
+export const resultsCourses = [
   {
-    id: 'rs-2',
-    title: 'Haryana Nurses & Nurse-Midwives Council',
-    subtitle: 'Registration and council-related status where published online.',
-    url: 'https://www.haryananursescouncil.in/',
-    tags: ['Council'],
+    id: 'res-course-anm',
+    name: 'ANM',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
+  },
+  {
+    id: 'res-course-gnm',
+    name: 'GNM',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
+  },
+  {
+    id: 'res-course-bsc',
+    name: 'B.Sc Nursing',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
+  },
+  {
+    id: 'res-course-post-basic',
+    name: 'Post Basic Nursing',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
+  },
+  {
+    id: 'res-course-msc',
+    name: 'M.Sc Nursing',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
+  },
+  {
+    id: 'res-course-paramed',
+    name: 'Paramedical Courses',
+    url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102',
   },
 ]
+
+export const recentUpdates = []
 
 export const admissionLinks = [
   {

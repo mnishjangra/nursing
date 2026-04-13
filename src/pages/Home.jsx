@@ -36,6 +36,8 @@ const jobToneClass = {
 const cardSurface =
   'premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:hover:border-cyan-400/45'
 
+const officialFallbackLogo = 'https://www.google.com/s2/favicons?sz=128&domain_url='
+
 function AcademicsRow({ row }) {
   const body = (
     <>
@@ -138,13 +140,42 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Official"
-            title="Official websites"
+            title="Official links"
             description="University, state health department, and NHM Haryana — verify every notice on the live source."
           />
-          <div className="grid gap-4 md:grid-cols-3">
-            {officialPrimarySites.map((item, i) => (
-              <LinkCard key={item.id} {...item} delay={i * 0.05} />
-            ))}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {officialPrimarySites.map((item, i) => {
+              const logoSrc = item.logoUrl || `${officialFallbackLogo}${item.url}`
+              return (
+                <motion.article
+                  key={item.id}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.35, delay: i * 0.05 }}
+                  className="premium-card premium-glow-hover group overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:hover:border-cyan-300/65"
+                >
+                  <ExternalLink href={item.url} className="block">
+                    <div className="mb-3 flex justify-center">
+                      <img
+                        src={logoSrc}
+                        alt={`${item.title} logo`}
+                        className="h-16 w-16 rounded-xl border border-slate-200 bg-white p-2 object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h3 className="text-center font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
+                      {item.title}
+                    </h3>
+                    {item.subtitle ? (
+                      <p className="mt-2 text-center text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                        {item.subtitle}
+                      </p>
+                    ) : null}
+                  </ExternalLink>
+                </motion.article>
+              )
+            })}
           </div>
 
           <div className="mt-8 border-t border-slate-100 pt-8 dark:border-sky-300/12">
@@ -155,8 +186,8 @@ export default function Home() {
             />
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               {featuredYoutubeVideos.map((v, index) => {
-                const href = `https://www.youtube.com/watch?v=${v.videoId}`
-                const thumb = `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`
+                const href = v.url || `https://www.youtube.com/watch?v=${v.videoId}`
+                const thumb = v.thumbnailUrl || `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`
                 return (
                   <motion.div
                     key={v.id}
@@ -179,6 +210,11 @@ export default function Home() {
                         <span className="absolute bottom-2 right-2 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                           YouTube
                         </span>
+                        {v.isLive ? (
+                          <span className="absolute left-2 top-2 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                            LIVE
+                          </span>
+                        ) : null}
                       </div>
                       <div className="p-3">
                         <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
@@ -311,21 +347,13 @@ export default function Home() {
               Academics
             </h2>
             <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              ANM and GNM: papers plus results. Other programmes: official results portals only.
+              Keep preparation focused with previous year papers for ANM and GNM.
             </p>
             <div className="mt-4 space-y-2">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-500">
                 ANM &amp; GNM
               </p>
               {academicsHome.anmGnm.map((row) => (
-                <AcademicsRow key={row.id} row={row} />
-              ))}
-            </div>
-            <div className="mt-5 space-y-2 border-t border-slate-100 pt-4 dark:border-sky-300/12">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-500">
-                Other courses — results
-              </p>
-              {academicsHome.otherResults.map((row) => (
                 <AcademicsRow key={row.id} row={row} />
               ))}
             </div>
