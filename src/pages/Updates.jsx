@@ -2,7 +2,7 @@ import { SectionHeading } from '../components/SectionHeading'
 import { LinkCard } from '../components/LinkCard'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { ExternalLink } from '../components/ExternalLink'
-import { admissionLinks, jobLinks, resultLinks, resultsHomeGroups } from '../data/links'
+import { admissionLinks, jobLinks, resultLinks, resultsCourses } from '../data/links'
 
 export default function Updates() {
   return (
@@ -26,31 +26,19 @@ export default function Updates() {
               <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
                 Open the official result source for your course.
               </p>
-              <div className="mt-4 max-h-[min(62vh,420px)] space-y-5 overflow-y-auto pr-0.5">
-                {resultsHomeGroups.map((group) => (
-                  <div key={group.id}>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">
-                      {group.title}
-                    </p>
-                    <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-zinc-500">
-                      {group.authority}
-                    </p>
-                    <ul className="mt-2 space-y-1">
-                      {group.courses.map((course) => (
-                        <li key={`${group.id}-${course.name}`}>
-                          <ExternalLink
-                            href={course.url}
-                            className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-slate-100 dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45 dark:hover:bg-slate-700/70"
-                          >
-                            <span>{course.name}</span>
-                            <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
-                          </ExternalLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <ul className="mt-4 space-y-1">
+                {resultsCourses.map((course) => (
+                  <li key={course.id}>
+                    <ExternalLink
+                      href={course.url}
+                      className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-slate-100 dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45 dark:hover:bg-slate-700/70"
+                    >
+                      <span>{course.name}</span>
+                      <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
+                    </ExternalLink>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
             <div className="grid gap-5 md:grid-cols-1">
               {resultLinks.map((item, i) => (

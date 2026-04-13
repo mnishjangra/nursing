@@ -342,15 +342,14 @@ export const resultLinks = [
   },
 ]
 
-export const resultsHomeGroups = admissionHomeGroups.map((group) => ({
-  id: `res-${group.id}`,
-  title: group.title,
-  authority: group.authority,
-  courses: group.courses.map((course) => ({
-    name: course.name,
-    url: RESULTS_LINK,
-  })),
-}))
+export const resultsCourses = [
+  { id: 'res-anm', name: 'ANM', url: RESULTS_LINK },
+  { id: 'res-gnm', name: 'GNM', url: RESULTS_LINK },
+  { id: 'res-bsc', name: 'B.Sc Nursing', url: RESULTS_LINK },
+  { id: 'res-post-basic', name: 'Post Basic Nursing', url: RESULTS_LINK },
+  { id: 'res-msc', name: 'M.Sc Nursing', url: RESULTS_LINK },
+  { id: 'res-paramed', name: 'Paramedical Courses', url: RESULTS_LINK },
+]
 
 export const recentUpdates = []
 
