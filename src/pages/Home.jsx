@@ -99,7 +99,7 @@ export default function Home() {
               transition={{ duration: 0.45, delay: 0.05 }}
               className="font-display text-[1.65rem] font-semibold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-[2.35rem] dark:text-zinc-50"
             >
-              Calm, curated support for <span className="text-gradient">{site.name}</span> learners.
+              Learn, grow, and succeed with <span className="text-gradient">{site.name}</span>.
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 12 }}
