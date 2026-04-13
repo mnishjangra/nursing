@@ -41,7 +41,7 @@ export const officialPrimarySites = [
     title: 'Pandit Bhagwat Dayal Sharma University of Health Sciences (UHSR)',
     subtitle: 'Official university website — admissions, programmes, and notices',
     url: 'https://uhsr.ac.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=uhsr.ac.in&sz=128',
+    logoUrl: 'https://uhsr.ac.in/images/UHSRlogo.PNG',
     tags: ['UHSR', 'University'],
   },
   {
@@ -57,7 +57,7 @@ export const officialPrimarySites = [
     title: 'National Health Mission, Haryana',
     subtitle: 'State NHM portal — programmes, recruitment notices, and updates',
     url: 'https://nhmharyana.gov.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=nhmharyana.gov.in&sz=128',
+    logoUrl: 'https://nhmharyana.gov.in/images/logo_nrhm.png',
     tags: ['NHM', 'Haryana'],
   },
   {
@@ -65,7 +65,7 @@ export const officialPrimarySites = [
     title: 'DMER Haryana',
     subtitle: 'Directorate of Medical Education and Research official website.',
     url: 'https://dmer.haryana.gov.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=dmer.haryana.gov.in&sz=128',
+    logoUrl: 'https://dmer.haryana.gov.in/assets/site/images/Dmer_logo.png',
     tags: ['DMER', 'Haryana'],
   },
   {
@@ -73,7 +73,7 @@ export const officialPrimarySites = [
     title: 'Haryana Nursing Council',
     subtitle: 'Official council portal for nursing registration and notices.',
     url: 'https://www.haryananursescouncil.in/',
-    logoUrl: 'https://www.google.com/s2/favicons?domain=haryananursescouncil.in&sz=128',
+    logoUrl: 'https://www.haryananursescouncil.in/images/LOGO__1_-removebg-preview.png',
     tags: ['Council', 'Nursing'],
   },
 ]

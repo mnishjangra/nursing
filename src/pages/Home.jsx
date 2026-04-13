@@ -5,6 +5,7 @@ import { FaInstagram, FaTelegram, FaWhatsapp, FaYoutube } from 'react-icons/fa'
 import { SectionHeading } from '../components/SectionHeading'
 import { ExternalLink } from '../components/ExternalLink'
 import channelLogo from '../assets/logo.png'
+import youtubeLiveImage from '../assets/youtubelive.jpeg'
 import {
   admissionHomeGroups,
   academicsHome,
@@ -205,9 +206,9 @@ export default function Home() {
                   >
                     <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
                       <img
-                        src={channelLogo}
+                        src={youtubeLiveImage}
                         alt="Nursing Culture channel logo"
-                        className="h-full w-full object-contain bg-white p-6 transition duration-300 group-hover:scale-[1.02]"
+                        className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                         loading="lazy"
                       />
                       <span className="absolute left-2 top-2 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
