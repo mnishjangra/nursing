@@ -7,7 +7,7 @@ export function ThemeProvider({ children }) {
     const saved = localStorage.getItem('nc-theme')
     if (saved === 'dark') return true
     if (saved === 'light') return false
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
+    return false
   })
 
   useEffect(() => {

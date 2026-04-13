@@ -19,7 +19,6 @@ export default function Social() {
         eyebrow="Community"
         title="Social channels — all outbound"
         description="Telegram, WhatsApp, YouTube, and Instagram — each button opens the official channel in a new tab."
-        align="center"
       />
 
       <div className="mt-2 grid gap-4 md:grid-cols-2">

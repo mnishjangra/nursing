@@ -33,7 +33,7 @@
   }
 
   .dark body {
-    @apply bg-brand-950 text-zinc-200;
+    @apply bg-brand-900 text-zinc-100;
   }
 
   .font-display {
@@ -55,6 +55,6 @@
   }
 
   .dark .glass {
-    @apply border-zinc-700/40 bg-zinc-900/80 shadow-black/40;
+    @apply border-zinc-600/45 bg-zinc-800/75 shadow-black/25;
   }
 }
