@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiActivity, FiArrowUpRight, FiClipboard, FiHome, FiShield, FiUsers } from 'react-icons/fi'
@@ -117,6 +118,17 @@ function AcademicsRow({ row }) {
 }
 
 export default function Home() {
+  const newsSliderRef = useRef(null)
+
+  const scrollNews = (direction) => {
+    if (!newsSliderRef.current) return
+    const distance = Math.round(newsSliderRef.current.clientWidth * 0.8)
+    newsSliderRef.current.scrollBy({
+      left: direction === 'left' ? -distance : distance,
+      behavior: 'smooth',
+    })
+  }
+
   return (
     <main>
       <section
@@ -253,13 +265,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-8%' }}
                   transition={{ duration: 0.32 }}
-                  className="mt-4 max-w-4xl"
+                  className="mt-4 max-w-[320px] sm:max-w-2xl lg:max-w-4xl"
                 >
                   <ExternalLink
                     href={v.url}
                     className="premium-card premium-glow-hover group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300/80 hover:shadow-md dark:hover:border-purple-400/50"
                   >
-                    <div className="relative h-48 w-full overflow-hidden bg-slate-100 sm:h-56 md:h-60 dark:bg-zinc-800">
+                    <div className="relative h-40 w-full overflow-hidden bg-slate-100 sm:h-52 md:h-56 dark:bg-zinc-800">
                       <img
                         src={youtubeLiveImage}
                         alt="Nursing Culture channel logo"
@@ -325,7 +337,29 @@ export default function Home() {
             title="News Highlights"
             description="Coverage of nursing student activities and updates from local newspapers."
           />
-          <div className="mt-6 grid max-h-[70vh] grid-cols-1 gap-4 overflow-y-auto pr-1 snap-y snap-mandatory sm:max-h-none sm:overflow-visible sm:pr-0 sm:snap-none sm:grid-cols-2 lg:grid-cols-3">
+          <div className="relative mt-6">
+            <div className="mb-3 flex items-center justify-end gap-2 sm:hidden">
+              <button
+                type="button"
+                onClick={() => scrollNews('left')}
+                aria-label="Scroll news left"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+              >
+                <span aria-hidden>&larr;</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollNews('right')}
+                aria-label="Scroll news right"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+              >
+                <span aria-hidden>&rarr;</span>
+              </button>
+            </div>
+            <div
+              ref={newsSliderRef}
+              className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-3"
+            >
             {newsHighlights.map((item, index) => (
               <motion.article
                 key={item.id}
@@ -333,9 +367,9 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-10%' }}
                 transition={{ duration: 0.3, delay: index * 0.04 }}
-                className="premium-card premium-glow-hover snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm"
+                className="premium-card premium-glow-hover min-w-[74%] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm sm:min-w-0 sm:shrink"
               >
-                <div className="aspect-4/3 w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
+                <div className="h-36 w-full overflow-hidden bg-slate-100 sm:h-auto sm:aspect-4/3 dark:bg-zinc-800">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -350,6 +384,7 @@ export default function Home() {
                 </div>
               </motion.article>
             ))}
+            </div>
           </div>
         </div>
       </section>
