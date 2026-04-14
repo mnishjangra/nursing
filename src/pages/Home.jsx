@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiActivity, FiArrowUpRight, FiClipboard, FiHome, FiShield, FiUsers } from 'react-icons/fi'
@@ -6,12 +5,6 @@ import { FaInstagram, FaTelegram, FaWhatsapp, FaYoutube } from 'react-icons/fa'
 import { SectionHeading } from '../components/SectionHeading'
 import { ExternalLink } from '../components/ExternalLink'
 import girlImage from '../assets/girlimage.png'
-import news1Image from '../assets/news1.jpeg'
-import news2Image from '../assets/news2.jpeg'
-import news3Image from '../assets/news3.jpeg'
-import news4Image from '../assets/news4.jpeg'
-import news5Image from '../assets/news5.jpeg'
-import news6Image from '../assets/news6.jpeg'
 import youtubeLiveImage from '../assets/youtubelive.jpeg'
 import {
   admissionHomeGroups,
@@ -53,39 +46,6 @@ const jobToneClass = {
 const cardSurface =
   'premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:hover:border-cyan-400/45'
 
-const newsHighlights = [
-  {
-    id: 'news-1',
-    image: news1Image,
-    title: 'Meeting on nursing student demands',
-  },
-  {
-    id: 'news-2',
-    image: news2Image,
-    title: 'Students protest for timely exams',
-  },
-  {
-    id: 'news-3',
-    image: news3Image,
-    title: 'Press coverage from Jind',
-  },
-  {
-    id: 'news-4',
-    image: news4Image,
-    title: 'Memorandum submitted to officials',
-  },
-  {
-    id: 'news-5',
-    image: news5Image,
-    title: 'Local city paper update',
-  },
-  {
-    id: 'news-6',
-    image: news6Image,
-    title: 'Student demand update coverage',
-  },
-]
-
 function AcademicsRow({ row }) {
   const body = (
     <>
@@ -118,17 +78,6 @@ function AcademicsRow({ row }) {
 }
 
 export default function Home() {
-  const newsSliderRef = useRef(null)
-
-  const scrollNews = (direction) => {
-    if (!newsSliderRef.current) return
-    const distance = Math.round(newsSliderRef.current.clientWidth * 0.8)
-    newsSliderRef.current.scrollBy({
-      left: direction === 'left' ? -distance : distance,
-      behavior: 'smooth',
-    })
-  }
-
   return (
     <main>
       <section
@@ -325,65 +274,6 @@ export default function Home() {
                   </motion.div>
                 )
               })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-slate-200/80 bg-slate-50 py-10 sm:py-12 dark:border-sky-300/12 dark:bg-slate-900/32">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="News"
-            title="News Highlights"
-            description="Coverage of nursing student activities and updates from local newspapers."
-          />
-          <div className="relative mt-6">
-            <div className="mb-3 flex items-center justify-end gap-2 sm:hidden">
-              <button
-                type="button"
-                onClick={() => scrollNews('left')}
-                aria-label="Scroll news left"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
-              >
-                <span aria-hidden>&larr;</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollNews('right')}
-                aria-label="Scroll news right"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
-              >
-                <span aria-hidden>&rarr;</span>
-              </button>
-            </div>
-            <div
-              ref={newsSliderRef}
-              className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-3"
-            >
-            {newsHighlights.map((item, index) => (
-              <motion.article
-                key={item.id}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10%' }}
-                transition={{ duration: 0.3, delay: index * 0.04 }}
-                className="premium-card premium-glow-hover min-h-[240px] min-w-[74%] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm sm:min-h-0 sm:min-w-0 sm:shrink"
-              >
-                <div className="h-44 w-full overflow-hidden bg-slate-100 sm:h-auto sm:aspect-4/3 dark:bg-zinc-800">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="h-full w-full object-cover transition duration-300 hover:scale-[1.02]"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-3.5">
-                  <p className="text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
-                    {item.title}
-                  </p>
-                </div>
-              </motion.article>
-            ))}
             </div>
           </div>
         </div>
