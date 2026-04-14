@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiArrowUpRight } from 'react-icons/fi'
+import { FiActivity, FiArrowUpRight, FiClipboard, FiHome, FiShield, FiUsers } from 'react-icons/fi'
 import { FaInstagram, FaTelegram, FaWhatsapp, FaYoutube } from 'react-icons/fa'
 import { SectionHeading } from '../components/SectionHeading'
 import { ExternalLink } from '../components/ExternalLink'
-import channelLogo from '../assets/logo.png'
+import girlImage from '../assets/girlimage.png'
+import news1Image from '../assets/news1.jpeg'
+import news2Image from '../assets/news2.jpeg'
+import news3Image from '../assets/news3.jpeg'
+import news4Image from '../assets/news4.jpeg'
+import news5Image from '../assets/news5.jpeg'
+import news6Image from '../assets/news6.jpeg'
 import youtubeLiveImage from '../assets/youtubelive.jpeg'
 import {
   admissionHomeGroups,
@@ -24,6 +30,14 @@ const socialIconMap = {
   instagram: FaInstagram,
 }
 
+const officialIconMap = {
+  'official-uhsr': FiHome,
+  'official-doh-hr': FiActivity,
+  'official-nhm-hr': FiUsers,
+  'official-dmer': FiClipboard,
+  'official-hnc': FiShield,
+}
+
 const jobToneClass = {
   green:
     'border-l-emerald-500 bg-emerald-50/70 dark:border-l-emerald-400 dark:bg-emerald-950/35 dark:ring-1 dark:ring-emerald-900/20',
@@ -37,6 +51,39 @@ const jobToneClass = {
 
 const cardSurface =
   'premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:hover:border-cyan-400/45'
+
+const newsHighlights = [
+  {
+    id: 'news-1',
+    image: news1Image,
+    title: 'Meeting on nursing student demands',
+  },
+  {
+    id: 'news-2',
+    image: news2Image,
+    title: 'Students protest for timely exams',
+  },
+  {
+    id: 'news-3',
+    image: news3Image,
+    title: 'Press coverage from Jind',
+  },
+  {
+    id: 'news-4',
+    image: news4Image,
+    title: 'Memorandum submitted to officials',
+  },
+  {
+    id: 'news-5',
+    image: news5Image,
+    title: 'Local city paper update',
+  },
+  {
+    id: 'news-6',
+    image: news6Image,
+    title: 'Student demand update coverage',
+  },
+]
 
 function AcademicsRow({ row }) {
   const body = (
@@ -73,22 +120,23 @@ export default function Home() {
   return (
     <main>
       <section
-        className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-brand-50 via-white to-slate-50 dark:border-sky-300/12 dark:from-slate-900/55 dark:via-slate-900/35 dark:to-slate-900/20"
+        className="relative overflow-hidden border-b border-slate-200/70 bg-gradient-to-br from-sky-50 via-white to-indigo-50/60 dark:border-sky-300/15 dark:from-[#071124] dark:via-[#0a142b] dark:to-[#07111f]"
       >
-        <div className="pointer-events-none absolute -left-24 top-8 h-56 w-56 rounded-full bg-brand-200/40 blur-3xl dark:bg-blue-400/15" />
-        <div className="pointer-events-none absolute right-0 top-24 h-64 w-64 rounded-full bg-brand-100/50 blur-3xl dark:bg-cyan-400/12" />
-        <div className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05),transparent_28%,transparent_72%,rgba(255,255,255,0.04))]" />
+        <div className="pointer-events-none absolute -left-20 top-8 h-72 w-72 rounded-full bg-sky-200/50 blur-3xl dark:bg-cyan-500/18" />
+        <div className="pointer-events-none absolute right-0 top-16 h-72 w-72 rounded-full bg-indigo-200/45 blur-3xl dark:bg-indigo-500/16" />
+        <div className="pointer-events-none absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-brand-100/45 blur-3xl dark:bg-brand-500/14" />
+        <div className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[radial-gradient(130%_80%_at_50%_0%,rgba(56,189,248,0.14),transparent_55%),linear-gradient(to_bottom,rgba(255,255,255,0.05),transparent_26%,transparent_74%,rgba(255,255,255,0.04))]" />
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-          <div className="max-w-2xl flex-1 space-y-4">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-14 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:px-8 lg:py-16">
+          <div className="max-w-2xl flex-1 space-y-5 sm:space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
               className="flex items-center gap-3"
             >
-              <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-2 shadow-sm dark:border-sky-300/20 dark:bg-slate-800/55 dark:backdrop-blur-lg">
-                <p className="font-display text-base font-semibold leading-snug text-slate-900 dark:text-zinc-100">
+              <div className="inline-flex items-center rounded-full border border-sky-200/80 bg-white/75 px-4 py-1.5 shadow-sm backdrop-blur-md dark:border-cyan-300/30 dark:bg-slate-900/65 dark:shadow-[0_0_0_1px_rgba(56,189,248,0.14)]">
+                <p className="font-display text-sm font-semibold tracking-wide text-slate-900 dark:text-cyan-100 sm:text-[0.95rem]">
                   {site.name}
                 </p>
               </div>
@@ -97,15 +145,19 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.05 }}
-              className="font-display text-[1.65rem] font-semibold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-[2.35rem] dark:text-zinc-50"
+              className="max-w-xl font-display text-[1.85rem] font-bold leading-[1.16] tracking-tight text-slate-900 sm:text-[2.3rem] lg:text-[2.8rem] dark:text-zinc-50"
             >
-              Learn, grow, and succeed with <span className="text-gradient">{site.name}</span>.
+              Learn, grow, and succeed with{' '}
+              <span className="bg-gradient-to-r from-brand-600 via-cyan-500 to-indigo-500 bg-clip-text text-transparent dark:from-cyan-200 dark:via-sky-300 dark:to-indigo-300">
+                {site.name}
+              </span>
+              .
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.1 }}
-              className="text-[15px] leading-relaxed text-slate-600 dark:text-zinc-400 sm:text-base"
+              className="max-w-xl text-[15px] leading-7 text-slate-600 dark:text-zinc-300 sm:text-base sm:leading-8"
             >
               {site.description}
             </motion.p>
@@ -113,16 +165,30 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.15 }}
-              className="flex flex-wrap gap-2.5"
+              className="flex flex-wrap gap-3 pt-1"
             >
               <Link
                 to="/social"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-brand-400 dark:border-sky-300/20 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-lg dark:hover:border-cyan-300/60 dark:hover:shadow-[0_0_18px_-8px_rgba(34,211,238,0.65)]"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 via-cyan-500 to-indigo-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 dark:from-cyan-500 dark:via-sky-500 dark:to-indigo-500 dark:shadow-cyan-500/35 dark:hover:shadow-cyan-400/50"
               >
                 Join the community
               </Link>
             </motion.div>
           </div>
+          <motion.div
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.45, delay: 0.2 }}
+            className="relative mx-auto w-full max-w-[240px] sm:max-w-xs lg:mx-0 lg:max-w-sm"
+          >
+            <div className="pointer-events-none absolute inset-4 -z-10 rounded-full bg-gradient-to-br from-cyan-300/35 via-brand-200/20 to-indigo-300/30 blur-3xl dark:from-cyan-400/30 dark:via-brand-500/16 dark:to-indigo-400/28" />
+            <img
+              src={girlImage}
+              alt="Nursing student with clipboard"
+              className="h-auto w-full object-contain drop-shadow-[0_16px_36px_rgba(14,116,144,0.24)] dark:drop-shadow-[0_18px_40px_rgba(34,211,238,0.34)]"
+              loading="eager"
+            />
+          </motion.div>
         </div>
       </section>
 
@@ -138,7 +204,7 @@ export default function Home() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {officialPrimarySites.map((item, i) => {
-              const logoSrc = item.logoUrl
+              const CardIcon = officialIconMap[item.id] ?? FiHome
               return (
                 <motion.article
                   key={item.id}
@@ -146,30 +212,26 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className="premium-card premium-glow-hover group overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:hover:border-cyan-300/65"
+                  className="premium-card premium-glow-hover flex min-h-[260px] flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white/95 p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/75 hover:shadow-lg hover:shadow-brand-600/10 dark:border-sky-300/15 dark:bg-slate-900/45 dark:hover:border-cyan-300/65"
                 >
-                  <ExternalLink href={item.url} className="block">
-                    <div className="mb-3 flex justify-center">
-                      <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl bg-white">
-                        <img
-                          src={logoSrc}
-                          alt={`${item.title} logo`}
-                          className="h-16 w-16 object-contain"
-                          loading="lazy"
-                          onError={(e) => {
-                            e.currentTarget.src = channelLogo
-                          }}
-                        />
-                      </div>
+                  <div className="mb-3 flex justify-center">
+                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-50 text-brand-600 shadow-inner ring-1 ring-sky-100 dark:bg-sky-500/10 dark:text-cyan-300 dark:ring-cyan-300/20">
+                      <CardIcon className="text-3xl" aria-hidden />
                     </div>
-                    <h3 className="text-center font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
-                      {item.title}
-                    </h3>
-                    {item.subtitle ? (
-                      <p className="mt-2 text-center text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-                        {item.subtitle}
-                      </p>
-                    ) : null}
+                  </div>
+                  <h3 className="font-display text-[1.1rem] font-semibold leading-snug text-slate-900 dark:text-zinc-50">
+                    {item.title}
+                  </h3>
+                  {item.subtitle ? (
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                      {item.subtitle}
+                    </p>
+                  ) : null}
+                  <ExternalLink
+                    href={item.url}
+                    className="mt-auto inline-flex items-center justify-center self-center rounded-lg bg-linear-to-r from-brand-600 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
+                  >
+                    Visit Official Website
                   </ExternalLink>
                 </motion.article>
               )
@@ -191,24 +253,24 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-8%' }}
                   transition={{ duration: 0.32 }}
-                  className="mt-4"
+                  className="mt-4 max-w-4xl"
                 >
                   <ExternalLink
                     href={v.url}
                     className="premium-card premium-glow-hover group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-rose-300/80 hover:shadow-md dark:hover:border-purple-400/50"
                   >
-                    <div className="relative aspect-video w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
+                    <div className="relative h-48 w-full overflow-hidden bg-slate-100 sm:h-56 md:h-60 dark:bg-zinc-800">
                       <img
                         src={youtubeLiveImage}
                         alt="Nursing Culture channel logo"
-                        className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                        className="h-full w-full object-cover object-center transition duration-300 group-hover:scale-[1.02]"
                         loading="lazy"
                       />
                       <span className="absolute left-2 top-2 rounded-md bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                         LIVE
                       </span>
                     </div>
-                    <div className="p-3">
+                    <div className="p-3 sm:p-3.5">
                       <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
                         {v.title}
                       </p>
@@ -252,6 +314,42 @@ export default function Home() {
                 )
               })}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200/80 bg-slate-50 py-10 sm:py-12 dark:border-sky-300/12 dark:bg-slate-900/32">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="News"
+            title="News Highlights"
+            description="Coverage of nursing student activities and updates from local newspapers."
+          />
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {newsHighlights.map((item, index) => (
+              <motion.article
+                key={item.id}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10%' }}
+                transition={{ duration: 0.3, delay: index * 0.04 }}
+                className="premium-card premium-glow-hover overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm"
+              >
+                <div className="aspect-4/3 w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-full w-full object-cover transition duration-300 hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-3">
+                  <p className="text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
+                    {item.title}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
