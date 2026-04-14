@@ -179,7 +179,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.45, delay: 0.2 }}
-            className="relative mx-auto w-full max-w-[240px] sm:max-w-xs lg:mx-0 lg:max-w-sm"
+            className="relative mx-auto hidden w-full max-w-[240px] sm:max-w-xs lg:mx-0 lg:block lg:max-w-sm"
           >
             <div className="pointer-events-none absolute inset-4 -z-10 rounded-full bg-gradient-to-br from-cyan-300/35 via-brand-200/20 to-indigo-300/30 blur-3xl dark:from-cyan-400/30 dark:via-brand-500/16 dark:to-indigo-400/28" />
             <img
@@ -325,7 +325,7 @@ export default function Home() {
             title="News Highlights"
             description="Coverage of nursing student activities and updates from local newspapers."
           />
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid max-h-[70vh] grid-cols-1 gap-4 overflow-y-auto pr-1 snap-y snap-mandatory sm:max-h-none sm:overflow-visible sm:pr-0 sm:snap-none sm:grid-cols-2 lg:grid-cols-3">
             {newsHighlights.map((item, index) => (
               <motion.article
                 key={item.id}
@@ -333,7 +333,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-10%' }}
                 transition={{ duration: 0.3, delay: index * 0.04 }}
-                className="premium-card premium-glow-hover overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm"
+                className="premium-card premium-glow-hover snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm"
               >
                 <div className="aspect-4/3 w-full overflow-hidden bg-slate-100 dark:bg-zinc-800">
                   <img
