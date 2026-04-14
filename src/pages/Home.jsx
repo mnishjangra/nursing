@@ -265,7 +265,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-8%' }}
                   transition={{ duration: 0.32 }}
-                  className="mt-4 max-w-[320px] sm:max-w-2xl lg:max-w-4xl"
+                  className="mt-4 w-full max-w-full sm:max-w-2xl lg:max-w-4xl"
                 >
                   <ExternalLink
                     href={v.url}
@@ -358,7 +358,7 @@ export default function Home() {
             </div>
             <div
               ref={newsSliderRef}
-              className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-3"
+              className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none lg:grid-cols-3"
             >
             {newsHighlights.map((item, index) => (
               <motion.article
@@ -367,9 +367,9 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-10%' }}
                 transition={{ duration: 0.3, delay: index * 0.04 }}
-                className="premium-card premium-glow-hover min-w-[74%] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm sm:min-w-0 sm:shrink"
+                className="premium-card premium-glow-hover min-h-[240px] min-w-[74%] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm sm:min-h-0 sm:min-w-0 sm:shrink"
               >
-                <div className="h-36 w-full overflow-hidden bg-slate-100 sm:h-auto sm:aspect-4/3 dark:bg-zinc-800">
+                <div className="h-44 w-full overflow-hidden bg-slate-100 sm:h-auto sm:aspect-4/3 dark:bg-zinc-800">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -377,7 +377,7 @@ export default function Home() {
                     loading="lazy"
                   />
                 </div>
-                <div className="p-3">
+                <div className="p-3.5">
                   <p className="text-sm font-semibold leading-snug text-slate-900 dark:text-zinc-100">
                     {item.title}
                   </p>
