@@ -342,17 +342,29 @@ export const resultLinks = [
   },
 ]
 
-export const resultsCourses = [
-  { id: 'res-anm', name: 'ANM', url: RESULTS_LINK },
-  { id: 'res-gnm', name: 'GNM', url: RESULTS_LINK },
-  { id: 'res-bsc', name: 'B.Sc Nursing', url: RESULTS_LINK },
-  { id: 'res-post-basic', name: 'Post Basic Nursing', url: RESULTS_LINK },
-  { id: 'res-msc', name: 'M.Sc Nursing', url: RESULTS_LINK },
-  { id: 'res-dmlt', name: 'DMLT', url: 'https://www.hsbte.org.in/index' },
-  { id: 'res-dpharm', name: 'D.Pharmacy', url: 'http://103.234.185.158/show_my_result' },
-  { id: 'res-bpharm', name: 'B.Pharmacy', url: 'https://uhsr.ac.in/detail.aspx?artid=104&menuid=102' },
-  { id: 'res-paramed', name: 'Paramedical Courses', url: RESULTS_LINK },
-]
+const resultCourseUrlByName = {
+  DMLT: 'https://www.hsbte.org.in/index',
+  'D.Pharmacy': 'http://103.234.185.158/show_my_result',
+  'B.Pharmacy': RESULTS_LINK,
+}
+
+const toCourseId = (name) =>
+  `res-${name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')}`
+
+/**
+ * Keep Results course list in sync with Admission course list.
+ * Any course added in admissionHomeGroups appears automatically in resultsCourses.
+ */
+export const resultsCourses = admissionHomeGroups
+  .flatMap((group) => group.courses)
+  .map((course) => ({
+    id: toCourseId(course.name),
+    name: course.name,
+    url: resultCourseUrlByName[course.name] || RESULTS_LINK,
+  }))
 
 export const recentUpdates = []
 
