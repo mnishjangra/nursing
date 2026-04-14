@@ -20,6 +20,12 @@ export function Footer() {
             Quick links
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-3 text-sm font-medium text-slate-600 dark:text-zinc-200">
+            <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/admission">
+              Admission
+            </Link>
+            <span aria-hidden className="text-slate-300 dark:text-slate-700">
+              ·
+            </span>
             <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/updates">
               Updates
             </Link>

@@ -590,6 +590,14 @@ export function getSearchableItems() {
       section: 'Pages',
       type: 'route',
     },
+  {
+    id: 'page-admission',
+    title: 'Admission form',
+    subtitle: 'Apply for nursing courses',
+    path: '/admission',
+    section: 'Pages',
+    type: 'route',
+  },
     {
       id: 'page-social',
       title: 'Social connect',

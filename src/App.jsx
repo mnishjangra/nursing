@@ -6,6 +6,7 @@ import Resources from './pages/Resources'
 import Updates from './pages/Updates'
 import Social from './pages/Social'
 import About from './pages/About'
+import Admission from './pages/Admission'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/updates" element={<Updates />} />
             <Route path="/social" element={<Social />} />
             <Route path="/about" element={<About />} />
+            <Route path="/admission" element={<Admission />} />
           </Route>
         </Routes>
       </BrowserRouter>
