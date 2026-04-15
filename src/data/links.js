@@ -177,6 +177,27 @@ export const academicsHome = {
       url: 'https://t.me/anmgnmphw',
       internal: false,
     },
+    {
+      id: 'ac-uhsr-rechecking-form',
+      title: 'Form for re-checking of answer books (UHSR)',
+      subtitle: 'Official UHSR PDF form for answer book re-checking.',
+      url: 'https://uhsr.ac.in/writereaddata/upload/QuickLinks/RECHECKINGFORM.pdf',
+      internal: false,
+    },
+    {
+      id: 'ac-hnc-recognised-institute',
+      title: 'Recognised institute list (ANM, GNM, B.Sc, Post Basic, M.Sc Nursing)',
+      subtitle: 'Haryana Nurses Council official portal.',
+      url: 'https://www.haryananursescouncil.in/index.html#',
+      internal: false,
+    },
+    {
+      id: 'ac-hnc-fee-structure',
+      title: 'Nursing fee structure',
+      subtitle: 'Official fees page on Haryana Nurses Council.',
+      url: 'https://www.haryananursescouncil.in/free_structure.html',
+      internal: false,
+    },
   ],
   otherResults: [],
 }
