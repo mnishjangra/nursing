@@ -205,13 +205,21 @@ export default function Admission() {
                 required
                 value={formData.course}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-200/70 dark:border-sky-300/25 dark:bg-slate-800/65 dark:text-zinc-100 dark:focus:border-cyan-300 dark:focus:ring-cyan-400/20"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-200/70 dark:border-sky-300/25 dark:bg-slate-800/65 dark:text-zinc-100 dark:focus:border-cyan-300 dark:focus:ring-cyan-400/20 dark:scheme-dark"
               >
-                <option value="" disabled>
+                <option
+                  value=""
+                  disabled
+                  className="bg-white text-slate-400 dark:bg-slate-900 dark:text-zinc-500"
+                >
                   Choose your course
                 </option>
                 {courseOptions.map((course) => (
-                  <option key={course} value={course}>
+                  <option
+                    key={course}
+                    value={course}
+                    className="bg-white text-slate-900 dark:bg-slate-900 dark:text-zinc-100"
+                  >
                     {course}
                   </option>
                 ))}
