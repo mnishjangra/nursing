@@ -613,8 +613,8 @@ export function getSearchableItems() {
     },
   {
     id: 'page-admission',
-    title: 'Admission form',
-    subtitle: 'Apply for nursing courses',
+    title: 'Admission enquiry form',
+    subtitle: 'Send your enquiry for nursing courses',
     path: '/admission',
     section: 'Pages',
     type: 'route',

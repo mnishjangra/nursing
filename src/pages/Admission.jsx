@@ -101,7 +101,7 @@ export default function Admission() {
 
       setStatus({
         type: 'success',
-        message: 'Admission form submitted successfully. We will contact you shortly.',
+        message: 'Admission enquiry submitted successfully. We will contact you shortly.',
       })
       setFormData(initialForm)
     } catch {
@@ -120,8 +120,8 @@ export default function Admission() {
       <section className="border-b border-slate-200/70 bg-linear-to-br from-sky-50 via-white to-indigo-50/60 py-10 dark:border-sky-300/15 dark:from-[#071124] dark:via-[#0a142b] dark:to-[#07111f] sm:py-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="Admissions"
-            title="Admission Form"
+            eyebrow="Admission Enquiry"
+            title="Admission Enquiry Form"
             description="Fill out the form below and our team will reach out with the next steps."
           />
         </div>
@@ -258,7 +258,7 @@ export default function Admission() {
               disabled={isSubmitting}
               className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-brand-600 via-cyan-500 to-indigo-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-500/30 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 dark:from-cyan-500 dark:via-sky-500 dark:to-indigo-500 dark:shadow-cyan-500/35"
             >
-              {isSubmitting ? 'Submitting...' : 'Apply Now'}
+              {isSubmitting ? 'Submitting...' : 'Send Enquiry'}
             </button>
           </form>
         </motion.div>
