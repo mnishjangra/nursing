@@ -32,52 +32,9 @@ const officialIconMap = {
   'official-hnc': FiShield,
 }
 
-const jobToneClass = {
-  green:
-    'border-l-emerald-500 bg-emerald-50/70 dark:border-l-emerald-400 dark:bg-emerald-950/35 dark:ring-1 dark:ring-emerald-900/20',
-  blue:
-    'border-l-brand-500 bg-brand-50/80 dark:border-l-brand-400 dark:bg-brand-950/40 dark:ring-1 dark:ring-brand-900/25',
-  amber:
-    'border-l-amber-500 bg-amber-50/70 dark:border-l-amber-400 dark:bg-amber-950/35 dark:ring-1 dark:ring-amber-900/20',
-  rose:
-    'border-l-rose-500 bg-rose-50/70 dark:border-l-rose-400 dark:bg-rose-950/35 dark:ring-1 dark:ring-rose-900/20',
-}
-
-const cardSurface =
-  'premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white/90 p-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md dark:hover:border-cyan-400/45'
-
-function AcademicsRow({ row }) {
-  const body = (
-    <>
-      <p className="font-display text-sm font-semibold text-slate-900 dark:text-zinc-100">
-        {row.title}
-      </p>
-      {row.subtitle ? (
-        <p className="mt-1 text-xs leading-snug text-slate-600 dark:text-zinc-400">{row.subtitle}</p>
-      ) : null}
-      <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 dark:text-brand-300">
-        Open
-        <FiArrowUpRight className="text-sm" aria-hidden />
-      </span>
-    </>
-  )
-
-  if (row.internal && row.path) {
-    return (
-      <Link to={row.path} className={`block ${cardSurface}`}>
-        {body}
-      </Link>
-    )
-  }
-
-  return (
-    <ExternalLink href={row.url} className={`block ${cardSurface}`}>
-      {body}
-    </ExternalLink>
-  )
-}
-
 export default function Home() {
+  const admissionCourses = admissionHomeGroups.flatMap((group) => group.courses)
+
   return (
     <main>
       <section
@@ -278,141 +235,315 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-        <SectionHeading
-          eyebrow="Plan your path"
-          title="Admissions, academics, results, and jobs"
-          description="Admissions and results follow a course-first layout, while academics keeps only ANM/GNM papers and jobs links to official recruitment sources."
-        />
-        <div className="mt-6 grid gap-5 lg:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 0.32 }}
-            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-          >
-            <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
-              Admissions
-            </h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              Tap a course to open the listed authority's admission information.
-            </p>
-            <div className="mt-4 max-h-[min(62vh,400px)] space-y-5 overflow-y-auto pr-0.5">
-              {admissionHomeGroups.map((group) => (
-                <div key={group.id}>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">
-                    {group.title}
-                  </p>
-                  <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-zinc-500">
-                    {group.authority}
-                  </p>
-                  <ul className="mt-2 space-y-1">
-                    {group.courses.map((c) => (
-                      <li key={c.name}>
-                        <ExternalLink
-                          href={c.url}
-                          className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-slate-100 dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45 dark:hover:bg-slate-700/70"
-                        >
-                          <span>{c.name}</span>
-                          <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
-                        </ExternalLink>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 0.32, delay: 0.08 }}
-            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-          >
-            <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
-              Results
-            </h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              Tap a course to open the official result page.
-            </p>
-            <div className="mt-4 max-h-[min(62vh,400px)] overflow-y-auto pr-0.5">
-              <ul className="space-y-1">
-                {resultsCourses.map((course) => (
-                  <li key={course.id}>
-                  <ExternalLink
-                    href={course.url}
-                    className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-2.5 py-1.5 text-sm font-medium text-slate-800 transition hover:border-brand-200 hover:bg-slate-100 dark:border-sky-300/16 dark:bg-slate-800/55 dark:text-zinc-100 dark:backdrop-blur-md dark:hover:border-cyan-300/45 dark:hover:bg-slate-700/70"
-                  >
-                    <span>{course.name}</span>
-                    <FiArrowUpRight className="shrink-0 text-slate-400 dark:text-zinc-500" aria-hidden />
-                  </ExternalLink>
-                </li>
+      <section className="border-y border-slate-200/80 bg-slate-100/70 py-10 sm:py-12 dark:border-sky-300/12 dark:bg-slate-900/35">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Plan your path"
+            title="Admissions, academics, results, and jobs"
+            description="Admissions and results follow a course-first layout, while academics keeps only ANM/GNM papers and jobs links to official recruitment sources."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28 }}
+              className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
+                Admissions
+              </h3>
+              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+                {admissionCourses.map((course) => (
+                  <li key={`adm-${course.name}`} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
+                    <ExternalLink
+                      href={course.url}
+                      className="flex items-center gap-2 py-2.5 text-[0.95rem] font-medium text-slate-700 transition hover:text-brand-700 dark:text-zinc-200 dark:hover:text-cyan-300"
+                    >
+                      <span className="text-slate-400 dark:text-zinc-500" aria-hidden>
+                        &rsaquo;
+                      </span>
+                      <span>{course.name} admission</span>
+                    </ExternalLink>
+                  </li>
                 ))}
               </ul>
-            </div>
-          </motion.div>
+            </motion.article>
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 0.32, delay: 0.05 }}
-            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-          >
-            <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
-              Academics
-            </h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              Keep preparation focused with previous year papers for ANM and GNM.
-            </p>
-            <div className="mt-4 space-y-2">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-500">
-                ANM &amp; GNM
-              </p>
-              {academicsHome.anmGnm.map((row) => (
-                <AcademicsRow key={row.id} row={row} />
-              ))}
-            </div>
-          </motion.div>
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.04 }}
+              className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
+                Academics
+              </h3>
+              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+                {academicsHome.anmGnm.map((row) => (
+                  <li key={row.id} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
+                    {row.internal && row.path ? (
+                      <Link
+                        to={row.path}
+                        className="flex items-center gap-2 py-2.5 text-[0.95rem] font-medium text-slate-700 transition hover:text-brand-700 dark:text-zinc-200 dark:hover:text-cyan-300"
+                      >
+                        <span className="text-slate-400 dark:text-zinc-500" aria-hidden>
+                          &rsaquo;
+                        </span>
+                        <span>{row.title}</span>
+                      </Link>
+                    ) : (
+                      <ExternalLink
+                        href={row.url}
+                        className="flex items-center gap-2 py-2.5 text-[0.95rem] font-medium text-slate-700 transition hover:text-brand-700 dark:text-zinc-200 dark:hover:text-cyan-300"
+                      >
+                        <span className="text-slate-400 dark:text-zinc-500" aria-hidden>
+                          &rsaquo;
+                        </span>
+                        <span>{row.title}</span>
+                      </ExternalLink>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 0.32, delay: 0.1 }}
-            className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-          >
-            <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">Jobs</h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              Start from the official notice — never rely on screenshots alone.
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              {jobsHome.map((job) => (
-                <li
-                  key={job.id}
-                  className={`rounded-xl border border-slate-200/90 border-l-[3px] p-3 dark:border-zinc-700/80 ${jobToneClass[job.tone]}`}
-                >
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-600 dark:text-zinc-400">
-                    {job.title}
-                  </p>
-                  <ExternalLink
-                    href={job.url}
-                    className="mt-0.5 block font-display text-[15px] font-semibold leading-snug text-slate-900 underline-offset-2 hover:underline dark:text-zinc-50"
-                  >
-                    {job.name}
-                    <FiArrowUpRight className="ml-0.5 inline text-sm text-slate-400 dark:text-zinc-500" aria-hidden />
-                  </ExternalLink>
-                  <p className="mt-1 text-xs leading-snug text-slate-600 dark:text-zinc-400">{job.hint}</p>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.08 }}
+              className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
+                Results
+              </h3>
+              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+                {resultsCourses.map((course) => (
+                  <li key={course.id} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
+                    <ExternalLink
+                      href={course.url}
+                      className="flex items-center gap-2 py-2.5 text-[0.95rem] font-medium text-slate-700 transition hover:text-brand-700 dark:text-zinc-200 dark:hover:text-cyan-300"
+                    >
+                      <span className="text-slate-400 dark:text-zinc-500" aria-hidden>
+                        &rsaquo;
+                      </span>
+                      <span>{course.name} result</span>
+                    </ExternalLink>
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.12 }}
+              className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
+                Jobs
+              </h3>
+              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+                {jobsHome.map((job) => (
+                  <li key={job.id} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
+                    <ExternalLink
+                      href={job.url}
+                      className="flex items-center gap-2 py-2.5 text-[0.95rem] font-medium text-slate-700 transition hover:text-brand-700 dark:text-zinc-200 dark:hover:text-cyan-300"
+                    >
+                      <span className="text-slate-400 dark:text-zinc-500" aria-hidden>
+                        &rsaquo;
+                      </span>
+                      <span>{job.name}</span>
+                    </ExternalLink>
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
+          </div>
         </div>
       </section>
+
+      <section className="border-b border-slate-200/80 bg-white py-10 sm:py-12 dark:border-sky-300/12 dark:bg-slate-900/30">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Why us"
+            title="Built for nursing learners in Haryana"
+            description="A focused static website that brings official links, structured study material, and course resources together in one place."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28 }}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-brand-600 dark:bg-sky-500/10 dark:text-cyan-300">
+                <FiShield className="text-xl" aria-hidden />
+              </div>
+              <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
+                Official-first links
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Every key destination points to university or government sources for safer decision-making.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.04 }}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-brand-600 dark:bg-sky-500/10 dark:text-cyan-300">
+                <FiClipboard className="text-xl" aria-hidden />
+              </div>
+              <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
+                Course-focused navigation
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Admissions, academics, and results are arranged by course to reduce confusion and save time.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.08 }}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-brand-600 dark:bg-sky-500/10 dark:text-cyan-300">
+                <FiActivity className="text-xl" aria-hidden />
+              </div>
+              <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
+                Clear section-wise browsing
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Admissions, academics, results, and jobs are grouped in separate blocks for quick navigation.
+              </p>
+            </motion.article>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200/80 bg-slate-100/65 py-10 sm:py-12 dark:border-sky-300/12 dark:bg-slate-900/35">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Get started"
+            title="How to use this website"
+            description="Follow these simple steps to use this static resource portal effectively."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28 }}
+              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-base font-semibold text-slate-900 dark:text-zinc-50">1. Check admission</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Start from course-wise admission pages and confirm eligibility details first.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.04 }}
+              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-base font-semibold text-slate-900 dark:text-zinc-50">2. Review academics</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Use ANM/GNM papers and practical resources to plan your own study schedule.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.08 }}
+              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-base font-semibold text-slate-900 dark:text-zinc-50">3. Track results</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Open course result links and confirm announcements directly on official portals.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.12 }}
+              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-base font-semibold text-slate-900 dark:text-zinc-50">4. Apply for jobs</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Follow the jobs section and submit only through official recruitment websites.
+              </p>
+            </motion.article>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200/80 bg-white py-10 sm:py-12 dark:border-sky-300/12 dark:bg-slate-900/30">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Reference guide"
+            title="Smart way to browse"
+            description="Use this static directory as a quick reference for admissions, academics, results, and jobs."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28 }}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">Start with official pages</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Begin from university or government links listed here before following any third-party source.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.04 }}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">Use academics as reference</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Browse paper and syllabus links to build your own notes and exam preparation plan.
+              </p>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.28, delay: 0.08 }}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55"
+            >
+              <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">Verify before action</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+                Before applying or paying any fee, verify eligibility, dates, and notices on official websites.
+              </p>
+            </motion.article>
+          </div>
+        </div>
+      </section>
+
     </main>
   )
 }

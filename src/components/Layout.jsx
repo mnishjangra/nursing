@@ -9,9 +9,7 @@ export function Layout() {
       <main className="flex-1">
         <Outlet />
       </main>
-      <div className="mt-auto">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   )
 }
