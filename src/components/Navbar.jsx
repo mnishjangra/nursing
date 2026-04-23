@@ -9,10 +9,10 @@ import logoDark from '../assets/logod.png'
 
 const nav = [
   { to: '/', label: 'Home' },
+  { to: '/about', label: 'About' },
   { to: '/admission', label: 'Admission Enquiry' },
   { to: '/updates', label: 'Updates' },
   { to: '/social', label: 'Social' },
-  { to: '/about', label: 'About' },
 ]
 
 const linkClass =

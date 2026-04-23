@@ -9,7 +9,7 @@ export default function Updates() {
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <SectionHeading
         eyebrow="Stay current"
-        title="Results, admission enquiries, and hiring"
+        title="Results, admissions, and hiring"
         description="Each card opens the official source in a new tab. Always confirm dates, fees, and eligibility on the live government or university website."
       />
 
@@ -52,7 +52,7 @@ export default function Updates() {
 
         <section>
           <h2 className="mb-3 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
-            Admission Enquiry & counselling
+            Admissions & counselling
           </h2>
           <p className="mb-5 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
             <strong className="font-semibold text-slate-800 dark:text-zinc-100">

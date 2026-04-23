@@ -282,8 +282,8 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
         <SectionHeading
           eyebrow="Plan your path"
-          title="Admission enquiries, academics, results, and jobs"
-          description="Admission enquiries and results follow a course-first layout, while academics keeps only ANM/GNM papers and jobs links to official recruitment sources."
+          title="Admissions, academics, results, and jobs"
+          description="Admissions and results follow a course-first layout, while academics keeps only ANM/GNM papers and jobs links to official recruitment sources."
         />
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
           <motion.div
@@ -294,10 +294,10 @@ export default function Home() {
             className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           >
             <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
-              Admission Enquiry
+              Admissions
             </h2>
             <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-              Tap a course to open the listed authority's admission enquiry information.
+              Tap a course to open the listed authority's admission information.
             </p>
             <div className="mt-4 max-h-[min(62vh,400px)] space-y-5 overflow-y-auto pr-0.5">
               {admissionHomeGroups.map((group) => (
