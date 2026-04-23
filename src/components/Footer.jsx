@@ -55,7 +55,7 @@ export function Footer() {
         </div>
       </div>
       <p className="mt-6 border-t border-slate-200/70 pt-4 text-center text-xs text-slate-500 dark:border-zinc-700/60 dark:text-zinc-500">
-        © {new Date().getFullYear()} {site.name}.
+        © {new Date().getFullYear()} {site.name}. Nursing and paramedical guidance hub for Haryana.
       </p>
     </footer>
   )
