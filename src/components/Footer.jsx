@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
-import { site } from '../data/links'
+import { useContent } from '../context/useContent'
 
 export function Footer() {
+  const { content } = useContent()
+  const site = content.site || {}
+
   return (
     <footer className="border-t border-slate-200 bg-white/85 py-10 sm:py-12 dark:border-zinc-700/70 dark:bg-zinc-900/65 dark:backdrop-blur-xl">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">

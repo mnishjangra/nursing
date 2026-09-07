@@ -6,16 +6,7 @@ import { SectionHeading } from '../components/SectionHeading'
 import { ExternalLink } from '../components/ExternalLink'
 import girlImage from '../assets/girlimage.png'
 import youtubeLiveImage from '../assets/youtubelive.jpeg'
-import {
-  admissionHomeGroups,
-  academicsHome,
-  featuredYoutubeVideos,
-  jobsHome,
-  officialPrimarySites,
-  resultsCourses,
-  site,
-  socialChannels,
-} from '../data/links'
+import { useContent } from '../context/useContent'
 
 const socialIconMap = {
   telegram: FaTelegram,
@@ -33,7 +24,18 @@ const officialIconMap = {
 }
 
 export default function Home() {
-  const admissionCourses = admissionHomeGroups.flatMap((group) => group.courses)
+  const { content } = useContent()
+  const {
+    admissionHomeGroups = [],
+    academicsHome = { anmGnm: [], otherResults: [] },
+    featuredYoutubeVideos = [],
+    jobsHome = [],
+    officialPrimarySites = [],
+    resultsCourses = [],
+    site = {},
+    socialChannels = [],
+  } = content
+  const admissionCourses = admissionHomeGroups.flatMap((group) => group.courses || [])
 
   return (
     <main>
@@ -253,7 +255,7 @@ export default function Home() {
               <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
                 Admissions
               </h3>
-              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+              <ul className="thin-scrollbar h-[24rem] overflow-y-auto px-3 pb-3">
                 {admissionCourses.map((course) => (
                   <li key={`adm-${course.name}`} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
                     <ExternalLink
@@ -280,8 +282,8 @@ export default function Home() {
               <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
                 Academics
               </h3>
-              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
-                {academicsHome.anmGnm.map((row) => (
+              <ul className="thin-scrollbar h-[24rem] overflow-y-auto px-3 pb-3">
+                {(academicsHome.anmGnm || []).map((row) => (
                   <li key={row.id} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
                     {row.internal && row.path ? (
                       <Link
@@ -319,7 +321,7 @@ export default function Home() {
               <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
                 Results
               </h3>
-              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+              <ul className="thin-scrollbar h-[24rem] overflow-y-auto px-3 pb-3">
                 {resultsCourses.map((course) => (
                   <li key={course.id} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
                     <ExternalLink
@@ -346,7 +348,7 @@ export default function Home() {
               <h3 className="m-2 rounded-md bg-[#1f74b7] px-3 py-2 text-center font-display text-[1.15rem] font-bold text-white">
                 Jobs
               </h3>
-              <ul className="h-[24rem] overflow-y-auto px-3 pb-3">
+              <ul className="thin-scrollbar h-[24rem] overflow-y-auto px-3 pb-3">
                 {jobsHome.map((job) => (
                   <li key={job.id} className="border-b border-slate-200/80 last:border-b-0 dark:border-slate-700/70">
                     <ExternalLink

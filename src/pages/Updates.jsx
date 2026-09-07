@@ -2,9 +2,15 @@ import { SectionHeading } from '../components/SectionHeading'
 import { LinkCard } from '../components/LinkCard'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { ExternalLink } from '../components/ExternalLink'
-import { admissionLinks, jobLinks, resultLinks, resultsCourses } from '../data/links'
+import { useContent } from '../context/useContent'
 
 export default function Updates() {
+  const { content } = useContent()
+  const admissionLinks = content.admissionLinks || []
+  const jobLinks = content.jobLinks || []
+  const resultLinks = content.resultLinks || []
+  const resultsCourses = content.resultsCourses || []
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <SectionHeading
@@ -26,7 +32,7 @@ export default function Updates() {
               <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
                 Open the official result source for your course.
               </p>
-              <div className="mt-4 max-h-[420px] overflow-y-auto pr-1 sm:max-h-[460px]">
+              <div className="thin-scrollbar mt-4 max-h-[420px] overflow-y-auto pr-1 sm:max-h-[460px]">
                 <ul className="space-y-1">
                   {resultsCourses.map((course) => (
                     <li key={course.id}>

@@ -1,25 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { apiRequest } from '../api'
 import { SectionHeading } from '../components/SectionHeading'
-
-/**
- * Google Sheets only accepts writes through a bound **Apps Script** deployed as a **Web app**.
- *
- * Wrong (sheet UI / share link — POST will never append rows):
- *   https://docs.google.com/spreadsheets/d/.../edit...
- *
- * Right (Deploy → Web app → copy URL):
- *   https://script.google.com/macros/s/AKfycb.../exec
- *
- * Optional: set VITE_ADMISSION_SCRIPT_URL in `.env` so the real URL is not committed.
- */
-const SCRIPT_URL =
-  import.meta.env.VITE_ADMISSION_SCRIPT_URL?.trim() ||
-  'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec'
-
-function isSheetEditUrl(url) {
-  return /docs\.google\.com\/spreadsheets\//i.test(url)
-}
 
 function getCreatedAt() {
   return new Date().toLocaleString('en-IN', {
@@ -56,59 +38,30 @@ export default function Admission() {
   async function handleSubmit(event) {
     event.preventDefault()
     setStatus({ type: '', message: '' })
-
-    if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) {
-      setStatus({
-        type: 'error',
-        message:
-          'Submission URL is not configured. Use your Apps Script Web App URL (script.google.com/macros/s/.../exec), or set VITE_ADMISSION_SCRIPT_URL in .env.',
-      })
-      return
-    }
-
-    if (isSheetEditUrl(SCRIPT_URL)) {
-      setStatus({
-        type: 'error',
-        message:
-          'SCRIPT_URL is a Google Sheet link, not a Web App URL. In Apps Script: Deploy → New deployment → Web app, then paste the /macros/s/.../exec link here (or in VITE_ADMISSION_SCRIPT_URL).',
-      })
-      return
-    }
-
     setIsSubmitting(true)
 
-    const payload = {
-      fullName: formData.fullName.trim(),
-      email: formData.email.trim(),
-      phone: String(formData.phone).trim(),
-      course: formData.course,
-      message: formData.message.trim(),
-      createdAt: getCreatedAt(),
-    }
-
     try {
-        const response = await fetch(SCRIPT_URL, {
+      await apiRequest('/api/admission-enquiries', {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload),
+        body: {
+          fullName: formData.fullName.trim(),
+          email: formData.email.trim(),
+          phone: String(formData.phone).trim(),
+          course: formData.course,
+          message: formData.message.trim(),
+          createdAt: getCreatedAt(),
+        },
       })
-
-      const responseText = await response.text()
-
-      if (!response.ok) {
-        throw new Error(responseText || `HTTP ${response.status}`)
-      }
 
       setStatus({
         type: 'success',
         message: 'Admission enquiry submitted successfully. We will contact you shortly.',
       })
       setFormData(initialForm)
-    } catch {
+    } catch (error) {
       setStatus({
         type: 'error',
-        message:
-          'Unable to submit. Check the Web App URL, deployment access (“Anyone”), and that doPost parses JSON from e.postData.contents.',
+        message: error.message || 'Unable to submit the admission enquiry. Please try again.',
       })
     } finally {
       setIsSubmitting(false)

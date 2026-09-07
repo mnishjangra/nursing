@@ -2,12 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SectionHeading } from '../components/SectionHeading'
 import { LinkCard } from '../components/LinkCard'
-import {
-  examForms,
-  questionPapers,
-  reevalForms,
-  syllabusLinks,
-} from '../data/links'
+import { useContent } from '../context/useContent'
 
 const tabs = [
   { id: 'papers', label: 'Question papers' },
@@ -17,13 +12,18 @@ const tabs = [
 
 export default function Resources() {
   const [tab, setTab] = useState('papers')
+  const { content } = useContent()
+  const examForms = content.examForms || []
+  const questionPapers = content.questionPapers || []
+  const reevalForms = content.reevalForms || []
+  const syllabusLinks = content.syllabusLinks || []
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <SectionHeading
         eyebrow="Academics"
         title="Papers, syllabus, and official forms"
-        description="Swap every URL in `links.js` with your board PDFs, Drive folders, or notice pages. External links always open in a new tab."
+        description="Question papers, syllabus, and official forms. Every URL can be updated from the admin panel."
       />
 
       <div className="premium-card mb-6 flex flex-wrap gap-2 rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-zinc-600/55 dark:bg-zinc-800/55">

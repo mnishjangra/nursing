@@ -2,9 +2,12 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { SectionHeading } from '../components/SectionHeading'
-import { site } from '../data/links'
+import { useContent } from '../context/useContent'
 
 export default function About() {
+  const { content } = useContent()
+  const site = content.site || {}
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <SectionHeading
@@ -21,13 +24,13 @@ export default function About() {
           transition={{ duration: 0.35 }}
           className="premium-card premium-glow-hover rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
         >
-          <h3 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
-            Why static?
+            <h3 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
+            Why this hub?
           </h3>
           <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-            <li>Zero servers to babysit — deploy on any static host in minutes.</li>
-            <li>No accounts, passwords, or databases that could leak student data.</li>
-            <li>Every “update” is a transparent edit to the link list you control.</li>
+            <li>Official admission, result, and job links stay in one place.</li>
+            <li>Links and notices can be updated from an admin panel without a full redeploy.</li>
+            <li>Students still land on government and university sources, not unofficial copies.</li>
           </ul>
         </motion.div>
 

@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { FiSearch, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getSearchableItems } from '../data/links'
+import { useContent } from '../context/useContent'
 
 function SearchModalPanel({ onClose }) {
   const [query, setQuery] = useState('')
   const inputRef = useRef(null)
   const navigate = useNavigate()
 
-  const items = useMemo(() => getSearchableItems(), [])
+  const { content } = useContent()
+  const items = useMemo(() => getSearchableItems(content), [content])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -84,7 +86,7 @@ function SearchModalPanel({ onClose }) {
             <FiX className="text-lg" />
           </button>
         </div>
-        <ul className="max-h-[min(60vh,420px)] divide-y divide-slate-100 overflow-y-auto dark:divide-zinc-800">
+        <ul className="thin-scrollbar max-h-[min(60vh,420px)] divide-y divide-slate-100 overflow-y-auto dark:divide-zinc-800">
           {filtered.length === 0 ? (
             <li className="px-4 py-6 text-center text-sm text-slate-500 dark:text-zinc-400">
               No matches. Try “result”, “ANM”, or “NHM”.

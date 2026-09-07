@@ -1,6 +1,6 @@
 /**
- * Central link registry — replace URLs with your permanent Telegram / WhatsApp /
- * official portals. All entries are static; no backend required.
+ * Default link registry used to seed MongoDB and as a fallback when the API is offline.
+ * Live values are edited from the admin panel and stored in the database.
  */
 
 export const site = {
@@ -493,9 +493,32 @@ export const socialChannels = [
   },
 ]
 
+export const defaultContent = {
+  site,
+  highlights,
+  officialPrimarySites,
+  featuredYoutubeVideos,
+  admissionHomeGroups,
+  academicsHome,
+  jobsHome,
+  quickNav,
+  quickAccess,
+  questionPapers,
+  syllabusLinks,
+  examForms,
+  reevalForms,
+  resultLinks,
+  resultsCourses,
+  recentUpdates,
+  admissionLinks,
+  jobLinks,
+  socialChannels,
+}
+
 /** Flattened list for global search */
-export function getSearchableItems() {
+export function getSearchableItems(content = defaultContent) {
   const items = []
+  const data = { ...defaultContent, ...content }
 
   const pushExternal = (entry, section) => {
     items.push({
@@ -508,7 +531,7 @@ export function getSearchableItems() {
     })
   }
 
-  highlights.forEach((h) =>
+  ;(data.highlights || []).forEach((h) =>
     items.push({
       id: h.id,
       title: h.title,
@@ -519,7 +542,7 @@ export function getSearchableItems() {
     }),
   )
 
-  quickNav.forEach((q) =>
+  ;(data.quickNav || []).forEach((q) =>
     items.push({
       id: q.title,
       title: q.title,
@@ -530,17 +553,17 @@ export function getSearchableItems() {
     }),
   )
 
-  officialPrimarySites.forEach((q) => pushExternal(q, 'Official sites'))
+  ;(data.officialPrimarySites || []).forEach((q) => pushExternal(q, 'Official sites'))
 
-  quickAccess.forEach((q) => pushExternal(q, 'Quick access'))
-  questionPapers.forEach((q) => pushExternal(q, 'Question papers'))
-  syllabusLinks.forEach((q) => pushExternal(q, 'Syllabus'))
-  examForms.forEach((q) => pushExternal(q, 'Exam forms'))
-  reevalForms.forEach((q) => pushExternal(q, 'Re-evaluation'))
-  resultLinks.forEach((q) => pushExternal(q, 'Results'))
-  admissionLinks.forEach((q) => pushExternal(q, 'Admissions'))
-  jobLinks.forEach((q) => pushExternal(q, 'Jobs'))
-  socialChannels.forEach((q) =>
+  ;(data.quickAccess || []).forEach((q) => pushExternal(q, 'Quick access'))
+  ;(data.questionPapers || []).forEach((q) => pushExternal(q, 'Question papers'))
+  ;(data.syllabusLinks || []).forEach((q) => pushExternal(q, 'Syllabus'))
+  ;(data.examForms || []).forEach((q) => pushExternal(q, 'Exam forms'))
+  ;(data.reevalForms || []).forEach((q) => pushExternal(q, 'Re-evaluation'))
+  ;(data.resultLinks || []).forEach((q) => pushExternal(q, 'Results'))
+  ;(data.admissionLinks || []).forEach((q) => pushExternal(q, 'Admissions'))
+  ;(data.jobLinks || []).forEach((q) => pushExternal(q, 'Jobs'))
+  ;(data.socialChannels || []).forEach((q) =>
     items.push({
       id: q.id,
       title: q.label,
@@ -551,7 +574,7 @@ export function getSearchableItems() {
     }),
   )
 
-  featuredYoutubeVideos.forEach((v) =>
+  ;(data.featuredYoutubeVideos || []).forEach((v) =>
     items.push({
       id: v.id,
       title: v.title,
@@ -562,7 +585,7 @@ export function getSearchableItems() {
     }),
   )
 
-  academicsHome.anmGnm.forEach((row) => {
+  ;(data.academicsHome?.anmGnm || []).forEach((row) => {
     if (row.internal && row.path) {
       items.push({
         id: row.id,
@@ -583,7 +606,7 @@ export function getSearchableItems() {
       })
     }
   })
-  academicsHome.otherResults.forEach((row) =>
+  ;(data.academicsHome?.otherResults || []).forEach((row) =>
     items.push({
       id: row.id,
       title: row.title,
