@@ -76,6 +76,7 @@ const NAV_GROUPS = [
   {
     heading: 'Updates',
     items: [
+      { id: 'recentUpdates', label: 'Latest updates' },
       { id: 'resultsCourses', label: 'Result courses' },
       { id: 'resultLinks', label: 'Result websites' },
       { id: 'admissionLinks', label: 'Admission websites' },
@@ -100,7 +101,6 @@ const NAV_GROUPS = [
     items: [
       { id: 'quickAccess', label: 'Quick links' },
       { id: 'quickNav', label: 'Menu shortcuts' },
-      { id: 'recentUpdates', label: 'Latest updates' },
     ],
   },
 ]
@@ -169,7 +169,7 @@ const SIMPLE_FIELDS = {
   recentUpdates: [
     { name: 'title', label: 'Name' },
     { name: 'url', label: 'Link' },
-    { name: 'date', label: 'Date' },
+    { name: 'date', label: 'Date', type: 'date' },
   ],
 }
 
@@ -323,6 +323,20 @@ function PaginationBar({
 }
 
 function Field({ field, value, onChange }) {
+  if (field.type === 'date') {
+    return (
+      <div>
+        <label className={labelClass}>{field.label}</label>
+        <input
+          type="date"
+          className={inputClass}
+          value={value ?? ''}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      </div>
+    )
+  }
+
   if (field.type === 'page') {
     return (
       <div>
@@ -1167,14 +1181,21 @@ export default function AdminPanel() {
     const fields = SIMPLE_FIELDS[section]
     if (fields) {
       return (
-        <ArrayEditor
-          key={section}
-          items={draft[section] || []}
-          fields={fields}
-          blank={BLANKS[section]}
-          prefix={section}
-          onChange={(items) => setDraft((d) => ({ ...d, [section]: items }))}
-        />
+        <div className="space-y-4">
+          {section === 'recentUpdates' ? (
+            <p className="text-sm text-slate-600 dark:text-zinc-400">
+              These items appear at the top of the Updates page.
+            </p>
+          ) : null}
+          <ArrayEditor
+            key={section}
+            items={draft[section] || []}
+            fields={fields}
+            blank={BLANKS[section]}
+            prefix={section}
+            onChange={(items) => setDraft((d) => ({ ...d, [section]: items }))}
+          />
+        </div>
       )
     }
 

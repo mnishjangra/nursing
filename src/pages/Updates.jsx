@@ -1,5 +1,6 @@
 import { SectionHeading } from '../components/SectionHeading'
 import { LinkCard } from '../components/LinkCard'
+import { LatestUpdatesList } from '../components/LatestUpdatesList'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { ExternalLink } from '../components/ExternalLink'
 import { useContent } from '../context/useContent'
@@ -10,6 +11,7 @@ export default function Updates() {
   const jobLinks = content.jobLinks || []
   const resultLinks = content.resultLinks || []
   const resultsCourses = content.resultsCourses || []
+  const recentUpdates = content.recentUpdates || []
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -20,6 +22,20 @@ export default function Updates() {
       />
 
       <div className="space-y-10">
+        <section>
+          <div className="premium-card rounded-2xl border-2 border-brand-200 bg-white p-5 shadow-sm dark:border-cyan-300/40">
+            <h2 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
+              Latest updates
+            </h2>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+              Recent notices and links added from the admin panel.
+            </p>
+            <div className="mt-4">
+              <LatestUpdatesList items={recentUpdates} />
+            </div>
+          </div>
+        </section>
+
         <section>
           <h2 className="mb-4 font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
             Results

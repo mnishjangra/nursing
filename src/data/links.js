@@ -556,6 +556,16 @@ export function getSearchableItems(content = defaultContent) {
   ;(data.officialPrimarySites || []).forEach((q) => pushExternal(q, 'Official sites'))
 
   ;(data.quickAccess || []).forEach((q) => pushExternal(q, 'Quick access'))
+  ;(data.recentUpdates || []).forEach((q) =>
+    items.push({
+      id: q.id,
+      title: q.title,
+      subtitle: q.date || 'Latest updates',
+      url: q.url,
+      section: 'Latest updates',
+      type: 'external',
+    }),
+  )
   ;(data.questionPapers || []).forEach((q) => pushExternal(q, 'Question papers'))
   ;(data.syllabusLinks || []).forEach((q) => pushExternal(q, 'Syllabus'))
   ;(data.examForms || []).forEach((q) => pushExternal(q, 'Exam forms'))

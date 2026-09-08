@@ -282,7 +282,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.18, duration: 0.5 }}
-            className="relative mx-auto w-full max-w-[440px] lg:max-w-none"
+            className="relative mx-auto hidden w-full max-w-[440px] lg:block lg:max-w-none"
           >
             <div className="pointer-events-none absolute left-1/2 top-12 h-72 w-72 -translate-x-1/2 rounded-full bg-[#9ec6ff]/50 blur-3xl dark:bg-cyan-400/20" />
             <p className="font-script pointer-events-none absolute right-0 top-4 z-10 hidden text-right text-[1.85rem] leading-[1.05] text-[#1d6fe9] sm:block lg:right-2 lg:text-[2.15rem] dark:text-cyan-300">
