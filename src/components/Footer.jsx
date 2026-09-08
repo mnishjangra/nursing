@@ -1,65 +1,88 @@
 import { Link } from 'react-router-dom'
+import { FaInstagram, FaTelegram, FaWhatsapp, FaYoutube } from 'react-icons/fa'
 import { useContent } from '../context/useContent'
+import logoDark from '../assets/logod.png'
+
+const socialIconMap = {
+  telegram: FaTelegram,
+  whatsapp: FaWhatsapp,
+  youtube: FaYoutube,
+  instagram: FaInstagram,
+}
+
+const quickLinks = [
+  { to: '/admission', label: 'Admissions' },
+  { to: '/updates', label: 'Updates' },
+  { to: '/social', label: 'Social' },
+  { to: '/about', label: 'About' },
+]
 
 export function Footer() {
   const { content } = useContent()
   const site = content.site || {}
+  const socialChannels = content.socialChannels || []
 
   return (
-    <footer className="border-t border-slate-200 bg-white/85 py-10 sm:py-12 dark:border-zinc-700/70 dark:bg-zinc-900/65 dark:backdrop-blur-xl">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
-        <div className="text-left">
-          <p className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">
-            {site.name}
-          </p>
-          <p className="mt-2 max-w-lg text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-            A dedicated platform for nursing and paramedical learners in Haryana. We curate
-            admission, academic, and job resources with focus on official links and clear updates.
-          </p>
+    <footer className="bg-[#071b36] text-slate-200">
+      <div className="nc-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <img
+            src={logoDark}
+            width={170}
+            height={52}
+            alt={site.name || 'Nursing Culture'}
+            className="h-12 w-auto object-contain"
+          />
+          <p className="mt-4 text-sm font-medium tracking-wide text-white">Learn • Grow • Succeed</p>
         </div>
 
-        <div className="text-left">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-300">
-            Quick links
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-3 text-sm font-medium text-slate-600 dark:text-zinc-200">
-            <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/admission">
-              Admission
-            </Link>
-            <span aria-hidden className="text-slate-300 dark:text-slate-700">
-              ·
-            </span>
-            <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/updates">
-              Updates
-            </Link>
-            <span aria-hidden className="text-slate-300 dark:text-slate-700">
-              ·
-            </span>
-            <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/social">
-              Social
-            </Link>
-            <span aria-hidden className="text-slate-300 dark:text-slate-700">
-              ·
-            </span>
-            <Link className="hover:text-brand-700 dark:hover:text-brand-300" to="/about">
-              About
-            </Link>
+        <div>
+          <p className="text-sm font-semibold text-white">Quick Links</p>
+          <div className="mt-4 flex flex-col gap-2.5 text-sm">
+            {quickLinks.map((item) => (
+              <Link key={item.to} className="text-slate-300 transition hover:text-white" to={item.to}>
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
 
-        <div className="text-left lg:text-right">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-300">
-            Important
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
-            Always verify dates, fees, and eligibility from official government or university
-            notifications before applying.
+        <div>
+          <p className="text-sm font-semibold text-white">Important</p>
+          <p className="mt-4 text-sm leading-relaxed text-slate-300">
+            Always verify dates, fees, and eligibility from official government or university notifications
+            before applying.
           </p>
         </div>
+
+        <div>
+          <p className="text-sm font-semibold text-white">Get in Touch</p>
+          <div className="mt-4 flex flex-wrap gap-2.5">
+            {socialChannels.map((ch) => {
+              const Icon = socialIconMap[ch.icon] ?? FaTelegram
+              return (
+                <a
+                  key={ch.id}
+                  href={ch.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={ch.label}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#4da3ff] text-white transition hover:bg-[#1d6fe9]"
+                >
+                  <Icon className="text-base" />
+                </a>
+              )
+            })}
+          </div>
+        </div>
       </div>
-      <p className="mt-6 border-t border-slate-200/70 pt-4 text-center text-xs text-slate-500 dark:border-zinc-700/60 dark:text-zinc-500">
-        © {new Date().getFullYear()} {site.name}. Nursing and paramedical guidance hub for Haryana.
-      </p>
+
+      <div className="border-t border-white/10">
+        <p className="nc-container py-5 text-center text-xs text-slate-400">
+          © {new Date().getFullYear()} {site.name || 'Nursing Culture'}. All rights reserved. | Best viewed on
+          modern browsers
+        </p>
+      </div>
     </footer>
   )
 }

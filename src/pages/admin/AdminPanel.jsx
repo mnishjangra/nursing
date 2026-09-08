@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { FiDownload } from 'react-icons/fi'
+import { FiChevronLeft, FiChevronRight, FiDownload } from 'react-icons/fi'
 import { apiRequest, getAdminToken, setAdminToken } from '../../api'
 import { defaultContent } from '../../data/links'
 import { useContent } from '../../context/useContent'
@@ -213,6 +213,115 @@ function applySmartDefaults(section, item, fieldName, value) {
   return next
 }
 
+const ENQUIRY_PAGE_SIZES = [10, 25, 50]
+const LIST_PAGE_SIZE = 8
+const GROUP_PAGE_SIZE = 5
+const COURSE_PAGE_SIZE = 8
+
+function visiblePageNumbers(current, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const pages = new Set([1, total, current - 1, current, current + 1])
+  if (current <= 4) {
+    for (let i = 2; i <= 5; i += 1) pages.add(i)
+  }
+  if (current >= total - 3) {
+    for (let i = total - 4; i < total; i += 1) pages.add(i)
+  }
+  return [...pages].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b)
+}
+
+function PaginationBar({
+  page,
+  totalPages,
+  total,
+  pageSize,
+  onPageChange,
+  pageSizeOptions,
+  onPageSizeChange,
+}) {
+  if (total <= 0) return null
+
+  const start = (page - 1) * pageSize + 1
+  const end = Math.min(page * pageSize, total)
+  const pages = visiblePageNumbers(page, totalPages)
+  const showPager = totalPages > 1
+
+  if (!showPager && !pageSizeOptions) return null
+
+  const navButtonClass =
+    'inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-300 dark:hover:bg-slate-800/80'
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <p className="text-sm text-slate-600 dark:text-zinc-400">
+        Showing {start}–{end} of {total}
+      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        {pageSizeOptions ? (
+          <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-400">
+            Per page
+            <select
+              className={`${inputClass} w-auto py-1`}
+              value={pageSize}
+              onChange={(event) => onPageSizeChange(Number(event.target.value))}
+            >
+              {pageSizeOptions.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+        {showPager ? (
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              aria-label="Previous page"
+              className={navButtonClass}
+              disabled={page <= 1}
+              onClick={() => onPageChange(page - 1)}
+            >
+              <FiChevronLeft aria-hidden="true" />
+            </button>
+            {pages.map((number, index) => {
+              const previous = pages[index - 1]
+              return (
+                <Fragment key={number}>
+                  {previous && number - previous > 1 ? (
+                    <span className="px-1 text-sm text-slate-400 dark:text-zinc-500">…</span>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => onPageChange(number)}
+                    aria-current={number === page ? 'page' : undefined}
+                    className={`min-w-8 rounded-lg px-2.5 py-1 text-sm font-semibold ${
+                      number === page
+                        ? 'bg-brand-600 text-white'
+                        : 'text-slate-700 hover:bg-slate-100 dark:text-zinc-200 dark:hover:bg-slate-800/80'
+                    }`}
+                  >
+                    {number}
+                  </button>
+                </Fragment>
+              )
+            })}
+            <button
+              type="button"
+              aria-label="Next page"
+              className={navButtonClass}
+              disabled={page >= totalPages}
+              onClick={() => onPageChange(page + 1)}
+            >
+              <FiChevronRight aria-hidden="true" />
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
 function Field({ field, value, onChange }) {
   if (field.type === 'page') {
     return (
@@ -243,8 +352,15 @@ function Field({ field, value, onChange }) {
 }
 
 function ArrayEditor({ items, fields, blank, prefix, onChange }) {
+  const [page, setPage] = useState(1)
+  const list = items || []
+  const totalPages = Math.max(1, Math.ceil(list.length / LIST_PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
+  const start = (currentPage - 1) * LIST_PAGE_SIZE
+  const pageItems = list.slice(start, start + LIST_PAGE_SIZE)
+
   function updateItem(index, name, value) {
-    const next = items.map((item, i) => (i === index ? applySmartDefaults(prefix, item, name, value) : item))
+    const next = list.map((item, i) => (i === index ? applySmartDefaults(prefix, item, name, value) : item))
     onChange(next)
   }
 
@@ -254,43 +370,54 @@ function ArrayEditor({ items, fields, blank, prefix, onChange }) {
       extra.id = newId(prefix)
     }
     if (prefix === 'jobsHome') {
-      extra.tone = JOB_COLORS[(items || []).length % JOB_COLORS.length]
+      extra.tone = JOB_COLORS[list.length % JOB_COLORS.length]
     }
-    onChange([...(items || []), { ...blank, ...extra }])
+    onChange([...list, { ...blank, ...extra }])
+    setPage(Math.ceil((list.length + 1) / LIST_PAGE_SIZE))
   }
 
   function removeItem(index) {
-    onChange(items.filter((_, i) => i !== index))
+    onChange(list.filter((_, i) => i !== index))
   }
 
   return (
     <div className="space-y-4">
-      {(items || []).map((item, index) => (
-        <article key={item.id || `${prefix}-${index}`} className={cardClass}>
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
-              {item.title || item.label || item.name || `Link ${index + 1}`}
-            </p>
-            <button
-              type="button"
-              onClick={() => removeItem(index)}
-              className="text-sm font-semibold text-rose-600 hover:underline dark:text-rose-300"
-            >
-              Delete
-            </button>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            {fields.map((field) => (
-              <Field
-                key={field.name}
-                field={field}
-                value={item[field.name]}
-                onChange={(value) => updateItem(index, field.name, value)}
-              />
-            ))}
-          </div>
-        </article>
-      ))}
+      {pageItems.map((item, offset) => {
+        const index = start + offset
+        return (
+          <article key={item.id || `${prefix}-${index}`} className={cardClass}>
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
+                {item.title || item.label || item.name || `Link ${index + 1}`}
+              </p>
+              <button
+                type="button"
+                onClick={() => removeItem(index)}
+                className="text-sm font-semibold text-rose-600 hover:underline dark:text-rose-300"
+              >
+                Delete
+              </button>
+            </div>
+            <div className="grid gap-3 md:grid-cols-2">
+              {fields.map((field) => (
+                <Field
+                  key={field.name}
+                  field={field}
+                  value={item[field.name]}
+                  onChange={(value) => updateItem(index, field.name, value)}
+                />
+              ))}
+            </div>
+          </article>
+        )
+      })}
+      <PaginationBar
+        page={currentPage}
+        totalPages={totalPages}
+        total={list.length}
+        pageSize={LIST_PAGE_SIZE}
+        onPageChange={setPage}
+      />
       <button
         type="button"
         onClick={addItem}
@@ -303,21 +430,30 @@ function ArrayEditor({ items, fields, blank, prefix, onChange }) {
 }
 
 function AdmissionGroupsEditor({ groups, onChange }) {
+  const [page, setPage] = useState(1)
+  const [coursePages, setCoursePages] = useState({})
+  const list = groups || []
+  const totalPages = Math.max(1, Math.ceil(list.length / GROUP_PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
+  const start = (currentPage - 1) * GROUP_PAGE_SIZE
+  const pageGroups = list.slice(start, start + GROUP_PAGE_SIZE)
+
   function updateGroup(index, name, value) {
-    onChange(groups.map((group, i) => (i === index ? { ...group, [name]: value } : group)))
+    onChange(list.map((group, i) => (i === index ? { ...group, [name]: value } : group)))
   }
 
   function addGroup() {
-    onChange([...(groups || []), { id: newId('adm'), title: '', authority: '', courses: [] }])
+    onChange([...list, { id: newId('adm'), title: '', authority: '', courses: [] }])
+    setPage(Math.ceil((list.length + 1) / GROUP_PAGE_SIZE))
   }
 
   function removeGroup(index) {
-    onChange(groups.filter((_, i) => i !== index))
+    onChange(list.filter((_, i) => i !== index))
   }
 
   function updateCourse(groupIndex, courseIndex, name, value) {
     onChange(
-      groups.map((group, i) => {
+      list.map((group, i) => {
         if (i !== groupIndex) return group
         const courses = (group.courses || []).map((course, ci) =>
           ci === courseIndex ? { ...course, [name]: value } : course,
@@ -328,16 +464,23 @@ function AdmissionGroupsEditor({ groups, onChange }) {
   }
 
   function addCourse(groupIndex) {
+    const group = list[groupIndex]
+    const nextCount = (group.courses || []).length + 1
     onChange(
-      groups.map((group, i) =>
-        i === groupIndex ? { ...group, courses: [...(group.courses || []), { name: '', url: '' }] } : group,
+      list.map((item, i) =>
+        i === groupIndex ? { ...item, courses: [...(item.courses || []), { name: '', url: '' }] } : item,
       ),
     )
+    const groupKey = group.id || groupIndex
+    setCoursePages((pages) => ({
+      ...pages,
+      [groupKey]: Math.ceil(nextCount / COURSE_PAGE_SIZE),
+    }))
   }
 
   function removeCourse(groupIndex, courseIndex) {
     onChange(
-      groups.map((group, i) =>
+      list.map((group, i) =>
         i === groupIndex
           ? { ...group, courses: (group.courses || []).filter((_, ci) => ci !== courseIndex) }
           : group,
@@ -347,7 +490,15 @@ function AdmissionGroupsEditor({ groups, onChange }) {
 
   return (
     <div className="space-y-5">
-      {(groups || []).map((group, index) => (
+      {pageGroups.map((group, offset) => {
+        const index = start + offset
+        const courses = group.courses || []
+        const groupKey = group.id || index
+        const courseTotalPages = Math.max(1, Math.ceil(courses.length / COURSE_PAGE_SIZE))
+        const coursePage = Math.min(coursePages[groupKey] || 1, courseTotalPages)
+        const courseStart = (coursePage - 1) * COURSE_PAGE_SIZE
+        const pageCourses = courses.slice(courseStart, courseStart + COURSE_PAGE_SIZE)
+        return (
         <article key={group.id || index} className={cardClass}>
           <div className="mb-3 flex items-center justify-between">
             <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
@@ -371,7 +522,9 @@ function AdmissionGroupsEditor({ groups, onChange }) {
           </div>
           <p className="mt-4 text-sm font-medium text-slate-600 dark:text-zinc-400">Courses</p>
           <div className="mt-2 space-y-3">
-            {(group.courses || []).map((course, courseIndex) => (
+            {pageCourses.map((course, courseOffset) => {
+              const courseIndex = courseStart + courseOffset
+              return (
               <div
                 key={`${group.id}-${courseIndex}`}
                 className="grid gap-2 rounded-lg border border-slate-100 p-3 md:grid-cols-[1fr_1fr_auto] dark:border-sky-300/15"
@@ -396,7 +549,17 @@ function AdmissionGroupsEditor({ groups, onChange }) {
                   Delete
                 </button>
               </div>
-            ))}
+              )
+            })}
+            <PaginationBar
+              page={coursePage}
+              totalPages={courseTotalPages}
+              total={courses.length}
+              pageSize={COURSE_PAGE_SIZE}
+              onPageChange={(nextPage) =>
+                setCoursePages((pages) => ({ ...pages, [groupKey]: nextPage }))
+              }
+            />
             <button
               type="button"
               onClick={() => addCourse(index)}
@@ -406,7 +569,15 @@ function AdmissionGroupsEditor({ groups, onChange }) {
             </button>
           </div>
         </article>
-      ))}
+        )
+      })}
+      <PaginationBar
+        page={currentPage}
+        totalPages={totalPages}
+        total={list.length}
+        pageSize={GROUP_PAGE_SIZE}
+        onPageChange={setPage}
+      />
       <button
         type="button"
         onClick={addGroup}
@@ -430,6 +601,7 @@ function AcademicsEditor({ value, onChange }) {
       <div>
         <h3 className="mb-3 font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">ANM / GNM</h3>
         <ArrayEditor
+          key="anmGnm"
           items={academics.anmGnm || []}
           fields={fields}
           blank={{ title: '', subtitle: '', url: '', path: '', internal: false }}
@@ -440,6 +612,7 @@ function AcademicsEditor({ value, onChange }) {
       <div>
         <h3 className="mb-3 font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">Other academic links</h3>
         <ArrayEditor
+          key="otherResults"
           items={academics.otherResults || []}
           fields={fields}
           blank={{ title: '', subtitle: '', url: '' }}
@@ -572,6 +745,8 @@ function EnquiriesList() {
   const [busyId, setBusyId] = useState('')
   const [rangeType, setRangeType] = useState('all')
   const [rangeValue, setRangeValue] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(ENQUIRY_PAGE_SIZES[0])
 
   const yearOptions = useMemo(() => {
     const years = new Set([String(new Date().getFullYear())])
@@ -586,10 +761,25 @@ function EnquiriesList() {
     () => items.filter((item) => matchesEnquiryRange(item, rangeType, rangeValue)),
     [items, rangeType, rangeValue],
   )
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize))
+  const currentPage = Math.min(page, totalPages)
+  const startIndex = (currentPage - 1) * pageSize
+  const pageItems = filteredItems.slice(startIndex, startIndex + pageSize)
 
   function changeRangeType(nextType) {
     setRangeType(nextType)
     setRangeValue(defaultRangeValue(nextType))
+    setPage(1)
+  }
+
+  function changePageSize(size) {
+    setPageSize(size)
+    setPage(1)
+  }
+
+  function changeRangeValue(value) {
+    setRangeValue(value)
+    setPage(1)
   }
 
   async function load() {
@@ -738,7 +928,7 @@ function EnquiriesList() {
                 type="date"
                 className={inputClass}
                 value={rangeValue}
-                onChange={(event) => setRangeValue(event.target.value)}
+                onChange={(event) => changeRangeValue(event.target.value)}
               />
             </label>
           ) : null}
@@ -750,7 +940,7 @@ function EnquiriesList() {
                 type="month"
                 className={inputClass}
                 value={rangeValue}
-                onChange={(event) => setRangeValue(event.target.value)}
+                onChange={(event) => changeRangeValue(event.target.value)}
               />
             </label>
           ) : null}
@@ -761,7 +951,7 @@ function EnquiriesList() {
               <select
                 className={inputClass}
                 value={rangeValue}
-                onChange={(event) => setRangeValue(event.target.value)}
+                onChange={(event) => changeRangeValue(event.target.value)}
               >
                 {yearOptions.map((year) => (
                   <option key={year} value={year}>
@@ -809,10 +999,10 @@ function EnquiriesList() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-sky-300/10">
-                {filteredItems.map((item, index) => (
+                {pageItems.map((item, index) => (
                   <tr key={item.id} className="align-top hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
                     <td className="whitespace-nowrap px-4 py-3 text-slate-500 dark:text-zinc-400">
-                      {index + 1}
+                      {startIndex + index + 1}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-slate-600 dark:text-zinc-300">
                       {formatEnquiryDate(item)}
@@ -842,6 +1032,17 @@ function EnquiriesList() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="border-t border-slate-200 px-4 py-3 dark:border-sky-300/15">
+            <PaginationBar
+              page={currentPage}
+              totalPages={totalPages}
+              total={filteredItems.length}
+              pageSize={pageSize}
+              onPageChange={setPage}
+              pageSizeOptions={ENQUIRY_PAGE_SIZES}
+              onPageSizeChange={changePageSize}
+            />
           </div>
         </div>
       )}
@@ -967,6 +1168,7 @@ export default function AdminPanel() {
     if (fields) {
       return (
         <ArrayEditor
+          key={section}
           items={draft[section] || []}
           fields={fields}
           blank={BLANKS[section]}

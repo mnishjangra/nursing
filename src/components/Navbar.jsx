@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { FiMenu, FiMoon, FiSearch, FiSun, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/useTheme'
@@ -15,27 +15,48 @@ const nav = [
   { to: '/social', label: 'Social' },
 ]
 
-const linkClass =
-  'rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-brand-700 dark:text-zinc-300 dark:hover:text-white'
-
-function activeClass({ isActive }) {
-  return [
-    linkClass,
-    isActive
-      ? 'bg-white text-brand-800 shadow-sm shadow-brand-900/5 ring-1 ring-slate-200/80 dark:bg-zinc-800/80 dark:text-white dark:ring-cyan-300/35 dark:shadow-[0_0_18px_-10px_rgba(34,211,238,0.9)]'
-      : '',
-  ].join(' ')
-}
-
 export function Navbar() {
   const { dark, toggleTheme } = useTheme()
+  const { pathname } = useLocation()
   const [openMenu, setOpenMenu] = useState(false)
   const [openSearch, setOpenSearch] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const isHome = pathname === '/'
+  const overlay = isHome && !scrolled && !openMenu
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  function navLinkClass({ isActive }) {
+    return [
+      'rounded-full px-3 py-2 text-sm font-medium transition',
+      isActive
+        ? 'text-[#1d6fe9] dark:text-cyan-300'
+        : overlay
+          ? 'text-[#123769] hover:text-[#1d6fe9] dark:text-zinc-100 dark:hover:text-white'
+          : 'text-slate-600 hover:text-[#1d6fe9] dark:text-zinc-300 dark:hover:text-white',
+    ].join(' ')
+  }
+
+  const iconBtn = overlay
+    ? 'inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition hover:bg-white/70 dark:text-zinc-100 dark:hover:bg-white/10'
+    : 'inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100 dark:text-zinc-100 dark:hover:bg-zinc-800/80'
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md dark:border-zinc-700/60 dark:bg-zinc-900/65 dark:shadow-lg dark:shadow-black/25 dark:backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 lg:px-8">
+      <header
+        className={[
+          'z-40 transition duration-300',
+          overlay
+            ? 'absolute inset-x-0 top-0 bg-transparent dark:bg-linear-to-b dark:from-[#071124]/80 dark:to-transparent'
+            : 'fixed inset-x-0 top-0 border-b border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-md dark:border-sky-300/15 dark:bg-[#071124]/90',
+        ].join(' ')}
+      >
+        <div className="nc-container grid grid-cols-[1fr_auto] items-center gap-3 py-3 md:grid-cols-[1fr_auto_1fr]">
           <Link to="/" className="flex items-center">
             <img
               src={dark ? logoDark : logo}
@@ -48,17 +69,17 @@ export function Navbar() {
 
           <nav className="hidden items-center gap-1 md:flex">
             {nav.map((item) => (
-              <NavLink key={item.to} to={item.to} className={activeClass} end={item.to === '/'}>
+              <NavLink key={item.to} to={item.to} className={navLinkClass} end={item.to === '/'}>
                 {item.label}
               </NavLink>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end gap-2">
             <button
               type="button"
               onClick={() => setOpenSearch(true)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-brand-400 hover:text-brand-700 dark:border-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-100 dark:hover:border-cyan-300/70 dark:hover:shadow-[0_0_20px_rgba(34,211,238,0.42)]"
+              className={iconBtn}
               aria-label="Open search"
             >
               <FiSearch className="text-lg" />
@@ -66,14 +87,17 @@ export function Navbar() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-brand-400 hover:text-brand-700 dark:border-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-100 dark:hover:border-cyan-300/70 dark:hover:shadow-[0_0_20px_rgba(34,211,238,0.42)]"
+              className={iconBtn}
               aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {dark ? <FiSun className="text-lg" /> : <FiMoon className="text-lg" />}
             </button>
+            <Link to="/admission" className="nc-btn hidden px-5 py-2.5 md:inline-flex">
+              Get Started
+            </Link>
             <button
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-800 shadow-sm transition hover:border-brand-400 md:hidden dark:border-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-100"
+              className={`${iconBtn} md:hidden`}
               aria-label="Toggle menu"
               aria-expanded={openMenu}
               onClick={() => setOpenMenu((v) => !v)}
@@ -96,13 +120,20 @@ export function Navbar() {
                   <NavLink
                     key={item.to}
                     to={item.to}
-                    className={activeClass}
+                    className={navLinkClass}
                     end={item.to === '/'}
                     onClick={() => setOpenMenu(false)}
                   >
                     {item.label}
                   </NavLink>
                 ))}
+                <Link
+                  to="/admission"
+                  className="nc-btn mt-2 w-full"
+                  onClick={() => setOpenMenu(false)}
+                >
+                  Get Started
+                </Link>
               </div>
             </motion.div>
           ) : null}

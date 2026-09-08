@@ -50,9 +50,6 @@ export function loadEnvFromDisk() {
 const parsedAtBoot = loadEnvFromDisk()
 if (Object.keys(parsedAtBoot).length) {
   console.log(`[env] Loaded ${Object.keys(parsedAtBoot).length} variables from .env`)
-  if (!parsedAtBoot.ADMIN_USERNAME || !parsedAtBoot.ADMIN_PASSWORD) {
-    console.warn('[env] ADMIN_USERNAME or ADMIN_PASSWORD is missing in .env')
-  }
 }
 
 export function envValue(name, fallback = '') {
