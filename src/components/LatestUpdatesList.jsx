@@ -16,17 +16,19 @@ function formatUpdateDate(value) {
 }
 
 export function LatestUpdatesList({ items = [], compact = false }) {
-  if (!items.length) {
+  const updates = items.filter((item) => item?.title?.trim() && item?.url?.trim())
+
+  if (!updates.length) {
     return (
-      <p className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-600 dark:border-sky-300/25 dark:bg-slate-800/40 dark:text-zinc-400">
-        No latest updates posted yet.
+      <p className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm font-medium text-slate-600 dark:border-sky-300/25 dark:bg-slate-800/40 dark:text-zinc-400">
+        No latest update
       </p>
     )
   }
 
   return (
     <ul className={compact ? 'space-y-1' : 'space-y-1.5'}>
-      {items.map((item) => (
+      {updates.map((item) => (
         <li key={item.id || `${item.title}-${item.url}`}>
           <ExternalLink
             href={item.url}

@@ -9,15 +9,23 @@ export function ContentProvider({ children }) {
   const [status, setStatus] = useState('loading')
 
   const reload = useCallback(async () => {
-    try {
-      const payload = await apiRequest('/api/content')
-      setContent({ ...defaultContent, ...(payload.data || {}) })
-      setMeta(payload.meta || { storage: 'unknown', updatedAt: null })
-      setStatus('ready')
-    } catch {
-      setContent(defaultContent)
-      setMeta({ storage: 'local', updatedAt: null })
-      setStatus('offline')
+    const maxAttempts = 8
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      try {
+        const payload = await apiRequest('/api/content')
+        setContent({ ...defaultContent, ...(payload.data || {}) })
+        setMeta(payload.meta || { storage: 'unknown', updatedAt: null })
+        setStatus('ready')
+        return
+      } catch {
+        if (attempt === maxAttempts) {
+          setContent(defaultContent)
+          setMeta({ storage: 'local', updatedAt: null })
+          setStatus('offline')
+          return
+        }
+        await new Promise((resolve) => setTimeout(resolve, 400 * attempt))
+      }
     }
   }, [])
 
