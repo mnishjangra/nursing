@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
-import { FiMenu, FiMoon, FiSearch, FiSun, FiX } from 'react-icons/fi'
+import { FiArrowRight, FiMenu, FiMoon, FiSearch, FiSun, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/useTheme'
 import { SearchModal } from './SearchModal'
@@ -8,11 +8,12 @@ import logo from '../assets/logo.png'
 import logoDark from '../assets/logod.png'
 
 const nav = [
-  { to: '/', label: 'Home' },
+  { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
   { to: '/admission', label: 'Admission Enquiry' },
   { to: '/updates', label: 'Updates' },
-  { to: '/social', label: 'Social' },
+  { to: '/#hub', label: 'Courses' },
+  { to: '/#contact', label: 'Contact' },
 ]
 
 export function Navbar() {
@@ -31,15 +32,18 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  function navLinkClass({ isActive }) {
-    return [
-      'rounded-full px-3 py-2 text-sm font-medium transition',
-      isActive
-        ? 'text-[#1d6fe9] dark:text-cyan-300'
-        : overlay
-          ? 'text-[#123769] hover:text-[#1d6fe9] dark:text-zinc-100 dark:hover:text-white'
-          : 'text-slate-600 hover:text-[#1d6fe9] dark:text-zinc-300 dark:hover:text-white',
-    ].join(' ')
+  function navLinkClass(item) {
+    return ({ isActive }) => {
+      const active = item.to.includes('#') ? false : isActive
+      return [
+        'relative rounded-full px-2.5 py-2 text-sm font-medium transition lg:px-3',
+        active
+          ? 'text-[#1d6fe9] after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:rounded-full after:bg-[#1d6fe9] dark:text-cyan-300 dark:after:bg-cyan-300'
+          : overlay
+            ? 'text-[#123769] hover:text-[#1d6fe9] dark:text-zinc-100 dark:hover:text-white'
+            : 'text-slate-600 hover:text-[#1d6fe9] dark:text-zinc-300 dark:hover:text-white',
+      ].join(' ')
+    }
   }
 
   const iconBtn = overlay
@@ -67,9 +71,9 @@ export function Navbar() {
             />
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-0.5 lg:flex">
             {nav.map((item) => (
-              <NavLink key={item.to} to={item.to} className={navLinkClass} end={item.to === '/'}>
+              <NavLink key={item.to} to={item.to} className={navLinkClass(item)} end={item.end}>
                 {item.label}
               </NavLink>
             ))}
@@ -95,11 +99,12 @@ export function Navbar() {
             <span className="hidden md:inline-flex">
               <Link to="/admission" className="nc-btn px-5 py-2.5">
                 Get Started
+                <FiArrowRight aria-hidden />
               </Link>
             </span>
             <button
               type="button"
-              className={`${iconBtn} md:hidden`}
+              className={`${iconBtn} lg:hidden`}
               aria-label="Toggle menu"
               aria-expanded={openMenu}
               onClick={() => setOpenMenu((v) => !v)}
@@ -115,15 +120,15 @@ export function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="border-t border-slate-100 bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/92 md:hidden"
+              className="border-t border-slate-100 bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/92 lg:hidden"
             >
               <div className="flex flex-col gap-1 px-4 py-3">
                 {nav.map((item) => (
                   <NavLink
                     key={item.to}
                     to={item.to}
-                    className={navLinkClass}
-                    end={item.to === '/'}
+                    className={navLinkClass(item)}
+                    end={item.end}
                     onClick={() => setOpenMenu(false)}
                   >
                     {item.label}
@@ -135,6 +140,7 @@ export function Navbar() {
                   onClick={() => setOpenMenu(false)}
                 >
                   Get Started
+                  <FiArrowRight aria-hidden />
                 </Link>
               </div>
             </motion.div>

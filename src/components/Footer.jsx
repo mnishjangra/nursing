@@ -23,7 +23,7 @@ export function Footer() {
   const socialChannels = content.socialChannels || []
 
   return (
-    <footer className="bg-[#071b36] text-slate-200">
+    <footer id="contact" className="bg-[#071b36] text-slate-200">
       <div className="nc-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <img

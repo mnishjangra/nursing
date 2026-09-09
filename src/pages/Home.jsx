@@ -193,23 +193,21 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#eef6ff] pt-20 xs:pt-24 dark:bg-[#071124]">
+      <section className="relative overflow-hidden bg-white pt-[72px] xs:pt-[84px] dark:bg-[#071124]">
         <img
           src={heroBg}
           alt=""
-          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-center dark:brightness-[0.38] dark:saturate-50"
+          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-[center_30%] dark:brightness-[0.38] dark:saturate-50"
         />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#f3f8ff_0%,rgba(243,248,255,0.92)_38%,rgba(243,248,255,0.45)_62%,rgba(243,248,255,0.18)_100%)] dark:hidden" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,rgba(255,255,255,0.96)_42%,rgba(255,255,255,0.55)_68%,rgba(255,255,255,0.2)_100%)] dark:hidden" />
         <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,#071124_0%,rgba(7,17,36,0.92)_40%,rgba(7,17,36,0.62)_100%)] dark:block" />
-        <div className="pointer-events-none absolute -left-28 -top-24 h-[380px] w-[380px] rounded-full bg-[#9ec5ff]/35 blur-3xl dark:bg-cyan-500/10" />
-        <div className="pointer-events-none absolute right-[-6%] top-16 h-[420px] w-[420px] rounded-full bg-white/25 blur-3xl dark:bg-cyan-400/5" />
 
-        <div className="nc-container relative grid min-w-0 items-center gap-8 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:pb-16">
-          <div className="max-w-xl min-w-0 space-y-5">
+        <div className="nc-container relative grid min-w-0 items-center gap-8 pt-6 pb-4 lg:grid-cols-2 lg:gap-8 lg:pt-4 lg:pb-0">
+          <div className="max-w-xl min-w-0">
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-block max-w-full rounded-md border border-[#1d6fe9]/30 bg-white px-2.5 py-1.5 text-[12px] font-semibold leading-snug text-[#1d6fe9] shadow-sm xs:px-3.5 xs:text-[13px] dark:border-cyan-400/30 dark:bg-slate-900/80 dark:text-cyan-200"
+              className="inline-flex rounded-full bg-[#e8f2ff] px-4 py-1.5 text-[13px] font-semibold text-[#1d6fe9] dark:bg-cyan-400/15 dark:text-cyan-200"
             >
               Your Future in Healthcare Begins Here
             </motion.p>
@@ -217,7 +215,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="text-[1.7rem] font-extrabold leading-[1.15] tracking-tight text-[#123769] xs:text-[2rem] sm:text-[2.55rem] lg:text-[3.05rem] dark:text-white"
+              className="mt-5 text-[2rem] font-extrabold leading-[1.12] tracking-tight text-[#123769] xs:text-[2.35rem] sm:text-[2.85rem] lg:text-[3.35rem] dark:text-white"
             >
               Learn, Grow, and Succeed with{' '}
               <span className="text-[#1d6fe9] dark:text-cyan-300">{site.name || 'Nursing Culture'}.</span>
@@ -226,7 +224,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="max-w-lg text-[15px] leading-7 text-slate-600 sm:text-base sm:leading-8 dark:text-zinc-300"
+              className="mt-5 max-w-lg text-[15px] leading-7 text-slate-500 sm:text-base sm:leading-8 dark:text-zinc-300"
             >
               {site.description}
             </motion.p>
@@ -234,13 +232,16 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="flex flex-col gap-3 pt-1 xs:flex-row xs:flex-wrap"
+              className="mt-7 flex flex-col gap-3 xs:flex-row xs:items-center"
             >
               <Link to="/#hub" className="nc-btn w-full xs:w-auto">
                 Explore Courses
                 <FiArrowRight aria-hidden />
               </Link>
-              <Link to="/social" className="nc-btn-outline w-full xs:w-auto">
+              <Link
+                to="/social"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#1d6fe9] bg-white px-5 py-2.5 text-sm font-semibold text-[#1d6fe9] transition duration-300 hover:-translate-y-0.5 hover:bg-[#e8f2ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 dark:border-cyan-300 dark:bg-transparent dark:text-cyan-200 dark:hover:bg-cyan-400/10 xs:w-auto xs:px-6 xs:py-3"
+              >
                 <FiUsers aria-hidden />
                 Join Our Community
               </Link>
@@ -251,10 +252,9 @@ export default function Home() {
             initial={{ opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.18, duration: 0.5 }}
-            className="relative mx-auto hidden w-full max-w-[440px] lg:-mb-14 lg:block lg:max-w-none lg:self-end"
+            className="relative mx-auto w-full max-w-[300px] sm:max-w-[380px] lg:max-w-none lg:self-end"
           >
-            <div className="pointer-events-none absolute left-1/2 top-12 h-72 w-72 -translate-x-1/2 rounded-full bg-[#9ec6ff]/50 blur-3xl dark:bg-cyan-400/20" />
-            <p className="font-script pointer-events-none absolute right-0 top-4 z-10 hidden text-right text-[1.85rem] leading-[1.05] text-[#1d6fe9] sm:block lg:right-2 lg:text-[2.15rem] dark:text-cyan-300">
+            <p className="font-script pointer-events-none absolute right-0 top-3 z-10 hidden text-right text-[1.85rem] leading-[1.05] text-[#1d6fe9] sm:block lg:right-4 lg:top-8 lg:text-[2.25rem] dark:text-cyan-300">
               Better
               <br />
               Education
@@ -262,14 +262,19 @@ export default function Home() {
               Brighter
               <br />
               Future
+              <span className="mt-1 block text-[1.65rem] leading-none">♡</span>
             </p>
             <img
               src={nurseHero}
-              alt="Nursing professional with clipboard"
-              className="relative z-1 mx-auto h-auto max-h-[34rem] w-full max-w-[400px] object-contain object-top lg:max-w-[430px]"
+              alt="Nursing professional"
+              className="relative z-1 mx-auto h-auto w-full max-w-[420px] object-contain object-bottom lg:max-w-[500px]"
               loading="eager"
             />
           </motion.div>
+        </div>
+
+        <div className="nc-container relative z-10 pt-2 pb-16 lg:pt-0 lg:pb-20">
+          <QuickLinksMarquee />
         </div>
         <Wave className="-bottom-px z-[5]" light="#071b36" dark="#071b36" />
       </section>
@@ -345,8 +350,6 @@ export default function Home() {
         </div>
         <Wave className="-bottom-px" light="#f4f7fb" dark="#07111f" />
       </section>
-
-      <QuickLinksMarquee officialSites={officialPrimarySites} />
 
       <section id="official" className="relative scroll-mt-24 overflow-hidden bg-[#eef6ff] py-14 sm:py-16 dark:bg-[#07111f]">
         <img
