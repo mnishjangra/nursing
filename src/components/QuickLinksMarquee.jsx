@@ -60,19 +60,20 @@ const siteQuickLinks = [
   },
 ]
 
-function QuickLinkCard({ item }) {
+function QuickLinkCard({ item, clone = false }) {
   const Icon = item.icon
 
   return (
     <Link
       to={item.to}
-      className={`group flex min-h-[172px] flex-col rounded-[24px] p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(15,40,80,0.1)] ${item.card}`}
+      tabIndex={clone ? -1 : undefined}
+      className={`group flex w-[188px] shrink-0 flex-col rounded-[22px] p-4 transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(15,40,80,0.1)] ${item.card}`}
     >
-      <Icon className={`h-8 w-8 ${item.iconClass}`} aria-hidden />
-      <span className="mt-5 text-[15px] font-bold leading-snug text-[#123769] dark:text-white">
+      <Icon className={`h-7 w-7 ${item.iconClass}`} aria-hidden />
+      <span className="mt-3 text-[14px] font-bold leading-snug text-[#123769] dark:text-white">
         {item.title}
       </span>
-      <span className="mt-auto flex items-center justify-between pt-6">
+      <span className="mt-4 flex items-center justify-between">
         <span className="inline-flex items-center rounded-full bg-[#1d6fe9] px-2.5 py-0.5 text-[10px] font-semibold text-white">
           Live
         </span>
@@ -85,33 +86,35 @@ function QuickLinkCard({ item }) {
   )
 }
 
+function MarqueeGroup({ items, clone = false }) {
+  return (
+    <div className="nc-marquee-group" aria-hidden={clone || undefined}>
+      {items.map((item) => (
+        <QuickLinkCard key={`${clone ? 'clone' : 'src'}-${item.id}`} item={item} clone={clone} />
+      ))}
+    </div>
+  )
+}
+
 export function QuickLinksMarquee() {
   return (
     <section aria-label="Quick links">
-      <div className="rounded-[28px] bg-[#eef3fc] px-4 py-5 xs:px-5 sm:rounded-[36px] sm:px-6 sm:py-6 dark:bg-slate-900/75">
-        <div className="mb-5 flex items-center justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d6fe9] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
-              LIVE
-            </span>
-            <h2 className="truncate text-[1.35rem] font-bold tracking-tight text-[#123769] sm:text-[1.5rem] dark:text-white">
-              Quick Links
-            </h2>
-          </div>
-          <Link
-            to="/updates"
-            className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-[#1d6fe9] transition hover:gap-1.5 dark:text-cyan-300"
-          >
-            View All
-            <FiArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
+      <div className="overflow-hidden rounded-[28px] bg-white py-4 shadow-[0_18px_50px_rgba(15,40,80,0.08)] sm:rounded-[36px] sm:py-5 dark:bg-[#071124] dark:shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+        <div className="mb-3 flex items-center gap-2.5 px-4 xs:px-5 sm:mb-4 sm:px-6">
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d6fe9] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+            LIVE
+          </span>
+          <h2 className="truncate text-lg font-bold tracking-tight text-[#123769] sm:text-xl dark:text-white">
+            Quick Links
+          </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-          {siteQuickLinks.map((item) => (
-            <QuickLinkCard key={item.id} item={item} />
-          ))}
+        <div className="nc-marquee px-1">
+          <div className="nc-marquee-track">
+            <MarqueeGroup items={siteQuickLinks} />
+            <MarqueeGroup items={siteQuickLinks} clone />
+          </div>
         </div>
       </div>
     </section>

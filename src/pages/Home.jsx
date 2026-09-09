@@ -193,7 +193,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white pt-[72px] xs:pt-[84px] dark:bg-[#071124]">
+      <section className="relative overflow-hidden bg-white pt-[68px] xs:pt-[76px] dark:bg-[#071124]">
         <img
           src={heroBg}
           alt=""
@@ -202,12 +202,12 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,rgba(255,255,255,0.96)_42%,rgba(255,255,255,0.55)_68%,rgba(255,255,255,0.2)_100%)] dark:hidden" />
         <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,#071124_0%,rgba(7,17,36,0.92)_40%,rgba(7,17,36,0.62)_100%)] dark:block" />
 
-        <div className="nc-container relative grid min-w-0 items-center gap-8 pt-6 pb-4 lg:grid-cols-2 lg:gap-8 lg:pt-4 lg:pb-0">
+        <div className="nc-container relative grid min-w-0 items-center gap-4 pt-4 pb-[12px] lg:grid-cols-2 lg:gap-6 lg:pt-3 lg:pb-[4px]">
           <div className="max-w-xl min-w-0">
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex rounded-full bg-[#e8f2ff] px-4 py-1.5 text-[13px] font-semibold text-[#1d6fe9] dark:bg-cyan-400/15 dark:text-cyan-200"
+              className="inline-flex rounded-full bg-[#e8f2ff] px-3.5 py-1 text-[12px] font-semibold text-[#1d6fe9] dark:bg-cyan-400/15 dark:text-cyan-200"
             >
               Your Future in Healthcare Begins Here
             </motion.p>
@@ -215,7 +215,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="mt-5 text-[2rem] font-extrabold leading-[1.12] tracking-tight text-[#123769] xs:text-[2.35rem] sm:text-[2.85rem] lg:text-[3.35rem] dark:text-white"
+              className="mt-3 text-[1.65rem] font-extrabold leading-[1.15] tracking-tight text-[#123769] xs:text-[1.9rem] sm:text-[2.25rem] lg:text-[2.55rem] dark:text-white"
             >
               Learn, Grow, and Succeed with{' '}
               <span className="text-[#1d6fe9] dark:text-cyan-300">{site.name || 'Nursing Culture'}.</span>
@@ -224,7 +224,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-5 max-w-lg text-[15px] leading-7 text-slate-500 sm:text-base sm:leading-8 dark:text-zinc-300"
+              className="mt-3 max-w-lg text-[13px] leading-6 text-slate-500 sm:text-sm sm:leading-6 dark:text-zinc-300"
             >
               {site.description}
             </motion.p>
@@ -232,15 +232,15 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="mt-7 flex flex-col gap-3 xs:flex-row xs:items-center"
+              className="mt-4 flex flex-col gap-2.5 xs:flex-row xs:items-center"
             >
-              <Link to="/#hub" className="nc-btn w-full xs:w-auto">
+              <Link to="/#hub" className="nc-btn w-full xs:w-auto xs:px-5 xs:py-2.5">
                 Explore Courses
                 <FiArrowRight aria-hidden />
               </Link>
               <Link
                 to="/social"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#1d6fe9] bg-white px-5 py-2.5 text-sm font-semibold text-[#1d6fe9] transition duration-300 hover:-translate-y-0.5 hover:bg-[#e8f2ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 dark:border-cyan-300 dark:bg-transparent dark:text-cyan-200 dark:hover:bg-cyan-400/10 xs:w-auto xs:px-6 xs:py-3"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#1d6fe9] bg-white px-5 py-2.5 text-sm font-semibold text-[#1d6fe9] transition duration-300 hover:-translate-y-0.5 hover:bg-[#e8f2ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 dark:border-cyan-300 dark:bg-transparent dark:text-cyan-200 dark:hover:bg-cyan-400/10 xs:w-auto"
               >
                 <FiUsers aria-hidden />
                 Join Our Community
@@ -252,9 +252,9 @@ export default function Home() {
             initial={{ opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.18, duration: 0.5 }}
-            className="relative mx-auto w-full max-w-[300px] sm:max-w-[380px] lg:max-w-none lg:self-end"
+            className="relative mx-auto hidden w-full max-w-[280px] sm:max-w-[320px] lg:block lg:max-w-none lg:self-end"
           >
-            <p className="font-script pointer-events-none absolute right-0 top-3 z-10 hidden text-right text-[1.85rem] leading-[1.05] text-[#1d6fe9] sm:block lg:right-4 lg:top-8 lg:text-[2.25rem] dark:text-cyan-300">
+            <p className="font-script pointer-events-none absolute right-0 top-1 z-10 hidden text-right text-[1.45rem] leading-[1.05] text-[#1d6fe9] sm:block lg:right-2 lg:top-2 lg:text-[1.75rem] dark:text-cyan-300">
               Better
               <br />
               Education
@@ -262,18 +262,18 @@ export default function Home() {
               Brighter
               <br />
               Future
-              <span className="mt-1 block text-[1.65rem] leading-none">♡</span>
+              <span className="mt-0.5 block text-xl leading-none">♡</span>
             </p>
             <img
               src={nurseHero}
               alt="Nursing professional"
-              className="relative z-1 mx-auto h-auto w-full max-w-[420px] object-contain object-bottom lg:max-w-[500px]"
+              className="relative z-1 mx-auto h-auto max-h-[17.5rem] w-full object-contain object-bottom xl:max-h-[20rem]"
               loading="eager"
             />
           </motion.div>
         </div>
 
-        <div className="nc-container relative z-10 pt-2 pb-16 lg:pt-0 lg:pb-20">
+        <div className="nc-container relative z-10 pt-3 pb-10 lg:pt-1 lg:pb-12">
           <QuickLinksMarquee />
         </div>
         <Wave className="-bottom-px z-[5]" light="#071b36" dark="#071b36" />
@@ -348,20 +348,10 @@ export default function Home() {
             </HubCard>
           </div>
         </div>
-        <Wave className="-bottom-px" light="#f4f7fb" dark="#07111f" />
+        <Wave className="-bottom-px" light="#ffffff" dark="#07111f" />
       </section>
 
-      <section id="official" className="relative scroll-mt-24 overflow-hidden bg-[#eef6ff] py-14 sm:py-16 dark:bg-[#07111f]">
-        <img
-          src={heroBg}
-          alt=""
-          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-[center_35%] dark:brightness-[0.4] dark:saturate-50"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(238,246,255,0.82)_0%,rgba(244,247,251,0.74)_48%,rgba(238,246,255,0.88)_100%)] dark:hidden" />
-        <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(7,17,31,0.88)_0%,rgba(7,17,31,0.82)_100%)] dark:block" />
-        <div className="pointer-events-none absolute -left-24 top-6 h-64 w-64 rounded-full bg-[#9ec5ff]/40 blur-3xl dark:bg-cyan-500/10" />
-        <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-white/45 blur-3xl dark:bg-cyan-400/8" />
-
+      <section id="official" className="relative scroll-mt-24 overflow-hidden bg-white py-14 sm:py-16 dark:bg-[#07111f]">
         <div className="nc-container relative">
           <div className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">Quick Access</p>
@@ -410,11 +400,19 @@ export default function Home() {
             })}
           </div>
         </div>
-        <Wave className="-bottom-px" light="#ffffff" dark="#0b1733" />
+        <Wave className="-bottom-px" light="#eef6ff" dark="#0b1733" />
       </section>
 
-      <section id="classes" className="relative scroll-mt-24 overflow-hidden bg-white py-14 sm:py-16 dark:bg-[#0b1733]">
-        <div className="pointer-events-none absolute -left-16 top-10 h-56 w-56 rounded-full bg-[#d9e9ff]/80 blur-3xl dark:bg-cyan-500/10" />
+      <section id="classes" className="relative scroll-mt-24 overflow-hidden bg-[#eef6ff] py-14 sm:py-16 dark:bg-[#0b1733]">
+        <img
+          src={heroBg}
+          alt=""
+          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-[center_35%] dark:brightness-[0.4] dark:saturate-50"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(238,246,255,0.82)_0%,rgba(244,247,251,0.74)_48%,rgba(238,246,255,0.88)_100%)] dark:hidden" />
+        <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(11,23,51,0.88)_0%,rgba(11,23,51,0.82)_100%)] dark:block" />
+        <div className="pointer-events-none absolute -left-24 top-6 h-64 w-64 rounded-full bg-[#9ec5ff]/40 blur-3xl dark:bg-cyan-500/10" />
+        <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-white/45 blur-3xl dark:bg-cyan-400/8" />
         <div className="nc-container relative grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#5b8fd9]">Learn Anytime</p>
@@ -468,6 +466,7 @@ export default function Home() {
             </ExternalLink>
           </motion.div>
         </div>
+        <Wave className="-bottom-px" light="#ffffff" dark="#07111f" />
       </section>
 
       {/* Why Choose Us

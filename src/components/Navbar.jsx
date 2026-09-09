@@ -56,8 +56,8 @@ export function Navbar() {
         className={[
           'z-40 transition duration-300',
           overlay
-            ? 'absolute inset-x-0 top-0 bg-transparent dark:bg-linear-to-b dark:from-[#071124]/80 dark:to-transparent'
-            : 'fixed inset-x-0 top-0 border-b border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-md dark:border-sky-300/15 dark:bg-[#071124]/90',
+            ? 'absolute inset-x-0 top-0 bg-white dark:bg-[#071124]'
+            : 'fixed inset-x-0 top-0 border-b border-slate-200/70 bg-white shadow-sm backdrop-blur-md dark:border-sky-300/15 dark:bg-[#071124]',
         ].join(' ')}
       >
         <div className="nc-container grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-2.5 xs:gap-3 xs:py-3 md:grid-cols-[1fr_auto_1fr]">
@@ -120,7 +120,7 @@ export function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="border-t border-slate-100 bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/92 lg:hidden"
+              className="border-t border-slate-100 bg-white dark:border-zinc-700 dark:bg-[#071124] lg:hidden"
             >
               <div className="flex flex-col gap-1 px-4 py-3">
                 {nav.map((item) => (
