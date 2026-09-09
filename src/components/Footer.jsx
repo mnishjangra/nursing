@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FaInstagram, FaTelegram, FaWhatsapp, FaYoutube } from 'react-icons/fa'
 import { useContent } from '../context/useContent'
-import logoDark from '../assets/logod.png'
+import logoOfficialDark from '../assets/logo_official_d.png'
 
 const socialIconMap = {
   telegram: FaTelegram,
@@ -27,11 +27,11 @@ export function Footer() {
       <div className="nc-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <img
-            src={logoDark}
-            width={170}
-            height={52}
+            src={logoOfficialDark}
+            width={112}
+            height={112}
             alt={site.name || 'Nursing Culture'}
-            className="h-12 w-auto object-contain"
+            className="h-24 w-24 object-contain sm:h-28 sm:w-28"
           />
           <p className="mt-4 text-sm font-medium tracking-wide text-white">Learn • Grow • Succeed</p>
         </div>
@@ -78,9 +78,9 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <p className="nc-container py-5 text-center text-xs text-slate-400">
-          © {new Date().getFullYear()} {site.name || 'Nursing Culture'}. All rights reserved. | Best viewed on
-          modern browsers
+        <p className="nc-container py-5 text-center text-[11px] leading-relaxed text-slate-400 xs:text-xs">
+          © {new Date().getFullYear()} {site.name || 'Nursing Culture'}. All rights reserved.
+          <span className="hidden xs:inline"> | Best viewed on modern browsers</span>
         </p>
       </div>
     </footer>

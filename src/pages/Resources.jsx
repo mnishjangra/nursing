@@ -26,13 +26,13 @@ export default function Resources() {
         description="Question papers, syllabus, and official forms. Every URL can be updated from the admin panel."
       />
 
-      <div className="premium-card mb-6 flex flex-wrap gap-2 rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-zinc-600/55 dark:bg-zinc-800/55">
+      <div className="premium-card mb-6 flex flex-wrap gap-1 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm xs:gap-2 xs:rounded-full dark:border-zinc-600/55 dark:bg-zinc-800/55">
         {tabs.map((t) => (
           <button
             key={t.id}
             type="button"
             onClick={() => setTab(t.id)}
-            className={`relative flex-1 rounded-full px-4 py-2 text-sm font-semibold transition min-[420px]:flex-none ${
+            className={`relative min-w-0 flex-1 rounded-full px-2 py-2 text-[11px] font-semibold transition xs:px-4 xs:text-sm min-[420px]:flex-none ${
               tab === t.id
                 ? 'text-white'
                 : 'text-slate-600 hover:text-brand-700 dark:text-slate-300 dark:hover:text-white'

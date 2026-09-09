@@ -31,7 +31,7 @@ export function LinkCard({
       className="premium-card premium-glow-hover group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300/80 hover:shadow-lg hover:shadow-brand-600/10 dark:hover:border-cyan-300/65"
     >
       <div className="flex flex-1 flex-col gap-2">
-        <h3 className="text-left font-display text-base font-semibold text-slate-900 dark:text-zinc-50">
+        <h3 className="text-left font-display text-base font-semibold break-words text-slate-900 dark:text-zinc-50">
           {title}
         </h3>
         {subtitle ? (

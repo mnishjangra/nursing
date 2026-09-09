@@ -1,5 +1,5 @@
-import './loadEnv.js'
 import mongoose from 'mongoose'
+import { envValue } from './loadEnv.js'
 import { defaultContent } from '../src/data/links.js'
 
 const CONTENT_KEY = 'main'
@@ -31,9 +31,6 @@ const AdmissionEnquiry =
   mongoose.models.AdmissionEnquiry || mongoose.model('AdmissionEnquiry', enquirySchema)
 
 let dbMode = 'disconnected'
-let memoryStore = structuredClone(defaultContent)
-let memoryUpdatedAt = new Date()
-let memoryEnquiries = []
 
 export function getDbMode() {
   return dbMode
@@ -48,7 +45,19 @@ export function pickContent(input = {}) {
 }
 
 function mongoDbName() {
-  return process.env.MONGO_DB_NAME?.trim() || 'nursingculture'
+  return envValue('MONGO_DB_NAME', 'nursingculture') || 'nursingculture'
+}
+
+function dbUnavailable(detail) {
+  const error = new Error(detail)
+  error.status = 503
+  return error
+}
+
+function requireMongo() {
+  if (dbMode !== 'mongo' || mongoose.connection.readyState !== 1) {
+    throw dbUnavailable('MongoDB is not connected. Links and enquiries are saved only in the database.')
+  }
 }
 
 const globalForMongo = globalThis
@@ -62,18 +71,19 @@ export async function connectDB() {
   if (globalForMongo.__ncMongoPromise) {
     try {
       await globalForMongo.__ncMongoPromise
-      if (mongoose.connection.readyState === 1) dbMode = 'mongo'
+      if (mongoose.connection.readyState === 1) {
+        dbMode = 'mongo'
+        return
+      }
     } catch {
-      /* connect attempt below will report the error */
+      globalForMongo.__ncMongoPromise = null
     }
-    if (mongoose.connection.readyState === 1) return
   }
 
-  const uri = process.env.MONGO_URI?.trim()
+  const uri = envValue('MONGO_URI')
   if (!uri) {
-    dbMode = 'memory'
-    console.warn('[db] MONGO_URI is missing. Using in-memory store.')
-    return
+    dbMode = 'disconnected'
+    throw dbUnavailable('MONGO_URI is missing in .env. Add your MongoDB connection string.')
   }
 
   const dbName = mongoDbName()
@@ -90,11 +100,9 @@ export async function connectDB() {
     await seedIfEmpty()
   } catch (error) {
     globalForMongo.__ncMongoPromise = null
-    dbMode = 'memory'
-    memoryStore = structuredClone(defaultContent)
-    memoryUpdatedAt = new Date()
-    console.warn('[db] MongoDB is not reachable. Using in-memory store until MONGO_URI is valid.')
-    console.warn(`[db] ${error.message}`)
+    dbMode = 'disconnected'
+    console.error('[db] MongoDB connection failed. Refusing to use in-memory storage.')
+    throw dbUnavailable(error.message || 'Unable to connect to MongoDB.')
   }
 }
 
@@ -105,29 +113,31 @@ async function seedIfEmpty() {
     key: CONTENT_KEY,
     data: structuredClone(defaultContent),
   })
-  console.log('[db] Seeded default site content')
+  console.log('[db] Seeded default site content into MongoDB')
 }
 
 export async function getSiteContent() {
-  if (dbMode !== 'mongo') {
-    return { data: memoryStore, updatedAt: memoryUpdatedAt }
-  }
+  requireMongo()
 
   const doc = await SiteContent.findOne({ key: CONTENT_KEY }).lean()
+  if (!doc?.data) {
+    await seedIfEmpty()
+    const seeded = await SiteContent.findOne({ key: CONTENT_KEY }).lean()
+    return {
+      data: pickContent(seeded?.data),
+      updatedAt: seeded?.updatedAt || new Date(),
+    }
+  }
+
   return {
-    data: pickContent(doc?.data),
-    updatedAt: doc?.updatedAt || new Date(),
+    data: pickContent(doc.data),
+    updatedAt: doc.updatedAt || new Date(),
   }
 }
 
 export async function saveSiteContent(input) {
+  requireMongo()
   const data = pickContent(input)
-
-  if (dbMode !== 'mongo') {
-    memoryStore = data
-    memoryUpdatedAt = new Date()
-    return { data: memoryStore, updatedAt: memoryUpdatedAt }
-  }
 
   const doc = await SiteContent.findOneAndUpdate(
     { key: CONTENT_KEY },
@@ -170,6 +180,7 @@ export function validateEnquiry(enquiry) {
 }
 
 export async function createEnquiry(input) {
+  requireMongo()
   const enquiry = normalizeEnquiry(input)
   const error = validateEnquiry(enquiry)
   if (error) {
@@ -178,39 +189,19 @@ export async function createEnquiry(input) {
     throw invalid
   }
 
-  if (dbMode !== 'mongo') {
-    const doc = {
-      _id: `enq-${Date.now()}`,
-      ...enquiry,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-    memoryEnquiries.unshift(doc)
-    return serializeEnquiry(doc)
-  }
-
   const doc = await AdmissionEnquiry.create(enquiry)
   return serializeEnquiry(doc.toObject())
 }
 
 export async function listEnquiries() {
-  if (dbMode !== 'mongo') {
-    return memoryEnquiries.map(serializeEnquiry)
-  }
-
+  requireMongo()
   const docs = await AdmissionEnquiry.find().sort({ createdAt: -1 }).lean()
   return docs.map(serializeEnquiry)
 }
 
 export async function deleteEnquiry(id) {
+  requireMongo()
   if (!id) return false
-
-  if (dbMode !== 'mongo') {
-    const before = memoryEnquiries.length
-    memoryEnquiries = memoryEnquiries.filter((item) => String(item._id) !== String(id))
-    return memoryEnquiries.length !== before
-  }
-
   if (!mongoose.Types.ObjectId.isValid(id)) return false
   const result = await AdmissionEnquiry.findByIdAndDelete(id)
   return Boolean(result)

@@ -9,7 +9,7 @@ export function Layout() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-white dark:bg-[#071124]">
       <Navbar />
-      <main className={isHome ? 'flex-1' : 'flex-1 pt-[76px]'}>
+      <main className={isHome ? 'flex-1' : 'flex-1 pt-[68px] xs:pt-[76px]'}>
         <Outlet />
       </main>
       <Footer />

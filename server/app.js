@@ -70,7 +70,11 @@ app.get('/api/content', async (_req, res) => {
       meta: { updatedAt, storage: getDbMode() },
     })
   } catch (error) {
-    res.status(500).json({ message: 'Unable to load content.', detail: error.message })
+    res.status(error.status || 500).json({
+      message: error.status === 503 ? error.message : 'Unable to load content.',
+      detail: error.message,
+      storage: getDbMode(),
+    })
   }
 })
 
@@ -103,7 +107,11 @@ app.put('/api/admin/content', auth, async (req, res) => {
       meta: { updatedAt, storage: getDbMode() },
     })
   } catch (error) {
-    res.status(500).json({ message: 'Unable to save content.', detail: error.message })
+    res.status(error.status || 500).json({
+      message: error.status === 503 ? error.message : 'Unable to save content.',
+      detail: error.message,
+      storage: getDbMode(),
+    })
   }
 })
 
@@ -153,8 +161,12 @@ app.post('/api/admission-enquiries', async (req, res) => {
     })
   } catch (error) {
     res.status(error.status || 500).json({
-      message: error.status === 400 ? error.message : 'Unable to submit admission enquiry.',
+      message:
+        error.status === 400 || error.status === 503
+          ? error.message
+          : 'Unable to submit admission enquiry.',
       detail: error.message,
+      storage: getDbMode(),
     })
   }
 })
@@ -164,7 +176,11 @@ app.get('/api/admin/admission-enquiries', auth, async (_req, res) => {
     const items = await listEnquiries()
     res.json({ items })
   } catch (error) {
-    res.status(500).json({ message: 'Unable to load enquiries.', detail: error.message })
+    res.status(error.status || 500).json({
+      message: error.status === 503 ? error.message : 'Unable to load enquiries.',
+      detail: error.message,
+      storage: getDbMode(),
+    })
   }
 })
 
@@ -176,6 +192,18 @@ app.delete('/api/admin/admission-enquiries/:id', auth, async (req, res) => {
     }
     res.json({ ok: true })
   } catch (error) {
-    res.status(500).json({ message: 'Unable to delete enquiry.', detail: error.message })
+    res.status(error.status || 500).json({
+      message: error.status === 503 ? error.message : 'Unable to delete enquiry.',
+      detail: error.message,
+      storage: getDbMode(),
+    })
   }
+})
+
+app.use((error, _req, res, _next) => {
+  const status = error.status || 500
+  res.status(status).json({
+    message: error.message || 'Server error.',
+    storage: getDbMode(),
+  })
 })

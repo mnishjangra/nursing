@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --breakpoint-xs: 26rem;
   --font-sans: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   /* Primary theme — core #0e2652 */
   --color-brand-50: #f0f3fb;
@@ -25,6 +26,7 @@
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    overflow-x: clip;
   }
 
   html.dark {
@@ -154,11 +156,11 @@
   }
 
   .nc-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-[#1a6fe8] to-[#4ea3ff] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(29,111,233,0.28)] transition duration-300 hover:-translate-y-0.5 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-[#1a6fe8] to-[#4ea3ff] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(29,111,233,0.28)] transition duration-300 hover:-translate-y-0.5 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 xs:px-6 xs:py-3;
   }
 
   .nc-btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-[#123769] transition duration-300 hover:-translate-y-0.5 hover:border-[#1d6fe9] hover:text-[#1d6fe9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 dark:border-cyan-300/35 dark:bg-slate-900/60 dark:text-zinc-100 dark:hover:border-cyan-300 dark:hover:text-cyan-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#123769] transition duration-300 hover:-translate-y-0.5 hover:border-[#1d6fe9] hover:text-[#1d6fe9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 dark:border-cyan-300/35 dark:bg-slate-900/60 dark:text-zinc-100 dark:hover:border-cyan-300 dark:hover:text-cyan-200 xs:px-6 xs:py-3;
   }
 
   .nc-icon {

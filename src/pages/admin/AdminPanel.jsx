@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { FiChevronLeft, FiChevronRight, FiDownload } from 'react-icons/fi'
+import { FiCheck, FiChevronLeft, FiChevronRight, FiDownload, FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { apiRequest, getAdminToken, setAdminToken } from '../../api'
 import { defaultContent } from '../../data/links'
 import { useContent } from '../../context/useContent'
@@ -10,6 +10,14 @@ const inputClass =
 const labelClass = 'mb-1 block text-sm font-medium text-slate-700 dark:text-zinc-300'
 const cardClass =
   'rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-sky-300/20 dark:bg-slate-900/55'
+const btnPrimary =
+  'inline-flex items-center justify-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70'
+const btnSecondary =
+  'inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-brand-400 disabled:cursor-not-allowed disabled:opacity-70 dark:border-sky-300/30 dark:text-zinc-100'
+const btnEdit =
+  'inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-brand-700 hover:bg-brand-50 disabled:opacity-60 dark:text-cyan-300 dark:hover:bg-slate-800/80'
+const btnDanger =
+  'inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 disabled:opacity-60 dark:text-rose-300 dark:hover:bg-rose-500/10'
 
 function newId(prefix) {
   return `${prefix}-${Date.now().toString(36)}`
@@ -365,20 +373,105 @@ function Field({ field, value, onChange }) {
   )
 }
 
-function ArrayEditor({ items, fields, blank, prefix, onChange }) {
+function itemHeading(item) {
+  return item?.title || item?.label || item?.name || 'Untitled'
+}
+
+function itemLink(item) {
+  return item?.url || item?.href || item?.to || ''
+}
+
+function validateFields(item, fields) {
+  const missing = fields.filter((field) => !String(item?.[field.name] ?? '').trim())
+  if (missing.length === 0) return ''
+  const names = missing.map((field) => field.label.toLowerCase())
+  if (names.length === 1) return `Enter ${names[0]} before saving.`
+  return `Enter ${names.slice(0, -1).join(', ')} and ${names.at(-1)} before saving.`
+}
+
+function ConfirmDialog({
+  open,
+  title,
+  message,
+  confirmLabel = 'Delete',
+  busy = false,
+  busyLabel = 'Deleting…',
+  onConfirm,
+  onCancel,
+}) {
+  if (!open) return null
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <button
+        type="button"
+        className="absolute inset-0 bg-slate-900/50"
+        aria-label="Close dialog"
+        onClick={busy ? undefined : onCancel}
+      />
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="confirm-title"
+        aria-describedby="confirm-message"
+        className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-xl dark:border-sky-300/20 dark:bg-slate-900"
+      >
+        <h3 id="confirm-title" className="font-display text-lg font-semibold text-slate-900 dark:text-zinc-50">
+          {title}
+        </h3>
+        <p id="confirm-message" className="mt-2 text-sm leading-6 text-slate-600 dark:text-zinc-300">
+          {message}
+        </p>
+        <div className="mt-5 flex justify-end gap-2">
+          <button type="button" className={btnSecondary} onClick={onCancel} disabled={busy}>
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-70"
+            onClick={onConfirm}
+            disabled={busy}
+          >
+            {busy ? busyLabel : confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function EditorFormActions({ busy, onCancel, onSave, saveLabel = 'Save' }) {
+  return (
+    <div className="mt-4 flex flex-wrap gap-2">
+      <button type="button" className={btnSecondary} onClick={onCancel} disabled={busy}>
+        <FiX aria-hidden="true" />
+        Cancel
+      </button>
+      <button type="button" className={btnPrimary} onClick={onSave} disabled={busy}>
+        <FiCheck aria-hidden="true" />
+        {busy ? 'Saving…' : saveLabel}
+      </button>
+    </div>
+  )
+}
+
+function ArrayEditor({ items, fields, blank, prefix, onCommit, busy }) {
   const [page, setPage] = useState(1)
+  const [editingId, setEditingId] = useState(null)
+  const [form, setForm] = useState(null)
+  const [formError, setFormError] = useState('')
+  const [pendingDelete, setPendingDelete] = useState(null)
   const list = items || []
   const totalPages = Math.max(1, Math.ceil(list.length / LIST_PAGE_SIZE))
   const currentPage = Math.min(page, totalPages)
   const start = (currentPage - 1) * LIST_PAGE_SIZE
   const pageItems = list.slice(start, start + LIST_PAGE_SIZE)
+  const adding = editingId === '__new__'
 
-  function updateItem(index, name, value) {
-    const next = list.map((item, i) => (i === index ? applySmartDefaults(prefix, item, name, value) : item))
-    onChange(next)
+  function itemKey(item, index) {
+    return item.id || `${prefix}-${index}`
   }
 
-  function addItem() {
+  function startAdd() {
     const extra = {}
     if (blank.id !== undefined || prefix !== 'quickNav') {
       extra.id = newId(prefix)
@@ -386,45 +479,130 @@ function ArrayEditor({ items, fields, blank, prefix, onChange }) {
     if (prefix === 'jobsHome') {
       extra.tone = JOB_COLORS[list.length % JOB_COLORS.length]
     }
-    onChange([...list, { ...blank, ...extra }])
-    setPage(Math.ceil((list.length + 1) / LIST_PAGE_SIZE))
+    setEditingId('__new__')
+    setForm({ ...blank, ...extra })
+    setFormError('')
   }
 
-  function removeItem(index) {
-    onChange(list.filter((_, i) => i !== index))
+  function startEdit(item, index) {
+    setEditingId(itemKey(item, index))
+    setForm({ ...item })
+    setFormError('')
+  }
+
+  function cancelForm() {
+    setEditingId(null)
+    setForm(null)
+    setFormError('')
+  }
+
+  function updateForm(name, value) {
+    setForm((item) => applySmartDefaults(prefix, item, name, value))
+  }
+
+  async function saveForm() {
+    const message = validateFields(form, fields)
+    if (message) {
+      setFormError(message)
+      return
+    }
+    let next
+    if (adding) {
+      next = [...list, form]
+    } else {
+      const index = list.findIndex((item, i) => itemKey(item, i) === editingId)
+      if (index < 0) return
+      next = list.map((item, i) => (i === index ? form : item))
+    }
+    const ok = await onCommit(next)
+    if (!ok) return
+    cancelForm()
+    if (adding) setPage(Math.ceil(next.length / LIST_PAGE_SIZE) || 1)
+  }
+
+  async function confirmDelete() {
+    if (pendingDelete == null) return
+    const next = list.filter((_, i) => i !== pendingDelete.index)
+    const ok = await onCommit(next)
+    if (ok) setPendingDelete(null)
+  }
+
+  function renderForm(title) {
+    return (
+      <article className={`${cardClass} ring-1 ring-brand-200 dark:ring-cyan-400/20`}>
+        <p className="mb-3 text-sm font-semibold text-slate-800 dark:text-zinc-100">{title}</p>
+        <div className="grid gap-3 md:grid-cols-2">
+          {fields.map((field) => (
+            <Field
+              key={field.name}
+              field={field}
+              value={form?.[field.name]}
+              onChange={(value) => updateForm(field.name, value)}
+            />
+          ))}
+        </div>
+        {formError ? <p className="mt-3 text-sm text-rose-600 dark:text-rose-300">{formError}</p> : null}
+        <EditorFormActions busy={busy} onCancel={cancelForm} onSave={saveForm} />
+      </article>
+    )
   }
 
   return (
     <div className="space-y-4">
+      {adding ? renderForm('Add name and link') : null}
+
       {pageItems.map((item, offset) => {
         const index = start + offset
+        const key = itemKey(item, index)
+        if (editingId === key) return <Fragment key={key}>{renderForm('Edit')}</Fragment>
+        const link = itemLink(item)
         return (
-          <article key={item.id || `${prefix}-${index}`} className={cardClass}>
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
-                {item.title || item.label || item.name || `Link ${index + 1}`}
-              </p>
-              <button
-                type="button"
-                onClick={() => removeItem(index)}
-                className="text-sm font-semibold text-rose-600 hover:underline dark:text-rose-300"
-              >
-                Delete
-              </button>
-            </div>
-            <div className="grid gap-3 md:grid-cols-2">
-              {fields.map((field) => (
-                <Field
-                  key={field.name}
-                  field={field}
-                  value={item[field.name]}
-                  onChange={(value) => updateItem(index, field.name, value)}
-                />
-              ))}
+          <article key={key} className={cardClass}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">{itemHeading(item)}</p>
+                {link ? (
+                  <p className="mt-1 truncate text-sm text-slate-500 dark:text-zinc-400">{link}</p>
+                ) : (
+                  <p className="mt-1 text-sm text-slate-400 dark:text-zinc-500">No link yet</p>
+                )}
+                {item.date ? (
+                  <p className="mt-1 text-xs text-slate-500 dark:text-zinc-400">{item.date}</p>
+                ) : null}
+              </div>
+              <div className="flex shrink-0 items-center gap-1">
+                <button
+                  type="button"
+                  className={btnEdit}
+                  disabled={busy || Boolean(editingId)}
+                  onClick={() => startEdit(item, index)}
+                >
+                  <FiEdit2 aria-hidden="true" />
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className={btnDanger}
+                  disabled={busy || Boolean(editingId)}
+                  onClick={() => setPendingDelete({ index, label: itemHeading(item) })}
+                >
+                  <FiTrash2 aria-hidden="true" />
+                  Delete
+                </button>
+              </div>
             </div>
           </article>
         )
       })}
+
+      {list.length === 0 && !adding ? (
+        <div className={cardClass}>
+          <p className="text-sm text-slate-600 dark:text-zinc-300">
+            Nothing here yet. Use Add to create a name and link, then save it.
+          </p>
+        </div>
+      ) : null}
+
       <PaginationBar
         page={currentPage}
         totalPages={totalPages}
@@ -432,159 +610,302 @@ function ArrayEditor({ items, fields, blank, prefix, onChange }) {
         pageSize={LIST_PAGE_SIZE}
         onPageChange={setPage}
       />
-      <button
-        type="button"
-        onClick={addItem}
-        className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-brand-400 dark:border-sky-300/30 dark:text-zinc-100"
-      >
-        Add name and link
-      </button>
+
+      {editingId ? null : (
+        <button type="button" onClick={startAdd} disabled={busy} className={btnSecondary}>
+          <FiPlus aria-hidden="true" />
+          Add name and link
+        </button>
+      )}
+
+      <ConfirmDialog
+        open={pendingDelete != null}
+        title="Delete this item?"
+        message={`“${pendingDelete?.label || 'This item'}” will be removed from the website. This cannot be undone unless you add it again.`}
+        busy={busy}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   )
 }
 
-function AdmissionGroupsEditor({ groups, onChange }) {
+function AdmissionGroupsEditor({ groups, onCommit, busy }) {
   const [page, setPage] = useState(1)
   const [coursePages, setCoursePages] = useState({})
+  const [editingId, setEditingId] = useState(null)
+  const [form, setForm] = useState(null)
+  const [courseDraft, setCourseDraft] = useState({ name: '', url: '' })
+  const [formError, setFormError] = useState('')
+  const [pendingDelete, setPendingDelete] = useState(null)
   const list = groups || []
   const totalPages = Math.max(1, Math.ceil(list.length / GROUP_PAGE_SIZE))
   const currentPage = Math.min(page, totalPages)
   const start = (currentPage - 1) * GROUP_PAGE_SIZE
   const pageGroups = list.slice(start, start + GROUP_PAGE_SIZE)
+  const adding = editingId === '__new__'
 
-  function updateGroup(index, name, value) {
-    onChange(list.map((group, i) => (i === index ? { ...group, [name]: value } : group)))
+  function groupKey(group, index) {
+    return group.id || `adm-${index}`
   }
 
-  function addGroup() {
-    onChange([...list, { id: newId('adm'), title: '', authority: '', courses: [] }])
-    setPage(Math.ceil((list.length + 1) / GROUP_PAGE_SIZE))
+  function startAdd() {
+    setEditingId('__new__')
+    setForm({ id: newId('adm'), title: '', authority: '', courses: [] })
+    setCourseDraft({ name: '', url: '' })
+    setFormError('')
   }
 
-  function removeGroup(index) {
-    onChange(list.filter((_, i) => i !== index))
+  function startEdit(group, index) {
+    setEditingId(groupKey(group, index))
+    setForm({ ...group, courses: [...(group.courses || [])] })
+    setCourseDraft({ name: '', url: '' })
+    setFormError('')
   }
 
-  function updateCourse(groupIndex, courseIndex, name, value) {
-    onChange(
-      list.map((group, i) => {
-        if (i !== groupIndex) return group
-        const courses = (group.courses || []).map((course, ci) =>
-          ci === courseIndex ? { ...course, [name]: value } : course,
-        )
-        return { ...group, courses }
-      }),
-    )
+  function cancelForm() {
+    setEditingId(null)
+    setForm(null)
+    setCourseDraft({ name: '', url: '' })
+    setFormError('')
   }
 
-  function addCourse(groupIndex) {
-    const group = list[groupIndex]
-    const nextCount = (group.courses || []).length + 1
-    onChange(
-      list.map((item, i) =>
-        i === groupIndex ? { ...item, courses: [...(item.courses || []), { name: '', url: '' }] } : item,
-      ),
-    )
-    const groupKey = group.id || groupIndex
-    setCoursePages((pages) => ({
-      ...pages,
-      [groupKey]: Math.ceil(nextCount / COURSE_PAGE_SIZE),
+  function addCourseToForm() {
+    const name = courseDraft.name.trim()
+    const url = courseDraft.url.trim()
+    if (!name || !url) {
+      setFormError('Enter a course name and link before adding it.')
+      return
+    }
+    setForm((group) => ({ ...group, courses: [...(group.courses || []), { name, url }] }))
+    setCourseDraft({ name: '', url: '' })
+    setFormError('')
+  }
+
+  function removeCourseFromForm(courseIndex) {
+    setForm((group) => ({
+      ...group,
+      courses: (group.courses || []).filter((_, i) => i !== courseIndex),
     }))
   }
 
-  function removeCourse(groupIndex, courseIndex) {
-    onChange(
-      list.map((group, i) =>
-        i === groupIndex
-          ? { ...group, courses: (group.courses || []).filter((_, ci) => ci !== courseIndex) }
+  async function saveForm() {
+    if (!String(form?.title || '').trim()) {
+      setFormError('Enter a group name before saving.')
+      return
+    }
+    const nextGroup = {
+      ...form,
+      title: form.title.trim(),
+      courses: (form.courses || []).filter((course) => course.name?.trim() && course.url?.trim()),
+    }
+    let next
+    if (adding) {
+      next = [...list, nextGroup]
+    } else {
+      const index = list.findIndex((group, i) => groupKey(group, i) === editingId)
+      if (index < 0) return
+      next = list.map((group, i) => (i === index ? nextGroup : group))
+    }
+    const ok = await onCommit(next)
+    if (!ok) return
+    cancelForm()
+    if (adding) setPage(Math.ceil(next.length / GROUP_PAGE_SIZE) || 1)
+  }
+
+  async function confirmDelete() {
+    if (!pendingDelete) return
+    let next
+    if (pendingDelete.type === 'group') {
+      next = list.filter((_, i) => i !== pendingDelete.index)
+    } else {
+      next = list.map((group, i) =>
+        i === pendingDelete.groupIndex
+          ? { ...group, courses: (group.courses || []).filter((_, ci) => ci !== pendingDelete.courseIndex) }
           : group,
-      ),
+      )
+    }
+    const ok = await onCommit(next)
+    if (ok) setPendingDelete(null)
+  }
+
+  function renderGroupForm(title) {
+    const courses = form?.courses || []
+    return (
+      <article className={`${cardClass} ring-1 ring-brand-200 dark:ring-cyan-400/20`}>
+        <p className="mb-3 text-sm font-semibold text-slate-800 dark:text-zinc-100">{title}</p>
+        <div>
+          <label className={labelClass}>Name</label>
+          <input
+            className={inputClass}
+            value={form?.title || ''}
+            onChange={(e) => setForm((group) => ({ ...group, title: e.target.value }))}
+          />
+        </div>
+        <p className="mt-4 text-sm font-medium text-slate-600 dark:text-zinc-400">Courses</p>
+        <div className="mt-2 space-y-2">
+          {courses.map((course, courseIndex) => (
+            <div
+              key={`${form.id}-${courseIndex}`}
+              className="flex items-start justify-between gap-3 rounded-lg border border-slate-100 px-3 py-2 dark:border-sky-300/15"
+            >
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-slate-800 dark:text-zinc-100">{course.name}</p>
+                <p className="truncate text-xs text-slate-500 dark:text-zinc-400">{course.url}</p>
+              </div>
+              <button
+                type="button"
+                className={btnDanger}
+                disabled={busy}
+                onClick={() => removeCourseFromForm(courseIndex)}
+              >
+                <FiTrash2 aria-hidden="true" />
+                Remove
+              </button>
+            </div>
+          ))}
+          {courses.length === 0 ? (
+            <p className="text-sm text-slate-500 dark:text-zinc-400">No courses in this group yet.</p>
+          ) : null}
+        </div>
+        <div className="mt-3 grid gap-2 rounded-lg border border-dashed border-slate-200 p-3 md:grid-cols-[1fr_1fr_auto] dark:border-sky-300/20">
+          <input
+            className={inputClass}
+            placeholder="Course name"
+            value={courseDraft.name}
+            onChange={(e) => setCourseDraft((c) => ({ ...c, name: e.target.value }))}
+          />
+          <input
+            className={inputClass}
+            placeholder="https://"
+            value={courseDraft.url}
+            onChange={(e) => setCourseDraft((c) => ({ ...c, url: e.target.value }))}
+          />
+          <button type="button" className={btnSecondary} onClick={addCourseToForm} disabled={busy}>
+            <FiPlus aria-hidden="true" />
+            Add course
+          </button>
+        </div>
+        {formError ? <p className="mt-3 text-sm text-rose-600 dark:text-rose-300">{formError}</p> : null}
+        <EditorFormActions busy={busy} onCancel={cancelForm} onSave={saveForm} saveLabel="Save group" />
+      </article>
     )
   }
 
   return (
     <div className="space-y-5">
+      {adding ? renderGroupForm('Add group') : null}
+
       {pageGroups.map((group, offset) => {
         const index = start + offset
+        const key = groupKey(group, index)
+        if (editingId === key) return <Fragment key={key}>{renderGroupForm('Edit group')}</Fragment>
         const courses = group.courses || []
-        const groupKey = group.id || index
+        const groupPageKey = group.id || index
         const courseTotalPages = Math.max(1, Math.ceil(courses.length / COURSE_PAGE_SIZE))
-        const coursePage = Math.min(coursePages[groupKey] || 1, courseTotalPages)
+        const coursePage = Math.min(coursePages[groupPageKey] || 1, courseTotalPages)
         const courseStart = (coursePage - 1) * COURSE_PAGE_SIZE
         const pageCourses = courses.slice(courseStart, courseStart + COURSE_PAGE_SIZE)
         return (
-        <article key={group.id || index} className={cardClass}>
-          <div className="mb-3 flex items-center justify-between">
-            <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
-              {group.title || `Group ${index + 1}`}
-            </p>
-            <button
-              type="button"
-              onClick={() => removeGroup(index)}
-              className="text-sm font-semibold text-rose-600 hover:underline dark:text-rose-300"
-            >
-              Delete
-            </button>
-          </div>
-          <div>
-            <label className={labelClass}>Name</label>
-            <input
-              className={inputClass}
-              value={group.title || ''}
-              onChange={(e) => updateGroup(index, 'title', e.target.value)}
-            />
-          </div>
-          <p className="mt-4 text-sm font-medium text-slate-600 dark:text-zinc-400">Courses</p>
-          <div className="mt-2 space-y-3">
-            {pageCourses.map((course, courseOffset) => {
-              const courseIndex = courseStart + courseOffset
-              return (
-              <div
-                key={`${group.id}-${courseIndex}`}
-                className="grid gap-2 rounded-lg border border-slate-100 p-3 md:grid-cols-[1fr_1fr_auto] dark:border-sky-300/15"
-              >
-                <input
-                  className={inputClass}
-                  placeholder="Name"
-                  value={course.name || ''}
-                  onChange={(e) => updateCourse(index, courseIndex, 'name', e.target.value)}
-                />
-                <input
-                  className={inputClass}
-                  placeholder="Link"
-                  value={course.url || ''}
-                  onChange={(e) => updateCourse(index, courseIndex, 'url', e.target.value)}
-                />
+          <article key={key} className={cardClass}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
+                  {group.title || `Group ${index + 1}`}
+                </p>
+                <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
+                  {courses.length} {courses.length === 1 ? 'course' : 'courses'}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-1">
                 <button
                   type="button"
-                  onClick={() => removeCourse(index, courseIndex)}
-                  className="text-sm font-semibold text-rose-600 hover:underline dark:text-rose-300"
+                  className={btnEdit}
+                  disabled={busy || Boolean(editingId)}
+                  onClick={() => startEdit(group, index)}
                 >
+                  <FiEdit2 aria-hidden="true" />
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className={btnDanger}
+                  disabled={busy || Boolean(editingId)}
+                  onClick={() =>
+                    setPendingDelete({
+                      type: 'group',
+                      index,
+                      label: group.title || `Group ${index + 1}`,
+                    })
+                  }
+                >
+                  <FiTrash2 aria-hidden="true" />
                   Delete
                 </button>
               </div>
-              )
-            })}
-            <PaginationBar
-              page={coursePage}
-              totalPages={courseTotalPages}
-              total={courses.length}
-              pageSize={COURSE_PAGE_SIZE}
-              onPageChange={(nextPage) =>
-                setCoursePages((pages) => ({ ...pages, [groupKey]: nextPage }))
-              }
-            />
-            <button
-              type="button"
-              onClick={() => addCourse(index)}
-              className="text-sm font-semibold text-brand-700 hover:underline dark:text-cyan-300"
-            >
-              Add name and link
-            </button>
-          </div>
-        </article>
+            </div>
+            <div className="mt-3 space-y-2">
+              {pageCourses.map((course, courseOffset) => {
+                const courseIndex = courseStart + courseOffset
+                return (
+                  <div
+                    key={`${key}-${courseIndex}`}
+                    className="flex items-start justify-between gap-3 rounded-lg border border-slate-100 px-3 py-2 dark:border-sky-300/15"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-slate-800 dark:text-zinc-100">
+                        {course.name || 'Untitled course'}
+                      </p>
+                      <p className="truncate text-xs text-slate-500 dark:text-zinc-400">
+                        {course.url || 'No link yet'}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className={btnDanger}
+                      disabled={busy || Boolean(editingId)}
+                      onClick={() =>
+                        setPendingDelete({
+                          type: 'course',
+                          groupIndex: index,
+                          courseIndex,
+                          label: course.name || 'this course',
+                        })
+                      }
+                    >
+                      <FiTrash2 aria-hidden="true" />
+                      Delete
+                    </button>
+                  </div>
+                )
+              })}
+              {courses.length === 0 ? (
+                <p className="text-sm text-slate-500 dark:text-zinc-400">
+                  No courses yet. Click Edit to add them.
+                </p>
+              ) : null}
+              <PaginationBar
+                page={coursePage}
+                totalPages={courseTotalPages}
+                total={courses.length}
+                pageSize={COURSE_PAGE_SIZE}
+                onPageChange={(nextPage) =>
+                  setCoursePages((pages) => ({ ...pages, [groupPageKey]: nextPage }))
+                }
+              />
+            </div>
+          </article>
         )
       })}
+
+      {list.length === 0 && !adding ? (
+        <div className={cardClass}>
+          <p className="text-sm text-slate-600 dark:text-zinc-300">
+            No admission groups yet. Add a group, then save it.
+          </p>
+        </div>
+      ) : null}
+
       <PaginationBar
         page={currentPage}
         totalPages={totalPages}
@@ -592,18 +913,31 @@ function AdmissionGroupsEditor({ groups, onChange }) {
         pageSize={GROUP_PAGE_SIZE}
         onPageChange={setPage}
       />
-      <button
-        type="button"
-        onClick={addGroup}
-        className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-brand-400 dark:border-sky-300/30 dark:text-zinc-100"
-      >
-        Add group
-      </button>
+
+      {editingId ? null : (
+        <button type="button" onClick={startAdd} disabled={busy} className={btnSecondary}>
+          <FiPlus aria-hidden="true" />
+          Add group
+        </button>
+      )}
+
+      <ConfirmDialog
+        open={pendingDelete != null}
+        title={pendingDelete?.type === 'course' ? 'Delete this course?' : 'Delete this group?'}
+        message={
+          pendingDelete?.type === 'course'
+            ? `“${pendingDelete?.label}” will be removed from this group.`
+            : `“${pendingDelete?.label || 'This group'}” and its courses will be removed from the website.`
+        }
+        busy={busy}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   )
 }
 
-function AcademicsEditor({ value, onChange }) {
+function AcademicsEditor({ value, onCommit, busy }) {
   const academics = value || { anmGnm: [], otherResults: [] }
   const fields = [
     { name: 'title', label: 'Name' },
@@ -620,7 +954,8 @@ function AcademicsEditor({ value, onChange }) {
           fields={fields}
           blank={{ title: '', subtitle: '', url: '', path: '', internal: false }}
           prefix="ac"
-          onChange={(anmGnm) => onChange({ ...academics, anmGnm })}
+          busy={busy}
+          onCommit={(anmGnm) => onCommit({ ...academics, anmGnm })}
         />
       </div>
       <div>
@@ -631,7 +966,8 @@ function AcademicsEditor({ value, onChange }) {
           fields={fields}
           blank={{ title: '', subtitle: '', url: '' }}
           prefix="ac-other"
-          onChange={(otherResults) => onChange({ ...academics, otherResults })}
+          busy={busy}
+          onCommit={(otherResults) => onCommit({ ...academics, otherResults })}
         />
       </div>
     </div>
@@ -757,6 +1093,7 @@ function EnquiriesList() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [busyId, setBusyId] = useState('')
+  const [pendingDelete, setPendingDelete] = useState(null)
   const [rangeType, setRangeType] = useState('all')
   const [rangeValue, setRangeValue] = useState('')
   const [page, setPage] = useState(1)
@@ -845,7 +1182,6 @@ function EnquiriesList() {
   }, [navigate])
 
   async function remove(id) {
-    if (!window.confirm('Delete this admission enquiry?')) return
     setBusyId(id)
     setError('')
     try {
@@ -854,6 +1190,7 @@ function EnquiriesList() {
         token: getAdminToken(),
       })
       setItems((list) => list.filter((item) => item.id !== id))
+      setPendingDelete(null)
     } catch (err) {
       if (err.status === 401) {
         setAdminToken('')
@@ -1035,10 +1372,11 @@ function EnquiriesList() {
                     <td className="px-4 py-3 text-right">
                       <button
                         type="button"
-                        onClick={() => remove(item.id)}
-                        disabled={busyId === item.id}
-                        className="text-sm font-semibold text-rose-600 hover:underline disabled:opacity-60 dark:text-rose-300"
+                        onClick={() => setPendingDelete(item)}
+                        disabled={Boolean(busyId)}
+                        className={`${btnDanger} ml-auto`}
                       >
+                        <FiTrash2 aria-hidden="true" />
                         {busyId === item.id ? 'Deleting…' : 'Delete'}
                       </button>
                     </td>
@@ -1060,6 +1398,15 @@ function EnquiriesList() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingDelete != null}
+        title="Delete this enquiry?"
+        message={`The enquiry from ${pendingDelete?.fullName || 'this person'} will be permanently removed.`}
+        busy={Boolean(busyId)}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={() => remove(pendingDelete.id)}
+      />
     </div>
   )
 }
@@ -1075,6 +1422,11 @@ export default function AdminPanel() {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [editingSite, setEditingSite] = useState(false)
+  const [siteForm, setSiteForm] = useState({ name: '', tagline: '' })
+  const [siteError, setSiteError] = useState('')
+  const draftRef = useRef(draft)
+  draftRef.current = draft
 
   useEffect(() => {
     let cancelled = false
@@ -1082,7 +1434,9 @@ export default function AdminPanel() {
       try {
         const payload = await apiRequest('/api/content')
         if (cancelled) return
-        setDraft({ ...defaultContent, ...(payload.data || {}) })
+        const next = { ...defaultContent, ...(payload.data || {}) }
+        setDraft(next)
+        draftRef.current = next
         setMeta(payload.meta || { storage: 'unknown', updatedAt: null })
       } catch (err) {
         if (!cancelled) setError(err.message || 'Unable to load.')
@@ -1101,7 +1455,8 @@ export default function AdminPanel() {
     return new Date(meta.updatedAt).toLocaleString()
   }, [meta.updatedAt])
 
-  async function handleSave() {
+  async function persistDraft(mutator) {
+    const next = mutator(draftRef.current)
     setBusy(true)
     setError('')
     setStatus('')
@@ -1109,22 +1464,52 @@ export default function AdminPanel() {
       const payload = await apiRequest('/api/admin/content', {
         method: 'PUT',
         token: getAdminToken(),
-        body: { data: draft },
+        body: { data: next },
       })
-      setDraft({ ...defaultContent, ...(payload.data || {}) })
+      const saved = { ...defaultContent, ...(payload.data || {}) }
+      setDraft(saved)
+      draftRef.current = saved
       setMeta(payload.meta || meta)
-      setStatus('Saved. The website now shows these names and links.')
+      setStatus('Saved. The website now shows this change.')
       await reload()
+      return true
     } catch (err) {
       if (err.status === 401) {
         setAdminToken('')
         navigate('/admin/login', { replace: true })
-        return
+        return false
       }
       setError(err.message || 'Unable to save.')
+      return false
     } finally {
       setBusy(false)
     }
+  }
+
+  function startEditSite() {
+    setSiteForm({
+      name: draft.site?.name || '',
+      tagline: draft.site?.tagline || '',
+    })
+    setSiteError('')
+    setEditingSite(true)
+  }
+
+  function cancelEditSite() {
+    setEditingSite(false)
+    setSiteError('')
+  }
+
+  async function saveSite() {
+    if (!siteForm.name.trim()) {
+      setSiteError('Enter a website name before saving.')
+      return
+    }
+    const ok = await persistDraft((current) => ({
+      ...current,
+      site: { ...current.site, name: siteForm.name.trim(), tagline: siteForm.tagline.trim() },
+    }))
+    if (ok) setEditingSite(false)
   }
 
   function logout() {
@@ -1132,26 +1517,59 @@ export default function AdminPanel() {
     navigate('/admin/login', { replace: true })
   }
 
+  function openSection(groupHeading, itemId) {
+    if (busy) return
+    setPageHeading(groupHeading)
+    setSection(itemId)
+    setEditingSite(false)
+    setSiteError('')
+    setStatus('')
+  }
+
   function renderSection() {
     if (section === 'site') {
+      if (!editingSite) {
+        return (
+          <div className={cardClass}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">
+                  {draft.site?.name || 'Untitled website'}
+                </p>
+                <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
+                  {draft.site?.tagline || 'No short line yet'}
+                </p>
+              </div>
+              <button type="button" className={btnEdit} onClick={startEditSite} disabled={busy}>
+                <FiEdit2 aria-hidden="true" />
+                Edit
+              </button>
+            </div>
+          </div>
+        )
+      }
+
       return (
-        <div className={`${cardClass} space-y-3`}>
+        <div className={`${cardClass} space-y-3 ring-1 ring-brand-200 dark:ring-cyan-400/20`}>
+          <p className="text-sm font-semibold text-slate-800 dark:text-zinc-100">Edit website name</p>
           <div>
             <label className={labelClass}>Name</label>
             <input
               className={inputClass}
-              value={draft.site?.name || ''}
-              onChange={(e) => setDraft((d) => ({ ...d, site: { ...d.site, name: e.target.value } }))}
+              value={siteForm.name}
+              onChange={(e) => setSiteForm((form) => ({ ...form, name: e.target.value }))}
             />
           </div>
           <div>
             <label className={labelClass}>Short line under the name</label>
             <input
               className={inputClass}
-              value={draft.site?.tagline || ''}
-              onChange={(e) => setDraft((d) => ({ ...d, site: { ...d.site, tagline: e.target.value } }))}
+              value={siteForm.tagline}
+              onChange={(e) => setSiteForm((form) => ({ ...form, tagline: e.target.value }))}
             />
           </div>
+          {siteError ? <p className="text-sm text-rose-600 dark:text-rose-300">{siteError}</p> : null}
+          <EditorFormActions busy={busy} onCancel={cancelEditSite} onSave={saveSite} />
         </div>
       )
     }
@@ -1164,7 +1582,8 @@ export default function AdminPanel() {
       return (
         <AdmissionGroupsEditor
           groups={draft.admissionHomeGroups || []}
-          onChange={(admissionHomeGroups) => setDraft((d) => ({ ...d, admissionHomeGroups }))}
+          busy={busy}
+          onCommit={(admissionHomeGroups) => persistDraft((current) => ({ ...current, admissionHomeGroups }))}
         />
       )
     }
@@ -1173,7 +1592,8 @@ export default function AdminPanel() {
       return (
         <AcademicsEditor
           value={draft.academicsHome}
-          onChange={(academicsHome) => setDraft((d) => ({ ...d, academicsHome }))}
+          busy={busy}
+          onCommit={(academicsHome) => persistDraft((current) => ({ ...current, academicsHome }))}
         />
       )
     }
@@ -1193,7 +1613,8 @@ export default function AdminPanel() {
             fields={fields}
             blank={BLANKS[section]}
             prefix={section}
-            onChange={(items) => setDraft((d) => ({ ...d, [section]: items }))}
+            busy={busy}
+            onCommit={(items) => persistDraft((current) => ({ ...current, [section]: items }))}
           />
         </div>
       )
@@ -1219,6 +1640,9 @@ export default function AdminPanel() {
             <h1 className="font-display text-xl font-semibold text-slate-900 dark:text-zinc-50">Change names and links</h1>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <p className="px-1 text-xs text-slate-500 dark:text-zinc-400">
+              {busy ? 'Saving…' : `Last saved: ${updatedLabel}`}
+            </p>
             <Link
               to="/"
               className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-sky-300/30 dark:text-zinc-100"
@@ -1231,14 +1655,6 @@ export default function AdminPanel() {
               className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-sky-300/30 dark:text-zinc-100"
             >
               Sign out
-            </button>
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={busy}
-              className="rounded-full bg-linear-to-r from-brand-600 via-cyan-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-70"
-            >
-              {busy ? 'Saving…' : 'Save'}
             </button>
           </div>
         </div>
@@ -1259,10 +1675,7 @@ export default function AdminPanel() {
                       <button
                         key={`${group.heading}-${item.id}`}
                         type="button"
-                        onClick={() => {
-                          setPageHeading(group.heading)
-                          setSection(item.id)
-                        }}
+                        onClick={() => openSection(group.heading, item.id)}
                         className={`rounded-lg px-3 py-1.5 text-left text-sm font-medium ${
                           isActive
                             ? 'bg-brand-600 text-white'
@@ -1286,13 +1699,17 @@ export default function AdminPanel() {
               <h2 className="mt-1.5 font-display text-2xl font-semibold text-slate-900 dark:text-zinc-50">
                 {ALL_SECTIONS.find((item) => item.id === section && item.heading === pageHeading)?.label}
               </h2>
+              {section !== 'enquiries' ? (
+                <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
+                  Review first, then Edit and Save. New items are added only after you save them.
+                </p>
+              ) : null}
             </div>
-            <p className="text-xs text-slate-500 dark:text-zinc-400">Last saved: {updatedLabel}</p>
           </div>
 
-          {meta.storage === 'memory' ? (
-            <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-200">
-              Changes may disappear after the computer restarts. Ask the person who set up the site to connect the database.
+          {meta.storage && meta.storage !== 'mongo' ? (
+            <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200">
+              MongoDB is not connected, so names and links cannot be saved. Check MONGO_URI in .env.
             </p>
           ) : null}
 

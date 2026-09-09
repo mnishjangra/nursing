@@ -22,6 +22,7 @@ import {
 import { ExternalLink } from '../components/ExternalLink'
 import { QuickLinksMarquee } from '../components/QuickLinksMarquee'
 import girlImage from '../assets/girlimage.png'
+import nurseHero from '../assets/nurse-hero.png'
 import youtubeLiveImage from '../assets/youtubelive.jpeg'
 import heroBg from '../assets/hero-bg.jpg'
 import { useContent } from '../context/useContent'
@@ -144,7 +145,7 @@ function ListLink({ href, to, children }) {
   const inner = (
     <>
       <FiCheck className="mt-0.5 shrink-0 text-[#1d6fe9]" aria-hidden />
-      <span>{children}</span>
+      <span className="min-w-0 break-words">{children}</span>
     </>
   )
   if (to) {
@@ -167,13 +168,13 @@ function HubCard({ icon: Icon, iconClass, title, children, to }) {
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="flex min-h-[390px] flex-col rounded-[16px] border border-transparent bg-white p-5 shadow-[0_12px_40px_rgba(0,0,0,0.12)] dark:border-sky-300/15 dark:bg-slate-900/80"
+      className="flex min-h-[340px] flex-col rounded-[16px] border border-transparent bg-white p-4 shadow-[0_12px_40px_rgba(0,0,0,0.12)] xs:min-h-[390px] xs:p-5 dark:border-sky-300/15 dark:bg-slate-900/80"
     >
       <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full text-white ${iconClass}`}>
         <Icon className="text-xl" aria-hidden />
       </span>
       <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">{title}</h3>
-      <ul className="thin-scrollbar mt-3 h-52 overflow-y-auto pr-1">{children}</ul>
+      <ul className="thin-scrollbar mt-3 h-52 overflow-x-hidden overflow-y-auto pr-1">{children}</ul>
       <Link to={to} className="nc-btn mt-auto w-full">
         View Details
         <FiArrowRight aria-hidden />
@@ -202,7 +203,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#eef6ff] pt-24 dark:bg-[#071124]">
+      <section className="relative overflow-hidden bg-[#eef6ff] pt-20 xs:pt-24 dark:bg-[#071124]">
         <img
           src={heroBg}
           alt=""
@@ -213,12 +214,12 @@ export default function Home() {
         <div className="pointer-events-none absolute -left-28 -top-24 h-[380px] w-[380px] rounded-full bg-[#9ec5ff]/35 blur-3xl dark:bg-cyan-500/10" />
         <div className="pointer-events-none absolute right-[-6%] top-16 h-[420px] w-[420px] rounded-full bg-white/25 blur-3xl dark:bg-cyan-400/5" />
 
-        <div className="nc-container relative grid items-center gap-8 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:pb-20">
-          <div className="max-w-xl space-y-5">
+        <div className="nc-container relative grid min-w-0 items-center gap-8 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:pb-16">
+          <div className="max-w-xl min-w-0 space-y-5">
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex rounded-md border border-[#1d6fe9]/30 bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#1d6fe9] shadow-sm dark:border-cyan-400/30 dark:bg-slate-900/80 dark:text-cyan-200"
+              className="inline-block max-w-full rounded-md border border-[#1d6fe9]/30 bg-white px-2.5 py-1.5 text-[12px] font-semibold leading-snug text-[#1d6fe9] shadow-sm xs:px-3.5 xs:text-[13px] dark:border-cyan-400/30 dark:bg-slate-900/80 dark:text-cyan-200"
             >
               Your Future in Healthcare Begins Here
             </motion.p>
@@ -226,7 +227,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="text-[2rem] font-extrabold leading-[1.15] tracking-tight text-[#123769] sm:text-[2.55rem] lg:text-[3.05rem] dark:text-white"
+              className="text-[1.7rem] font-extrabold leading-[1.15] tracking-tight text-[#123769] xs:text-[2rem] sm:text-[2.55rem] lg:text-[3.05rem] dark:text-white"
             >
               Learn, Grow, and Succeed with{' '}
               <span className="text-[#1d6fe9] dark:text-cyan-300">{site.name || 'Nursing Culture'}.</span>
@@ -243,38 +244,16 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="flex flex-wrap gap-3 pt-1"
+              className="flex flex-col gap-3 pt-1 xs:flex-row xs:flex-wrap"
             >
-              <a href="#hub" className="nc-btn">
+              <a href="#hub" className="nc-btn w-full xs:w-auto">
                 Explore Courses
                 <FiArrowRight aria-hidden />
               </a>
-              <Link to="/social" className="nc-btn-outline">
+              <Link to="/social" className="nc-btn-outline w-full xs:w-auto">
                 <FiUsers aria-hidden />
                 Join Our Community
               </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="grid grid-cols-1 gap-3 rounded-2xl border border-white/40 bg-white/75 p-4 shadow-[0_8px_30px_rgba(15,40,80,0.08)] backdrop-blur-md sm:grid-cols-3 dark:border-sky-300/15 dark:bg-slate-900/75"
-            >
-              {[
-                { icon: FiHome, value: '50K+', label: 'Students Supported' },
-                { icon: FiUsers, value: '100+', label: 'Expert Faculties' },
-                { icon: FiAward, value: '95%', label: 'Success Rate' },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3">
-                  <span className="nc-icon h-10 w-10">
-                    <item.icon aria-hidden />
-                  </span>
-                  <div>
-                    <p className="text-lg font-extrabold leading-none text-[#123769] dark:text-white">{item.value}</p>
-                    <p className="mt-1 text-xs font-medium text-slate-500 dark:text-zinc-400">{item.label}</p>
-                  </div>
-                </div>
-              ))}
             </motion.div>
           </div>
 
@@ -282,7 +261,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.18, duration: 0.5 }}
-            className="relative mx-auto hidden w-full max-w-[440px] lg:block lg:max-w-none"
+            className="relative mx-auto hidden w-full max-w-[440px] lg:-mb-14 lg:block lg:max-w-none lg:self-end"
           >
             <div className="pointer-events-none absolute left-1/2 top-12 h-72 w-72 -translate-x-1/2 rounded-full bg-[#9ec6ff]/50 blur-3xl dark:bg-cyan-400/20" />
             <p className="font-script pointer-events-none absolute right-0 top-4 z-10 hidden text-right text-[1.85rem] leading-[1.05] text-[#1d6fe9] sm:block lg:right-2 lg:text-[2.15rem] dark:text-cyan-300">
@@ -295,14 +274,14 @@ export default function Home() {
               Future
             </p>
             <img
-              src={girlImage}
+              src={nurseHero}
               alt="Nursing professional with clipboard"
-              className="relative z-1 mx-auto h-auto w-full max-w-[400px] object-contain drop-shadow-[0_22px_40px_rgba(21,88,199,0.22)] lg:max-w-[460px]"
+              className="relative z-1 mx-auto h-auto max-h-[34rem] w-full max-w-[400px] object-contain object-top lg:max-w-[430px]"
               loading="eager"
             />
           </motion.div>
         </div>
-        <Wave className="-bottom-px" light="#f4f7fb" dark="#07111f" />
+        <Wave className="-bottom-px z-[5]" light="#f4f7fb" dark="#07111f" />
       </section>
 
       <QuickLinksMarquee officialSites={officialPrimarySites} />
@@ -312,7 +291,7 @@ export default function Home() {
         <div className="nc-container relative pt-6">
           <div className="mb-10 grid items-start gap-8 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sky-200">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-sky-200 xs:text-[11px] xs:tracking-[0.22em]">
                 Your Career, Our Support
               </p>
               <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight text-white sm:text-3xl">
@@ -323,18 +302,20 @@ export default function Home() {
                 advice, resources and real-time updates.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-2 xs:gap-4">
               {[
                 { icon: FiUsers, value: '500+', label: 'Admissions Helped' },
                 { icon: FiBriefcase, value: '2000+', label: 'Students Placed' },
                 { icon: FiHeart, value: '98%', label: 'Success Rate' },
               ].map((item) => (
-                <div key={item.label} className="text-center">
-                  <span className="mx-auto mb-2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-sky-300/20 text-sky-200">
-                    <item.icon className="text-lg" aria-hidden />
+                <div key={item.label} className="min-w-0 text-center">
+                  <span className="mx-auto mb-1.5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-300/20 text-sky-200 xs:mb-2 xs:h-11 xs:w-11">
+                    <item.icon className="text-base xs:text-lg" aria-hidden />
                   </span>
-                  <p className="text-xl font-extrabold text-white sm:text-2xl">{item.value}</p>
-                  <p className="mt-1 text-[11px] font-medium leading-snug text-sky-100/80 sm:text-xs">{item.label}</p>
+                  <p className="text-lg font-extrabold text-white xs:text-xl sm:text-2xl">{item.value}</p>
+                  <p className="mt-1 text-[10px] font-medium leading-snug text-sky-100/80 xs:text-[11px] sm:text-xs">
+                    {item.label}
+                  </p>
                 </div>
               ))}
             </div>
@@ -459,7 +440,7 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <ExternalLink href={liveUrl} className="nc-btn mt-8">
+            <ExternalLink href={liveUrl} className="nc-btn mt-8 w-full xs:w-auto">
               Watch Live Classes
               <FiArrowRight aria-hidden />
             </ExternalLink>
@@ -497,15 +478,15 @@ export default function Home() {
       <section className="relative overflow-hidden bg-white py-16 sm:py-20 dark:bg-[#07111f]">
         <div className="pointer-events-none absolute right-0 top-10 h-64 w-64 rounded-full bg-[#e8f2ff] blur-3xl dark:bg-cyan-500/10" />
         <div className="nc-container relative grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="relative mx-auto w-full max-w-md">
+          <div className="relative mx-auto w-full max-w-md overflow-hidden">
             <div className="overflow-hidden rounded-[28px] bg-[#eaf4ff] p-3 dark:bg-slate-800/80">
               <img
                 src={girlImage}
                 alt="Nursing Culture mentor"
-                className="h-[420px] w-full object-contain object-bottom"
+                className="h-[320px] w-full object-contain object-bottom xs:h-[380px] sm:h-[420px]"
               />
             </div>
-            <p className="font-script absolute -right-2 bottom-10 rotate-[-8deg] text-[2rem] leading-tight text-[#1d6fe9] sm:right-4 dark:text-cyan-300">
+            <p className="font-script pointer-events-none absolute right-2 bottom-8 max-w-[44%] rotate-[-8deg] text-[1.35rem] leading-tight text-[#1d6fe9] xs:right-3 xs:text-[1.65rem] sm:right-4 sm:max-w-none sm:text-[2rem] dark:text-cyan-300">
               Support at
               <br />
               every step

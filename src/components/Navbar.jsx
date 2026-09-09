@@ -43,8 +43,8 @@ export function Navbar() {
   }
 
   const iconBtn = overlay
-    ? 'inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition hover:bg-white/70 dark:text-zinc-100 dark:hover:bg-white/10'
-    : 'inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100 dark:text-zinc-100 dark:hover:bg-zinc-800/80'
+    ? 'inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-white/70 xs:h-10 xs:w-10 dark:text-zinc-100 dark:hover:bg-white/10'
+    : 'inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100 xs:h-10 xs:w-10 dark:text-zinc-100 dark:hover:bg-zinc-800/80'
 
   return (
     <>
@@ -56,14 +56,14 @@ export function Navbar() {
             : 'fixed inset-x-0 top-0 border-b border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-md dark:border-sky-300/15 dark:bg-[#071124]/90',
         ].join(' ')}
       >
-        <div className="nc-container grid grid-cols-[1fr_auto] items-center gap-3 py-3 md:grid-cols-[1fr_auto_1fr]">
-          <Link to="/" className="flex items-center">
+        <div className="nc-container grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-2.5 xs:gap-3 xs:py-3 md:grid-cols-[1fr_auto_1fr]">
+          <Link to="/" className="flex min-w-0 items-center">
             <img
               src={dark ? logoDark : logo}
               width={170}
               height={52}
               alt="Nursing Culture"
-              className="h-11 w-auto max-w-[170px] object-contain"
+              className="h-9 w-auto max-w-[118px] object-contain xs:h-11 xs:max-w-[170px]"
             />
           </Link>
 
@@ -75,7 +75,7 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex shrink-0 items-center justify-end gap-1 xs:gap-2">
             <button
               type="button"
               onClick={() => setOpenSearch(true)}
@@ -92,9 +92,11 @@ export function Navbar() {
             >
               {dark ? <FiSun className="text-lg" /> : <FiMoon className="text-lg" />}
             </button>
-            <Link to="/admission" className="nc-btn hidden px-5 py-2.5 md:inline-flex">
-              Get Started
-            </Link>
+            <span className="hidden md:inline-flex">
+              <Link to="/admission" className="nc-btn px-5 py-2.5">
+                Get Started
+              </Link>
+            </span>
             <button
               type="button"
               className={`${iconBtn} md:hidden`}
