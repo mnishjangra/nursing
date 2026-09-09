@@ -21,7 +21,7 @@ import {
 } from 'react-icons/fi'
 import { ExternalLink } from '../components/ExternalLink'
 import { QuickLinksMarquee } from '../components/QuickLinksMarquee'
-import girlImage from '../assets/girlimage.png'
+// import girlImage from '../assets/girlimage.png'
 import nurseHero from '../assets/nurse-hero.png'
 import youtubeLiveImage from '../assets/youtubelive.jpeg'
 import heroBg from '../assets/hero-bg.jpg'
@@ -33,14 +33,6 @@ const officialIconMap = {
   'official-nhm-hr': FiUsers,
   'official-dmer': FiClipboard,
   'official-hnc': FiShield,
-  'official-more': FiGlobe,
-}
-
-const moreOfficial = {
-  id: 'official-more',
-  title: 'More Official Websites',
-  subtitle: 'Explore additional useful links and resources.',
-  url: 'https://haryana.gov.in/',
 }
 
 const classBenefits = [
@@ -50,46 +42,46 @@ const classBenefits = [
   '100% free for all nursing students',
 ]
 
-const howToSteps = [
-  {
-    n: '01',
-    title: 'Check admission',
-    text: 'Start from course-wise admission pages and confirm eligibility.',
-  },
-  {
-    n: '02',
-    title: 'Review academics',
-    text: 'Use papers and practical resources to plan your own study schedule.',
-  },
-  {
-    n: '03',
-    title: 'Track results',
-    text: 'Open course result links and confirm announcements on official portals.',
-  },
-  {
-    n: '04',
-    title: 'Apply for jobs',
-    text: 'Follow the jobs section and apply only on official recruitment websites.',
-  },
-]
+// const howToSteps = [
+//   {
+//     n: '01',
+//     title: 'Check admission',
+//     text: 'Start from course-wise admission pages and confirm eligibility.',
+//   },
+//   {
+//     n: '02',
+//     title: 'Review academics',
+//     text: 'Use papers and practical resources to plan your own study schedule.',
+//   },
+//   {
+//     n: '03',
+//     title: 'Track results',
+//     text: 'Open course result links and confirm announcements on official portals.',
+//   },
+//   {
+//     n: '04',
+//     title: 'Apply for jobs',
+//     text: 'Follow the jobs section and apply only on official recruitment websites.',
+//   },
+// ]
 
-const whyFeatures = [
-  {
-    icon: FiUsers,
-    title: 'Official links',
-    text: 'Direct access to university, government, and NHM resources for faster information.',
-  },
-  {
-    icon: FiBookOpen,
-    title: 'Course-focused navigation',
-    text: 'Find the right course, admission details and important notices with ease.',
-  },
-  {
-    icon: FiClipboard,
-    title: 'Clear section-wise browsing',
-    text: 'Well-organized sections for quick and simple access to all resources.',
-  },
-]
+// const whyFeatures = [
+//   {
+//     icon: FiUsers,
+//     title: 'Official links',
+//     text: 'Direct access to university, government, and NHM resources for faster information.',
+//   },
+//   {
+//     icon: FiBookOpen,
+//     title: 'Course-focused navigation',
+//     text: 'Find the right course, admission details and important notices with ease.',
+//   },
+//   {
+//     icon: FiClipboard,
+//     title: 'Clear section-wise browsing',
+//     text: 'Well-organized sections for quick and simple access to all resources.',
+//   },
+// ]
 
 const browseTips = [
   {
@@ -196,8 +188,6 @@ export default function Home() {
   } = content
 
   const admissionCourses = admissionHomeGroups.flatMap((group) => group.courses || [])
-  const officialCards =
-    officialPrimarySites.length >= 6 ? officialPrimarySites : [...officialPrimarySites, moreOfficial]
   const liveClass = featuredYoutubeVideos.find((v) => v.isLive) || featuredYoutubeVideos[0]
   const liveUrl = liveClass?.url || 'https://www.youtube.com/@nursingculture/live'
 
@@ -246,10 +236,10 @@ export default function Home() {
               transition={{ delay: 0.15 }}
               className="flex flex-col gap-3 pt-1 xs:flex-row xs:flex-wrap"
             >
-              <a href="#hub" className="nc-btn w-full xs:w-auto">
+              <Link to="/#hub" className="nc-btn w-full xs:w-auto">
                 Explore Courses
                 <FiArrowRight aria-hidden />
-              </a>
+              </Link>
               <Link to="/social" className="nc-btn-outline w-full xs:w-auto">
                 <FiUsers aria-hidden />
                 Join Our Community
@@ -281,14 +271,11 @@ export default function Home() {
             />
           </motion.div>
         </div>
-        <Wave className="-bottom-px z-[5]" light="#f4f7fb" dark="#07111f" />
+        <Wave className="-bottom-px z-[5]" light="#071b36" dark="#071b36" />
       </section>
 
-      <QuickLinksMarquee officialSites={officialPrimarySites} />
-
       <section id="hub" className="relative scroll-mt-24 overflow-hidden bg-[#071b36] py-16 sm:py-20">
-        <Wave className="-top-px rotate-180" light="#f4f7fb" dark="#07111f" />
-        <div className="nc-container relative pt-6">
+        <div className="nc-container relative">
           <div className="mb-10 grid items-start gap-8 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-sky-200 xs:text-[11px] xs:tracking-[0.22em]">
@@ -359,22 +346,25 @@ export default function Home() {
         <Wave className="-bottom-px" light="#f4f7fb" dark="#07111f" />
       </section>
 
-      <section id="official" className="scroll-mt-24 bg-[#f4f7fb] py-14 sm:py-16 dark:bg-[#07111f]">
-        <div className="nc-container">
+      <QuickLinksMarquee officialSites={officialPrimarySites} />
+
+      <section id="official" className="relative scroll-mt-24 overflow-hidden bg-[#eef6ff] py-14 sm:py-16 dark:bg-[#07111f]">
+        <img
+          src={heroBg}
+          alt=""
+          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-[center_35%] dark:brightness-[0.4] dark:saturate-50"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(238,246,255,0.82)_0%,rgba(244,247,251,0.74)_48%,rgba(238,246,255,0.88)_100%)] dark:hidden" />
+        <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(7,17,31,0.88)_0%,rgba(7,17,31,0.82)_100%)] dark:block" />
+        <div className="pointer-events-none absolute -left-24 top-6 h-64 w-64 rounded-full bg-[#9ec5ff]/40 blur-3xl dark:bg-cyan-500/10" />
+        <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-white/45 blur-3xl dark:bg-cyan-400/8" />
+
+        <div className="nc-container relative">
           <div className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">Quick Access</p>
-            <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-2xl font-bold tracking-tight text-[#123769] sm:text-3xl dark:text-white">
-                Official links
-              </h2>
-              <ExternalLink
-                href="https://haryana.gov.in/"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1d6fe9] hover:underline"
-              >
-                View All Links
-                <FiArrowRight aria-hidden />
-              </ExternalLink>
-            </div>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#123769] sm:text-3xl dark:text-white">
+              Official links
+            </h2>
             <p className="mt-2 max-w-2xl text-sm text-slate-500 dark:text-zinc-400">
               University, state health department, and NHM Haryana — get every notice in one place with
               access to all official links.
@@ -382,40 +372,42 @@ export default function Home() {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {officialCards.map((item, i) => {
+            {officialPrimarySites.map((item, i) => {
               const CardIcon = officialIconMap[item.id] ?? FiGlobe
               return (
-                <motion.article
+                <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 14 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.35, delay: i * 0.04 }}
-                  className="nc-card group relative flex min-h-[190px] flex-col p-5 pb-14 transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,40,80,0.1)] dark:border-sky-300/15 dark:bg-slate-900/55"
                 >
-                  <span className="nc-icon">
-                    <CardIcon className="text-xl" aria-hidden />
-                  </span>
-                  <h3 className="mt-4 line-clamp-2 text-[1.05rem] font-bold leading-snug text-[#123769] dark:text-zinc-50">
-                    {item.title}
-                  </h3>
-                  {item.subtitle ? (
-                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-500 dark:text-zinc-400">
-                      {item.subtitle}
-                    </p>
-                  ) : null}
                   <ExternalLink
                     href={item.url}
-                    className="absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f2ff] text-[#1d6fe9] transition group-hover:bg-[#1d6fe9] group-hover:text-white dark:bg-sky-500/15 dark:text-cyan-300"
                     aria-label={`Open ${item.title}`}
+                    className="nc-card group relative flex min-h-[190px] flex-col bg-white/90 p-5 pb-14 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,40,80,0.1)] dark:border-sky-300/15 dark:bg-slate-900/70"
                   >
-                    <FiArrowRight aria-hidden />
+                    <span className="nc-icon">
+                      <CardIcon className="text-xl" aria-hidden />
+                    </span>
+                    <h3 className="mt-4 line-clamp-2 text-[1.05rem] font-bold leading-snug text-[#123769] dark:text-zinc-50">
+                      {item.title}
+                    </h3>
+                    {item.subtitle ? (
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-500 dark:text-zinc-400">
+                        {item.subtitle}
+                      </p>
+                    ) : null}
+                    <span className="absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f2ff] text-[#1d6fe9] transition group-hover:bg-[#1d6fe9] group-hover:text-white dark:bg-sky-500/15 dark:text-cyan-300">
+                      <FiArrowRight aria-hidden />
+                    </span>
                   </ExternalLink>
-                </motion.article>
+                </motion.div>
               )
             })}
           </div>
         </div>
+        <Wave className="-bottom-px" light="#ffffff" dark="#0b1733" />
       </section>
 
       <section id="classes" className="relative scroll-mt-24 overflow-hidden bg-white py-14 sm:py-16 dark:bg-[#0b1733]">
@@ -475,6 +467,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why Choose Us
       <section className="relative overflow-hidden bg-white py-16 sm:py-20 dark:bg-[#07111f]">
         <div className="pointer-events-none absolute right-0 top-10 h-64 w-64 rounded-full bg-[#e8f2ff] blur-3xl dark:bg-cyan-500/10" />
         <div className="nc-container relative grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
@@ -517,7 +510,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
+      {/* How to use this website
       <section className="bg-[#eef6ff] py-16 sm:py-20 dark:bg-[#0b1733]">
         <div className="nc-container grid items-center gap-10 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
@@ -552,6 +547,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
       <section className="bg-white py-16 sm:py-20 dark:bg-[#07111f]">
         <div className="nc-container">

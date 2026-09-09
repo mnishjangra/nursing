@@ -44,12 +44,12 @@ const siteQuickLinks = [
     id: 'ql-academics',
     title: 'Academics',
     subtitle: 'Papers & syllabus',
-    to: '/resources',
+    to: '/#hub',
     icon: FiBookOpen,
   },
   {
     id: 'ql-updates',
-    title: 'Updates',
+    title: 'Latest Updates',
     subtitle: 'Results & jobs',
     to: '/updates',
     icon: FiBell,
@@ -58,7 +58,7 @@ const siteQuickLinks = [
     id: 'ql-classes',
     title: 'Live classes',
     subtitle: 'Free YouTube sessions',
-    href: '#classes',
+    to: '/#classes',
     icon: FiPlay,
   },
   {
@@ -79,7 +79,7 @@ const siteQuickLinks = [
     id: 'ql-official',
     title: 'Official sites',
     subtitle: 'Govt. portals',
-    href: '#official',
+    to: '/#official',
     icon: FiGlobe,
   },
 ]
@@ -109,9 +109,10 @@ function CardMedia({ item }) {
   )
 }
 
-function MarqueeCard({ item }) {
+function MarqueeCard({ item, clone = false }) {
   const className =
     'nc-card group relative flex w-[210px] shrink-0 flex-col gap-3 p-4 transition duration-300 hover:-translate-y-1 hover:border-[#1d6fe9]/25 hover:shadow-[0_16px_32px_rgba(15,40,80,0.12)] dark:hover:border-cyan-300/40'
+  const tabIndex = clone ? -1 : undefined
 
   const inner = (
     <>
@@ -135,7 +136,7 @@ function MarqueeCard({ item }) {
 
   if (item.to) {
     return (
-      <Link to={item.to} className={className}>
+      <Link to={item.to} className={className} tabIndex={tabIndex}>
         {inner}
       </Link>
     )
@@ -143,14 +144,14 @@ function MarqueeCard({ item }) {
 
   if (item.href?.startsWith('#')) {
     return (
-      <a href={item.href} className={className}>
+      <Link to={`/${item.href}`} className={className} tabIndex={tabIndex}>
         {inner}
-      </a>
+      </Link>
     )
   }
 
   return (
-    <ExternalLink href={item.url} className={className}>
+    <ExternalLink href={item.url} className={className} tabIndex={tabIndex}>
       {inner}
     </ExternalLink>
   )
@@ -158,9 +159,9 @@ function MarqueeCard({ item }) {
 
 function MarqueeGroup({ items, clone = false }) {
   return (
-    <div className="nc-marquee-group" aria-hidden={clone || undefined} inert={clone || undefined}>
+    <div className="nc-marquee-group" aria-hidden={clone || undefined}>
       {items.map((item) => (
-        <MarqueeCard key={`${clone ? 'clone' : 'src'}-${item.id}`} item={item} />
+        <MarqueeCard key={`${clone ? 'clone' : 'src'}-${item.id}`} item={item} clone={clone} />
       ))}
     </div>
   )
